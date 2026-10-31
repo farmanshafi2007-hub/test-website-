@@ -402,28 +402,45 @@
         .skiper-hero-stage {
             background-color: #f5f4f3 !important;
             position: relative;
-            min-height: 100svh;
-            min-height: 100dvh;
+            min-height: auto !important;
+            height: auto !important;
             display: flex;
             flex-direction: column;
             justify-content: flex-start !important;
             align-items: center;
             overflow: hidden;
             color: #18181b;
+            padding-bottom: 2rem;
+        }
+
+        .skiper-hero-stage::after,
+        .skiper-hero-stage::before {
+            display: none !important;
         }
 
         .skiper-hero-stage .hero-ui {
             min-height: auto !important;
+            height: auto !important;
+            display: flex;
+            flex-direction: column;
             justify-content: flex-start !important;
-            padding-top: calc(76px + var(--sai-top));
-            padding-bottom: 24px;
+            align-items: center;
+            padding-top: calc(72px + var(--sai-top)) !important;
+            padding-bottom: 0 !important;
             width: 100%;
+            flex: none !important;
         }
 
         .skiper-hero-stage .copy {
+            min-height: auto !important;
+            height: auto !important;
             margin: 0 auto !important;
             padding: 4px 16px 2px !important;
             max-width: 860px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start !important;
         }
 
         .skiper-hero-stage .title {
@@ -1533,24 +1550,18 @@
                 --vshift: 0px;
             }
 
-            .stage {
-                min-height: 100svh;
-                min-height: 100dvh;
+            .stage,
+            .skiper-hero-stage {
+                min-height: auto !important;
+                height: auto !important;
+                background-color: #f5f4f3 !important;
+                padding-bottom: 2rem !important;
             }
 
-            /* Readability gradient over sky on mobile */
-            .stage::after {
-                content: "";
-                position: absolute;
-                inset: 0;
-                z-index: 1;
-                background: linear-gradient(180deg,
-                        rgba(4, 16, 31, 0.6) 0%,
-                        rgba(4, 16, 31, 0.3) 35%,
-                        rgba(4, 16, 31, 0.2) 55%,
-                        rgba(4, 16, 31, 0.5) 80%,
-                        rgba(4, 16, 31, 0.8) 100%);
-                pointer-events: none;
+            /* Pure bright ambient light on mobile: zero dark overlay */
+            .stage::after,
+            .skiper-hero-stage::after {
+                display: none !important;
             }
 
             .navbar {
@@ -1576,10 +1587,13 @@
                 top: 0;
             }
 
-            .copy {
-                padding: calc(78px + var(--sai-top)) 16px calc(54px + var(--sai-bottom));
-                min-height: 100svh;
-                min-height: 100dvh;
+            .copy,
+            .skiper-hero-stage .copy {
+                padding: 6px 14px 2px !important;
+                min-height: auto !important;
+                height: auto !important;
+                margin: 0 auto !important;
+                justify-content: flex-start !important;
             }
 
             .eyebrow {
@@ -3122,13 +3136,14 @@
         }
 
         /* 8K Ultra-Bright Luminous Ambient Layer */
+        /* Crisp Protective Ambient Layer: text stays 100% legible, bird illustration softly visible at bottom */
         footer.site-footer::before {
             content: "";
             position: absolute;
             inset: 0;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0.2) 45%, rgba(255, 255, 255, 0.55) 100%);
+            background: linear-gradient(180deg, rgba(250, 247, 242, 0.98) 0%, rgba(250, 247, 242, 0.95) 50%, rgba(250, 247, 242, 0.6) 80%, rgba(250, 247, 242, 0.15) 100%);
             pointer-events: none;
-            z-index: -1;
+            z-index: 0;
         }
 
         footer.site-footer *,
@@ -3176,6 +3191,7 @@
             flex: 1;
             display: flex;
             flex-direction: column;
+            z-index: 2;
         }
 
         /* Enhanced Spacious 4-Column Grid (Architecture removed) */
@@ -3704,23 +3720,28 @@
             }
 
             /* Section 2: Pages (Left Column) */
-            .site-footer .footer-grid>.col:nth-of-type(1) {
+            /* Section 2: Pages (Left Column) */
+            .site-footer .footer-col-pages {
                 grid-column: 1 / 2;
                 display: flex;
                 flex-direction: column;
                 align-items: flex-start;
                 text-align: left;
-                padding-right: 0.35rem;
+                padding-right: 0.5rem;
+                position: relative;
+                z-index: 5;
             }
 
             /* Section 3: Support & Legal (Right Column, Side-by-Side) */
-            .site-footer .footer-grid>.col:nth-of-type(2) {
+            .site-footer .footer-col-support {
                 grid-column: 2 / 3;
                 display: flex;
                 flex-direction: column;
                 align-items: flex-start;
                 text-align: left;
-                padding-left: 0.35rem;
+                padding-left: 0.5rem;
+                position: relative;
+                z-index: 5;
             }
 
             .site-footer .col-title {
@@ -4003,17 +4024,17 @@
                     </div>
                 </header>
 
-                <!-- Hero Copy Layout (Optimized Spacing) -->
-                <div class="copy pt-1 sm:pt-2 pb-1">
-                    <div class="col eyebrow mb-1.5">
+                <!-- Hero Copy Layout (Zero Dead Spacing) -->
+                <div class="copy pt-1 pb-0">
+                    <div class="col eyebrow mb-1">
                         <span class="w-2 h-2 rounded-full bg-cyan-500 animate-pulse"></span>
                         <span class="ent-mask"><span class="ent-line">FORGE SOFTWARES • SCALE YOUR BRAND</span></span>
                     </div>
-                    <h1 class="col title mb-2 text-2xl sm:text-4xl lg:text-5xl font-black">
+                    <h1 class="col title mb-1 text-2xl sm:text-4xl lg:text-5xl font-black">
                         <span class="ent-mask"><span class="ent-line">BUILD YOUR WEBSITE NOW.</span></span>
                     </h1>
-                    <div class="col rule my-2"><span></span></div>
-                    <p class="col lede max-w-xl mx-auto mb-3 text-xs sm:text-sm font-medium">
+                    <div class="col rule my-1.5"><span></span></div>
+                    <p class="col lede max-w-xl mx-auto mb-2.5 text-xs sm:text-sm font-medium">
                         We build ultra-fast, modern websites and smart AI assistants that help your business grow.
                         Transparent pricing starts at ₹3,499. Start your project today!
                     </p>
@@ -4026,23 +4047,14 @@
                 </div>
 
                 <!-- Skiper52 root container / HoverExpand_001 -->
-                <div
-                    class="outer-motion relative w-full max-w-6xl px-3 sm:px-6 my-2 sm:my-3 flex flex-col items-center">
+                <div class="outer-motion relative w-full max-w-6xl px-2 sm:px-6 mt-1 mb-2 flex flex-col items-center">
                     <div class="inner-motion w-full flex items-center justify-center">
                         <div id="cards-container"
-                            class="flex w-full items-center justify-center gap-1.5 touch-pan-y overflow-x-auto py-2">
+                            class="flex w-full items-center justify-center gap-1 sm:gap-1.5 touch-pan-y overflow-x-auto py-1">
                         </div>
                     </div>
                 </div>
             </div>
-
-            <button class="scroll" id="scrollExploreBtn" type="button"
-                aria-label="Scroll to explore pricing and capabilities">
-                <svg viewBox="0 0 26 33" fill="none" aria-hidden="true">
-                    <path d="M13 1.5 V31.5 M1.9 20.4 L13 31.5 L24.1 20.4" stroke="#ffffff" stroke-width="3"
-                        stroke-linecap="square" stroke-linejoin="miter" />
-                </svg>
-            </button>
         </section>
 
         <!-- SPEED ADVANTAGE STRIP -->
@@ -4483,18 +4495,6 @@
                     </div>
                 </div>
 
-                <!-- Clean Trust Badges under Apple Pricing Box -->
-                <div
-                    class="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-mono font-bold text-neutral-700 reveal text-center">
-                    <span class="flex items-center gap-1.5"><i data-lucide="check-circle-2"
-                            class="w-4 h-4 text-emerald-600"></i> 40% Advance, 60% On Completion</span>
-                    <span class="flex items-center gap-1.5"><i data-lucide="check-circle-2"
-                            class="w-4 h-4 text-emerald-600"></i> 100% Code Ownership</span>
-                    <span class="flex items-center gap-1.5"><i data-lucide="check-circle-2"
-                            class="w-4 h-4 text-emerald-600"></i> GitHub Edge Hosting Included</span>
-                    <span class="flex items-center gap-1.5"><i data-lucide="check-circle-2"
-                            class="w-4 h-4 text-emerald-600"></i> Mobile & Laptop Responsive</span>
-                </div>
             </div>
         </section>
 
@@ -4712,7 +4712,7 @@
                 </div>
 
                 <!-- Column 2: Navigation -->
-                <div class="col">
+                <div class="col footer-col-pages">
                     <h4 class="col-title">Pages</h4>
                     <ul class="link-list">
                         <li><a href="#home">Home</a></li>
@@ -4724,7 +4724,7 @@
                 </div>
 
                 <!-- Column 3: Support & Legal -->
-                <div class="col">
+                <div class="col footer-col-support">
                     <h4 class="col-title">Support & Legal</h4>
                     <ul class="link-list">
                         <li><button type="button" onclick="openHelpModal()">Help Center</button></li>
@@ -7117,7 +7117,7 @@
             {
                 value: "free",
                 title: "Starter",
-                prices: { INR: "₹8,000", USD: "$25" }
+                prices: { INR: "₹8,000", USD: "$499" }
             },
             {
                 value: "pro",
