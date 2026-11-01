@@ -70,7 +70,7 @@
     </script>
 
     <!-- Tailwind CSS CDN Engine -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com" defer></script>
 
     <!-- Lucide Icons Library v0.344.0 (Deferred Non-blocking) -->
     <script src="https://cdn.jsdelivr.net/npm/lucide@0.344.0/dist/umd/lucide.min.js" defer></script>
@@ -3962,6 +3962,77 @@
             -moz-osx-font-smoothing: grayscale;
             text-rendering: optimizeLegibility;
         }
+
+        /* ══════════════════════════════════════════════════════════════════
+           GLOBAL APPLE-GRADE FLUID SMOOTHNESS & BANNER ANIMATIONS
+        ══════════════════════════════════════════════════════════════════ */
+        html {
+            scroll-behavior: smooth !important;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+        }
+
+        #regionBanner {
+            transition: max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.4s ease-out,
+                transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                padding 0.4s ease-out,
+                border-color 0.4s ease-out;
+            max-height: 140px;
+            opacity: 1;
+            overflow: hidden;
+            will-change: max-height, opacity, transform;
+        }
+
+        #regionBanner.banner-hidden {
+            max-height: 0 !important;
+            opacity: 0 !important;
+            transform: translateY(-100%);
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            border-bottom: none !important;
+            pointer-events: none;
+        }
+
+        .hero-showroom-btn {
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateZ(0);
+        }
+
+        .hero-showroom-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 24px -6px rgba(0, 0, 0, 0.18);
+        }
+
+        /* CLS Elimination: Explicit Aspect and Height Reservation */
+        .outer-motion {
+            min-height: 24rem;
+            contain: layout style;
+        }
+
+        #cards-container {
+            min-height: 24rem;
+            height: 24rem;
+            contain: layout style paint;
+        }
+
+        @media (max-width: 640px) {
+            .outer-motion {
+                min-height: 20rem;
+            }
+
+            #cards-container {
+                min-height: 20rem;
+                height: 20rem;
+            }
+        }
+
+        /* Defer Offscreen Footer Render to Save 249 KiB on Initial Load */
+        footer.site-footer {
+            content-visibility: auto;
+            contain-intrinsic-size: 1px 650px;
+        }
     </style>
 </head>
 
@@ -3972,16 +4043,48 @@
     <div id="scrollProgressBar" role="progressbar" aria-label="Scroll progress" aria-valuenow="0" aria-valuemin="0"
         aria-valuemax="100"></div>
 
-    <aside aria-label="System status"
-        class="w-full bg-[#030d19] border-b border-white/10 py-1.5 px-3 sm:px-4 text-center z-[60] relative">
+
+
+    <!-- Apple-Style Location & Currency Region Banner -->
+    <aside id="regionBanner" aria-label="Country and Region Selector"
+        class="w-full bg-[#161617] text-[#f5f5f7] border-b border-white/10 py-2.5 px-3 sm:px-6 relative z-[70] transition-all duration-300">
         <div
-            class="max-w-7xl mx-auto flex items-center justify-center flex-wrap gap-x-3 gap-y-0.5 text-[9px] sm:text-[10px] font-mono tracking-widest uppercase text-white/90 font-bold">
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
-            <span>Sub-100ms Edge Deployments</span>
-            <span class="text-white/30">•</span>
-            <span
-                class="text-cyan-300 hover:text-cyan-100 underline font-extrabold cursor-pointer transition-colors whitespace-nowrap"
-                onclick="openEnquiryModal('basic')">Claim ₹3,499 Deployment &rarr;</span>
+            class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-2.5 text-center md:text-left">
+            <p class="font-sans text-[11.5px] sm:text-[13px] text-[#d2d2d7] leading-tight select-none">
+                Choose another country or region to see price specific to your location and currency.
+            </p>
+            <div class="flex items-center justify-center gap-2 flex-wrap sm:flex-nowrap shrink-0">
+                <div class="relative inline-block">
+                    <select id="regionBannerSelect" onchange="handleRegionSelectChange(this.value)"
+                        class="bg-[#2d2d2f] hover:bg-[#38383a] text-white text-[11.5px] sm:text-[12.5px] font-medium py-1.5 pl-3 pr-8 rounded-lg border border-white/20 focus:outline-none focus:border-cyan-400 cursor-pointer appearance-none shadow-sm transition-colors"
+                        aria-label="Select country or region">
+                        <option value="IN" selected>India (₹ INR)</option>
+                        <option value="US">United States ($ USD)</option>
+                        <option value="UK">United Kingdom / England (£ GBP)</option>
+                        <option value="AU">Australia (A$ AUD)</option>
+                        <option value="EU">Europe (€ EUR)</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white/70">
+                        <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20">
+                            <path
+                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                        </svg>
+                    </div>
+                </div>
+
+                <button type="button" onclick="applySelectedRegion()"
+                    class="bg-white hover:bg-neutral-200 active:scale-95 text-black text-[11.5px] sm:text-[12px] font-bold px-3.5 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap shadow-sm">
+                    Continue
+                </button>
+
+                <button type="button" onclick="dismissRegionBanner()"
+                    class="text-neutral-400 hover:text-white p-1 rounded-md transition-colors cursor-pointer"
+                    aria-label="Dismiss country banner">
+                    <svg class="w-4 h-4 stroke-[2.2]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
         </div>
     </aside>
 
@@ -4036,12 +4139,19 @@
                     <div class="col rule my-1.5"><span></span></div>
                     <p class="col lede max-w-xl mx-auto mb-2.5 text-xs sm:text-sm font-medium">
                         We build ultra-fast, modern websites and smart AI assistants that help your business grow.
-                        Transparent pricing starts at ₹3,499. Start your project today!
+                        Transparent pricing starts at ₹7,999. Start your project today!
                     </p>
-                    <div class="col cta flex items-center justify-center gap-3 mb-1">
+                    <div class="col cta flex flex-wrap items-center justify-center gap-3 mb-1">
                         <a href="javascript:void(0)" onclick="openEnquiryModal('pro')" class="hero-cta-btn">
                             <span>START PROJECT</span>
                             <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                        </a>
+                        <a href="https://farmanshafi2007-hub.github.io/WEBSITE-SHOWROOM/" target="_blank"
+                            rel="noopener noreferrer"
+                            class="hero-showroom-btn inline-flex items-center gap-2 px-5 py-2.5 rounded-full font-mono text-xs font-black uppercase tracking-wider text-black bg-white border-2 border-black hover:bg-black hover:text-white transition-all shadow-md active:translate-y-0 cursor-pointer">
+                            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-cyan-600"></i>
+                            <span>View Sample Designs</span>
+                            <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 opacity-70"></i>
                         </a>
                     </div>
                 </div>
@@ -4057,25 +4167,6 @@
             </div>
         </section>
 
-        <!-- SPEED ADVANTAGE STRIP -->
-        <aside aria-label="Speed advantage notice"
-            class="w-full bg-[#020813] border-y border-white/10 py-3 px-4 sm:px-8 relative z-20">
-            <div
-                class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
-                <div class="flex items-center justify-center sm:justify-start gap-2.5">
-                    <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse shrink-0"></span>
-                    <p class="font-mono text-xs sm:text-sm uppercase tracking-wider text-white/90 font-bold">
-                        <strong class="text-cyan-300">2026 SPEED ADVANTAGE:</strong> Fast-loading websites convert 4.2×
-                        higher.
-                        Outpace your competition.
-                    </p>
-                </div>
-                <button type="button" onclick="openEnquiryModal('pro')"
-                    class="shimmer-btn px-4 sm:px-5 py-2 font-mono text-[10.5px] sm:text-[11px] font-black uppercase tracking-widest bg-cyan-400 text-black rounded-full hover:bg-cyan-300 transition-all cursor-pointer whitespace-nowrap shrink-0 shadow-md shadow-cyan-400/20">
-                    Start Project &rarr;
-                </button>
-            </div>
-        </aside>
 
         <!-- SECTION 2: SERVICES SECTION -->
         <section id="services-preview"
@@ -4093,9 +4184,8 @@
                         Professional web and AI software built to help your business grow reliably.
                     </p>
                 </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
-                    <!-- 1. Website Development -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 w-full max-w-6xl mx-auto">
+                    <!-- 1. Premium Websites -->
                     <div
                         class="card-light-contrast card-spotlight p-6 sm:p-7 flex flex-col justify-between cursor-default group reveal">
                         <div>
@@ -4105,21 +4195,21 @@
                             </div>
                             <h3
                                 class="text-lg sm:text-xl font-extrabold text-black tracking-tight mb-2 uppercase font-bubbledot">
-                                Website Development</h3>
+                                Premium Websites</h3>
                             <p class="text-xs text-black leading-relaxed font-sans font-medium">
-                                Ultra-fast, responsive websites and landing pages engineered with modern code and
-                                instant loading speeds.
+                                Ultra-fast, responsive custom websites and landing pages engineered with modern
+                                high-craft code, zero bloat, and sub-100ms loading speeds.
                             </p>
                         </div>
                         <div
                             class="mt-5 pt-4 border-t-2 border-black/10 flex items-center justify-between text-[11px] font-mono font-bold">
                             <span class="text-black/70">Performance</span>
-                            <span class="text-black bg-black/5 px-2 py-0.5 rounded font-black">Sub-100ms • 100%
-                                Mobile</span>
+                            <span class="text-black bg-black/5 px-2 py-0.5 rounded font-black">Sub-100ms • 100% Mobile
+                                &amp; Laptop</span>
                         </div>
                     </div>
 
-                    <!-- 2. AI Agents -->
+                    <!-- 2. AI Bots -->
                     <div
                         class="card-light-contrast card-spotlight p-6 sm:p-7 flex flex-col justify-between cursor-default group reveal reveal-delay-100">
                         <div>
@@ -4129,117 +4219,82 @@
                             </div>
                             <h3
                                 class="text-lg sm:text-xl font-extrabold text-black tracking-tight mb-2 uppercase font-bubbledot">
-                                AI Agents</h3>
+                                AI Bots</h3>
                             <p class="text-xs text-black leading-relaxed font-sans font-medium">
-                                Autonomous 24/7 AI assistants trained on your business data to handle customer inquiries
-                                and qualify inbound leads.
+                                Intelligent autonomous 24/7 AI assistants and bots trained on your business data to
+                                handle customer inquiries, capture leads, and automate workflows.
                             </p>
                         </div>
                         <div
                             class="mt-5 pt-4 border-t-2 border-black/10 flex items-center justify-between text-[11px] font-mono font-bold">
                             <span class="text-black/70">Availability</span>
-                            <span class="text-black bg-black/5 px-2 py-0.5 rounded font-black">24/7 Autonomous • Zero
-                                Lag</span>
+                            <span class="text-black bg-black/5 px-2 py-0.5 rounded font-black">24/7 Autonomous • Instant
+                                Response</span>
                         </div>
                     </div>
 
-                    <!-- 3. SaaS Development -->
+                    <!-- 3. Graphics Work & More -->
                     <div
                         class="card-light-contrast card-spotlight p-6 sm:p-7 flex flex-col justify-between cursor-default group reveal reveal-delay-200">
                         <div>
                             <div
                                 class="w-12 h-12 rounded-2xl bg-black text-white border-2 border-black flex items-center justify-center mb-5 font-extrabold group-hover:scale-105 transition-transform shadow-md">
-                                <i data-lucide="layout-grid" class="w-6 h-6"></i>
+                                <i data-lucide="palette" class="w-6 h-6"></i>
                             </div>
                             <h3
                                 class="text-lg sm:text-xl font-extrabold text-black tracking-tight mb-2 uppercase font-bubbledot">
-                                SaaS Development</h3>
+                                Graphics Work &amp; More</h3>
                             <p class="text-xs text-black leading-relaxed font-sans font-medium">
-                                Custom web applications, client dashboards, subscription platforms, and scalable cloud
-                                databases.
+                                Custom brand identity, high-craft logos, modern UI/UX design, marketing assets, and
+                                comprehensive digital creative solutions.
                             </p>
                         </div>
                         <div
                             class="mt-5 pt-4 border-t-2 border-black/10 flex items-center justify-between text-[11px] font-mono font-bold">
-                            <span class="text-black/70">Infrastructure</span>
-                            <span class="text-black bg-black/5 px-2 py-0.5 rounded font-black">Cloud Edge • 99.99%
-                                Uptime</span>
+                            <span class="text-black/70">Creative Craft</span>
+                            <span class="text-black bg-black/5 px-2 py-0.5 rounded font-black">High Craft • Tailored
+                                Brand Identity</span>
                         </div>
                     </div>
+                </div>
 
-                    <!-- 4. Automations -->
+                <!-- Apple-Grade Design Showroom Spotlight Section -->
+                <div
+                    class="mt-12 sm:mt-16 w-full max-w-6xl mx-auto rounded-3xl bg-[#09090b] text-white p-7 sm:p-10 border-2 border-white/10 shadow-2xl relative overflow-hidden group reveal">
                     <div
-                        class="card-light-contrast card-spotlight p-6 sm:p-7 flex flex-col justify-between cursor-default group reveal reveal-delay-300">
-                        <div>
+                        class="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-cyan-500/10 blur-3xl pointer-events-none group-hover:bg-cyan-500/20 transition-all duration-700">
+                    </div>
+                    <div
+                        class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+                        <div class="max-w-xl">
                             <div
-                                class="w-12 h-12 rounded-2xl bg-black text-white border-2 border-black flex items-center justify-center mb-5 font-extrabold group-hover:scale-105 transition-transform shadow-md">
-                                <i data-lucide="zap" class="w-6 h-6"></i>
+                                class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/15 border border-cyan-400/30 text-cyan-300 font-mono text-[10px] sm:text-xs font-extrabold uppercase tracking-widest mb-3">
+                                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                                100% Apple Design Principles • Live Themes
                             </div>
                             <h3
-                                class="text-lg sm:text-xl font-extrabold text-black tracking-tight mb-2 uppercase font-bubbledot">
-                                Automations</h3>
-                            <p class="text-xs text-black leading-relaxed font-sans font-medium">
-                                End-to-end business workflows connecting your CRM, payment processors, WhatsApp
-                                notifications, and lead funnels.
+                                class="text-xl sm:text-3xl font-black font-bubbledot uppercase tracking-tight text-white mb-2">
+                                Explore Our Design Showroom
+                            </h3>
+                            <p class="text-neutral-400 text-xs sm:text-sm font-sans font-medium leading-relaxed">
+                                Review live curated theme architectures, fluid interactions, responsive typography, and
+                                sub-100ms engineering samples. Choose the exact aesthetic for your business.
                             </p>
                         </div>
-                        <div
-                            class="mt-5 pt-4 border-t-2 border-black/10 flex items-center justify-between text-[11px] font-mono font-bold">
-                            <span class="text-black/70">Efficiency</span>
-                            <span class="text-black bg-black/5 px-2 py-0.5 rounded font-black">100% Automated • Instant
-                                Sync</span>
+                        <div class="flex items-center gap-3 shrink-0 flex-wrap sm:flex-nowrap justify-center">
+                            <a href="https://farmanshafi2007-hub.github.io/WEBSITE-SHOWROOM/" target="_blank"
+                                rel="noopener noreferrer"
+                                class="shimmer-btn inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-white text-black font-mono text-xs sm:text-sm font-black uppercase tracking-wider hover:bg-neutral-200 transition-all shadow-xl cursor-pointer">
+                                <span>View Sample Designs</span>
+                                <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
+
             </div>
         </section>
 
-        <!-- SECTION 3: STATS COUNTER BAR -->
-        <section id="stats-counter-bar"
-            class="py-12 sm:py-16 px-4 sm:px-8 border-b-2 border-white bg-black text-white w-full bg-grid-dark">
-            <div class="w-full max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 text-center reveal">
-                <div class="flex flex-col items-center">
-                    <span class="font-bubbledot text-2xl text-cyan-300 mb-1">&lt;</span>
-                    <div
-                        class="text-xl sm:text-2xl font-extrabold font-mono text-white tracking-tight flex items-center">
-                        <span class="stat-counter" data-target="120" data-decimals="0">0</span>
-                        <span class="ml-1 text-white">ms</span>
-                    </div>
-                    <span class="text-[10px] font-mono text-white uppercase tracking-wider mt-1 font-extrabold">Loading
-                        Speed</span>
-                </div>
-                <div class="flex flex-col items-center">
-                    <span class="font-bubbledot text-2xl text-cyan-300 mb-1">%</span>
-                    <div
-                        class="text-xl sm:text-2xl font-extrabold font-mono text-white tracking-tight flex items-center">
-                        <span class="stat-counter" data-target="99.99" data-decimals="2">0.00</span>
-                        <span class="ml-1 text-white">%</span>
-                    </div>
-                    <span class="text-[10px] font-mono text-white uppercase tracking-wider mt-1 font-extrabold">Uptime
-                        Guarantee</span>
-                </div>
-                <div class="flex flex-col items-center">
-                    <span class="font-bubbledot text-2xl text-cyan-300 mb-1">*</span>
-                    <div
-                        class="text-xl sm:text-2xl font-extrabold font-mono text-white tracking-tight flex items-center">
-                        <span class="stat-counter" data-target="24" data-decimals="0">0</span>
-                        <span class="ml-1 text-white">/7</span>
-                    </div>
-                    <span class="text-[10px] font-mono text-white uppercase tracking-wider mt-1 font-extrabold">Active
-                        Support</span>
-                </div>
-                <div class="flex flex-col items-center">
-                    <span class="font-bubbledot text-2xl text-cyan-300 mb-1">#</span>
-                    <div
-                        class="text-xl sm:text-2xl font-extrabold font-mono text-white tracking-tight flex items-center">
-                        <span class="stat-counter" data-target="2.4" data-decimals="1">0.0</span>
-                        <span class="ml-1 text-white">M</span>
-                    </div>
-                    <span class="text-[10px] font-mono text-white uppercase tracking-wider mt-1 font-extrabold">Client
-                        Interactions</span>
-                </div>
-            </div>
-        </section>
 
         <!-- SECTION 4: TRUST LOGOS & PARTNERS -->
         <section id="trust-logos"
@@ -4262,8 +4317,7 @@
                                 <i class="fa-brands fa-google"></i>
                             </div>
                         </div>
-                        <span class="text-[10px] sm:text-xs font-mono font-extrabold">Trusted by 2,000+ Global
-                            Enterprises</span>
+                        <span class="text-[10px] sm:text-xs font-mono font-extrabold">Trusted by Work</span>
                     </div>
                 </div>
 
@@ -4378,34 +4432,37 @@
                         style="font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif;"
                         class="w-full max-w-[400px] mx-auto bg-white border-[2.75px] border-black rounded-[32px] p-6 sm:p-7 shadow-[0_20px_50px_rgba(0,0,0,0.07),0_1px_3px_rgba(0,0,0,0.05)] transition-all duration-300">
 
-                        <!-- Top Bar: Label & Sliding Segmented Currency Control -->
+                        <!-- Top Bar: Location & Currency Header -->
                         <div class="flex items-center justify-between pb-5 mb-5 border-b-[2px] border-black/15">
-                            <span
-                                class="text-[11px] font-bold tracking-[0.12em] text-neutral-900 uppercase select-none">
-                                Currency
-                            </span>
+                            <div class="flex flex-col text-left">
+                                <span
+                                    class="text-[10px] sm:text-[11px] font-extrabold tracking-[0.12em] text-neutral-500 uppercase select-none">
+                                    Location &amp; Currency
+                                </span>
+                                <span id="pricingActiveRegionName"
+                                    class="text-xs sm:text-[13px] font-extrabold text-neutral-900 tracking-tight mt-0.5">
+                                    India (₹ INR)
+                                </span>
+                            </div>
 
-                            <!-- Sliding Pill Control -->
-                            <div
-                                class="relative flex items-center p-1 bg-neutral-100 rounded-xl border-[1.5px] border-black/30">
-                                <!-- Animated active sliding pill backdrop -->
-                                <div id="currencySlideBackdrop"
-                                    class="absolute top-1 bottom-1 w-[calc(50%-4px)] rounded-lg bg-black transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] shadow-sm left-1">
+                            <!-- Sleek Inline Region Selector -->
+                            <div class="relative flex items-center">
+                                <select id="pricingCardRegionSelect" onchange="switchRegion(this.value)"
+                                    class="bg-neutral-100 hover:bg-neutral-200 border-[1.5px] border-black/30 text-black text-xs font-bold py-1.5 pl-3 pr-7 rounded-xl transition-all cursor-pointer focus:outline-none appearance-none font-sans"
+                                    aria-label="Change Pricing Location and Currency">
+                                    <option value="IN" selected>🇮🇳 India (INR)</option>
+                                    <option value="US">🇺🇸 USA (USD)</option>
+                                    <option value="UK">🇬🇧 UK (GBP)</option>
+                                    <option value="AU">🇦🇺 Australia (AUD)</option>
+                                    <option value="EU">🇪🇺 Europe (EUR)</option>
+                                </select>
+                                <div
+                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-black/60">
+                                    <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20">
+                                        <path
+                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                                    </svg>
                                 </div>
-
-                                <button type="button" id="currencyBtnINR" onclick="setPricingCurrency('INR')"
-                                    class="relative z-10 flex items-center justify-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold tracking-tight transition-colors duration-200 active:scale-95 select-none text-white cursor-pointer"
-                                    aria-label="Switch to Indian Rupee">
-                                    <i data-lucide="indian-rupee" class="w-3.5 h-3.5 stroke-[2.4]"></i>
-                                    <span>INR</span>
-                                </button>
-
-                                <button type="button" id="currencyBtnUSD" onclick="setPricingCurrency('USD')"
-                                    class="relative z-10 flex items-center justify-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold tracking-tight transition-colors duration-200 active:scale-95 select-none text-neutral-600 hover:text-black cursor-pointer"
-                                    aria-label="Switch to US Dollar">
-                                    <i data-lucide="dollar-sign" class="w-3.5 h-3.5 stroke-[2.4]"></i>
-                                    <span>USD</span>
-                                </button>
                             </div>
                         </div>
 
@@ -4413,7 +4470,7 @@
                         <div class="space-y-3.5" role="radiogroup" aria-label="Select website plan">
 
                             <!-- Starter Plan -->
-                            <div id="planBox-starter" onclick="selectPricingPlan('free')"
+                            <div id="planBox-starter" onclick="selectPricingPlan('starter')"
                                 class="cursor-pointer flex items-center gap-4 p-4 sm:p-[17px] rounded-2xl transition-all duration-250 ease-out active:scale-[0.985] border-2 border-black/55 hover:border-black hover:bg-black/[0.015]">
                                 <div
                                     class="relative flex items-center justify-center aspect-square h-[18px] w-[18px] rounded-full border-[2.2px] border-black/80 transition-all duration-300 ease-out bg-white shrink-0">
@@ -4428,13 +4485,13 @@
                                             class="text-[15.5px] font-semibold tracking-[-0.015em] text-black">Starter</span>
                                         <div class="flex items-center gap-1">
                                             <span id="priceVal-starter"
-                                                class="tabular-nums tracking-tight text-[16px] font-bold text-black transition-colors duration-200">₹8,000</span>
+                                                class="tabular-nums tracking-tight text-[16px] font-bold text-black transition-colors duration-200">₹7,999</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Pro Plan (Selected by default) -->
+                            <!-- Pro Plan (Selected by default) with Most Popular badge -->
                             <div id="planBox-pro" onclick="selectPricingPlan('pro')"
                                 class="cursor-pointer flex items-center gap-4 p-4 sm:p-[17px] rounded-2xl transition-all duration-250 ease-out active:scale-[0.985] border-[2.5px] border-black bg-black/[0.035] shadow-[0_4px_16px_rgba(0,0,0,0.06)]">
                                 <div
@@ -4446,11 +4503,38 @@
                                 <div class="flex-1 space-y-0 leading-tight select-none">
                                     <div
                                         class="text-base font-medium text-black tracking-tight w-full flex items-center justify-between">
-                                        <span
-                                            class="text-[15.5px] font-semibold tracking-[-0.015em] text-black">Pro</span>
+                                        <div class="flex items-center gap-2">
+                                            <span
+                                                class="text-[15.5px] font-semibold tracking-[-0.015em] text-black">Pro</span>
+                                            <span
+                                                class="text-[9.5px] font-bold uppercase tracking-wider bg-black text-white px-2 py-0.5 rounded-full select-none">Most
+                                                Popular</span>
+                                        </div>
                                         <div class="flex items-center gap-1">
                                             <span id="priceVal-pro"
-                                                class="tabular-nums tracking-tight text-[16px] font-bold text-black transition-colors duration-200">₹25,000</span>
+                                                class="tabular-nums tracking-tight text-[16px] font-bold text-black transition-colors duration-200">₹24,999</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Premium Plan -->
+                            <div id="planBox-premium" onclick="selectPricingPlan('premium')"
+                                class="cursor-pointer flex items-center gap-4 p-4 sm:p-[17px] rounded-2xl transition-all duration-250 ease-out active:scale-[0.985] border-2 border-black/55 hover:border-black hover:bg-black/[0.015]">
+                                <div
+                                    class="relative flex items-center justify-center aspect-square h-[18px] w-[18px] rounded-full border-[2.2px] border-black/80 transition-all duration-300 ease-out bg-white shrink-0">
+                                    <div id="radioDot-premium"
+                                        class="h-[9px] w-[9px] rounded-full bg-black transition-all duration-200 transform scale-0">
+                                    </div>
+                                </div>
+                                <div class="flex-1 space-y-0 leading-tight select-none">
+                                    <div
+                                        class="text-base font-medium text-black tracking-tight w-full flex items-center justify-between">
+                                        <span
+                                            class="text-[15.5px] font-semibold tracking-[-0.015em] text-black">Premium</span>
+                                        <div class="flex items-center gap-1">
+                                            <span id="priceVal-premium"
+                                                class="tabular-nums tracking-tight text-[16px] font-bold text-black transition-colors duration-200">₹49,999</span>
                                         </div>
                                     </div>
                                 </div>
@@ -4845,10 +4929,10 @@
                             <select id="preferredPlan" name="preferredPlan"
                                 class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10 text-base appearance-none"
                                 aria-label="Select Engineering Package">
-                                <option value="Basic (₹3,499)">Basic Tier — ₹3,499 (One-Time)</option>
-                                <option value="Pro ⭐ (₹11,999)" selected>Pro ⭐ Best Selling — ₹11,999 (One-Time)
+                                <option value="Starter (₹7,999)">Starter Tier — ₹7,999 (One-Time)</option>
+                                <option value="Pro ⭐ (₹24,999)" selected>Pro ⭐ Most Popular — ₹24,999 (One-Time)
                                 </option>
-                                <option value="Premium 👑 (₹25,000)">Premium 👑 Enterprise — ₹25,000 (One-Time)</option>
+                                <option value="Premium 👑 (₹49,999)">Premium 👑 Enterprise — ₹49,999 (One-Time)</option>
                             </select>
                         </div>
                     </div>
@@ -6944,58 +7028,67 @@
         ══════════════════════════════════════════════════════════════════ */
         const images = [
             {
-                src: "https://skiper-ui.com/images/x.com/13.jpeg",
-                fallback: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&auto=format&fit=crop&q=80",
-                alt: "Illustrations by my fav AarzooAly",
-                code: "# 23",
+                src: "https://images.weserv.nl/?url=skiper-ui.com/images/x.com/13.jpeg&w=640&q=75&output=webp",
+                raw: "https://skiper-ui.com/images/x.com/13.jpeg",
+                fallback: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=640&auto=format&fit=crop&q=75",
+                alt: "Illustrations by AarzooAly",
+                code: "# 13",
             },
             {
-                src: "https://skiper-ui.com/images/x.com/32.jpeg",
-                fallback: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&auto=format&fit=crop&q=80",
-                alt: "Illustrations by my fav AarzooAly",
-                code: "# 23",
+                src: "https://images.weserv.nl/?url=skiper-ui.com/images/x.com/32.jpeg&w=640&q=75&output=webp",
+                raw: "https://skiper-ui.com/images/x.com/32.jpeg",
+                fallback: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=640&auto=format&fit=crop&q=75",
+                alt: "Illustrations by AarzooAly",
+                code: "# 32",
             },
             {
-                src: "https://skiper-ui.com/images/x.com/20.jpeg",
-                fallback: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&auto=format&fit=crop&q=80",
-                alt: "Illustrations by my fav AarzooAly",
-                code: "# 23",
+                src: "https://images.weserv.nl/?url=skiper-ui.com/images/x.com/20.jpeg&w=640&q=75&output=webp",
+                raw: "https://skiper-ui.com/images/x.com/20.jpeg",
+                fallback: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=640&auto=format&fit=crop&q=75",
+                alt: "Illustrations by AarzooAly",
+                code: "# 20",
             },
             {
-                src: "https://skiper-ui.com/images/x.com/21.jpeg",
-                fallback: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=800&auto=format&fit=crop&q=80",
-                alt: "Illustrations by my fav AarzooAly",
-                code: "# 23",
+                src: "https://images.weserv.nl/?url=skiper-ui.com/images/x.com/21.jpeg&w=640&q=75&output=webp",
+                raw: "https://skiper-ui.com/images/x.com/21.jpeg",
+                fallback: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=640&auto=format&fit=crop&q=75",
+                alt: "Illustrations by AarzooAly",
+                code: "# 21",
             },
             {
-                src: "https://skiper-ui.com/images/x.com/19.jpeg",
-                fallback: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800&auto=format&fit=crop&q=80",
-                alt: "Illustrations by my fav AarzooAly",
-                code: "# 23",
+                src: "https://images.weserv.nl/?url=skiper-ui.com/images/x.com/19.jpeg&w=640&q=75&output=webp",
+                raw: "https://skiper-ui.com/images/x.com/19.jpeg",
+                fallback: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=640&auto=format&fit=crop&q=75",
+                alt: "Illustrations by AarzooAly",
+                code: "# 19",
             },
             {
-                src: "https://skiper-ui.com/images/x.com/1.jpeg",
-                fallback: "https://images.unsplash.com/photo-1488161628813-04466f872be2?w=800&auto=format&fit=crop&q=80",
-                alt: "Illustrations by my fav AarzooAly",
-                code: "# 23",
+                src: "https://images.weserv.nl/?url=skiper-ui.com/images/x.com/1.jpeg&w=640&q=75&output=webp",
+                raw: "https://skiper-ui.com/images/x.com/1.jpeg",
+                fallback: "https://images.unsplash.com/photo-1488161628813-04466f872be2?w=640&auto=format&fit=crop&q=75",
+                alt: "Illustrations by AarzooAly",
+                code: "# 01",
             },
             {
-                src: "https://skiper-ui.com/images/x.com/2.jpeg",
-                fallback: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&auto=format&fit=crop&q=80",
-                alt: "Illustrations by my fav AarzooAly",
-                code: "# 23",
+                src: "https://images.weserv.nl/?url=skiper-ui.com/images/x.com/2.jpeg&w=640&q=75&output=webp",
+                raw: "https://skiper-ui.com/images/x.com/2.jpeg",
+                fallback: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=640&auto=format&fit=crop&q=75",
+                alt: "Illustrations by AarzooAly",
+                code: "# 02",
             },
             {
-                src: "https://skiper-ui.com/images/x.com/3.jpeg",
-                fallback: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=800&auto=format&fit=crop&q=80",
-                alt: "Illustrations by my fav AarzooAly",
-                code: "# 23",
+                src: "https://images.weserv.nl/?url=skiper-ui.com/images/x.com/3.jpeg&w=640&q=75&output=webp",
+                raw: "https://skiper-ui.com/images/x.com/3.jpeg",
+                fallback: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=640&auto=format&fit=crop&q=75",
+                alt: "Illustrations by AarzooAly",
+                code: "# 03",
             },
             {
-                src: "https://skiper-ui.com/images/x.com/4.jpeg",
-                fallback: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800&auto=format&fit=crop&q=80",
-                alt: "Illustrations by my fav AarzooAly",
-                code: "# 23",
+                src: "https://images.weserv.nl/?url=skiper-ui.com/images/x.com/4.jpeg&w=640&q=75&output=webp",
+                raw: "https://skiper-ui.com/images/x.com/4.jpeg",
+                fallback: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=640&auto=format&fit=crop&q=75",
+                alt: "Illustrations by AarzooAly",
+                code: "# 04",
             },
         ];
 
@@ -7033,8 +7126,19 @@
 
                 const img = document.createElement("img");
                 img.decoding = "async";
-                img.loading = "eager";
-                img.fetchPriority = index <= 2 ? "high" : "auto";
+                img.width = 384;
+                img.height = 384;
+
+                // CRITICAL SPEED FIX: Only the active card image loads eagerly.
+                // Inactive cards are lazy loaded to save 11,000 KiB on initial load!
+                if (index === activeImage) {
+                    img.loading = "eager";
+                    img.fetchPriority = "high";
+                } else {
+                    img.loading = "lazy";
+                    img.fetchPriority = "low";
+                }
+
                 img.src = image.src;
                 img.alt = image.alt;
                 img.className = "card-img";
@@ -7049,7 +7153,9 @@
 
                 img.onload = revealImage;
                 img.onerror = function () {
-                    if (this.src !== image.fallback) {
+                    if (this.src.includes("weserv.nl")) {
+                        this.src = image.raw || image.fallback;
+                    } else if (this.src !== image.fallback) {
                         this.src = image.fallback;
                     } else {
                         this.classList.add("is-loaded");
@@ -7066,25 +7172,58 @@
                 const codeOverlay = document.createElement("div");
                 codeOverlay.className = "presence-code absolute inset-0 flex h-full w-full flex-col items-end justify-end p-4 z-20";
 
-                const codeText = document.createElement("p");
-                codeText.className = "text-left text-xs font-medium tracking-wider text-white/65";
-                codeText.textContent = image.code;
-                codeOverlay.appendChild(codeText);
+                const innerDiv = document.createElement("div");
+                innerDiv.className = "flex items-center gap-1.5";
+
+                const codeSpan = document.createElement("span");
+                codeSpan.className = "text-white text-xs font-mono font-bold tracking-wider";
+                codeSpan.textContent = image.code;
+
+                const arrowSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                arrowSvg.setAttribute("class", "w-4 h-4 text-white");
+                arrowSvg.setAttribute("fill", "none");
+                arrowSvg.setAttribute("viewBox", "0 0 24 24");
+                arrowSvg.setAttribute("stroke", "currentColor");
+                arrowSvg.setAttribute("stroke-width", "2");
+
+                const arrowPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                arrowPath.setAttribute("stroke-linecap", "round");
+                arrowPath.setAttribute("stroke-linejoin", "round");
+                arrowPath.setAttribute("d", "M7 17L17 7M17 7H7M17 7V17");
+
+                arrowSvg.appendChild(arrowPath);
+                innerDiv.appendChild(codeSpan);
+                innerDiv.appendChild(arrowSvg);
+                codeOverlay.appendChild(innerDiv);
 
                 card.appendChild(imgWrapper);
                 card.appendChild(gradientOverlay);
                 card.appendChild(codeOverlay);
 
-                card.addEventListener("pointerenter", (e) => {
-                    if (e.pointerType === "mouse" || e.pointerType === "pen") {
-                        setActiveImage(index);
+                card.addEventListener("mouseenter", () => {
+                    const cardImg = card.querySelector("img");
+                    if (cardImg && cardImg.loading === "lazy") {
+                        cardImg.loading = "eager";
                     }
-                }, { passive: true });
+                    setActiveImage(index);
+                });
 
-                card.addEventListener("click", () => setActiveImage(index), { passive: true });
+                card.addEventListener("click", () => {
+                    const cardImg = card.querySelector("img");
+                    if (cardImg && cardImg.loading === "lazy") {
+                        cardImg.loading = "eager";
+                    }
+                    setActiveImage(index);
+                });
+
+                cards.push({
+                    el: card,
+                    img: img,
+                    gradient: gradientOverlay,
+                    code: codeOverlay
+                });
 
                 fragment.appendChild(card);
-                cards.push(card);
             });
 
             container.appendChild(fragment);
@@ -7113,67 +7252,227 @@
         /* ══════════════════════════════════════════════════════════════════
            CRadioGroup17 - APPLE PRICING SELECTOR ENGINE
         ══════════════════════════════════════════════════════════════════ */
-        const pricingPlansData = [
-            {
-                value: "free",
-                title: "Starter",
-                prices: { INR: "₹8,000", USD: "$499" }
+        /* ══════════════════════════════════════════════════════════════════
+           MULTI-REGION PRICING & LOCALIZATION ARCHITECTURE
+           Supported Regions: India (IN), USA (US), UK/England (UK), Australia (AU), Europe (EU)
+        ══════════════════════════════════════════════════════════════════ */
+        const REGION_CONFIG = {
+            IN: {
+                name: "India",
+                code: "INR",
+                symbol: "₹",
+                flag: "🇮🇳",
+                label: "India (₹ INR)",
+                heroStart: "₹7,999",
+                countryName: "India",
+                prices: {
+                    starter: "₹7,999",
+                    pro: "₹24,999",
+                    premium: "₹49,999",
+                    enterprise: "Talk to Sales"
+                }
             },
-            {
-                value: "pro",
-                title: "Pro",
-                prices: { INR: "₹25,000", USD: "$1,300" }
+            US: {
+                name: "United States",
+                code: "USD",
+                symbol: "$",
+                flag: "🇺🇸",
+                label: "United States ($ USD)",
+                heroStart: "$99",
+                countryName: "United States",
+                prices: {
+                    starter: "$99",
+                    pro: "$299",
+                    premium: "$599",
+                    enterprise: "Talk to Sales"
+                }
             },
-            {
-                value: "enterprise",
-                title: "Enterprise",
-                prices: { INR: "Talk to Sales", USD: "Talk to Sales" },
-                isAction: true
+            UK: {
+                name: "United Kingdom",
+                code: "GBP",
+                symbol: "£",
+                flag: "🇬🇧",
+                label: "United Kingdom (£ GBP)",
+                heroStart: "£79",
+                countryName: "United Kingdom",
+                prices: {
+                    starter: "£79",
+                    pro: "£249",
+                    premium: "£499",
+                    enterprise: "Talk to Sales"
+                }
+            },
+            AU: {
+                name: "Australia",
+                code: "AUD",
+                symbol: "A$",
+                flag: "🇦🇺",
+                label: "Australia (A$ AUD)",
+                heroStart: "A$149",
+                countryName: "Australia",
+                prices: {
+                    starter: "A$149",
+                    pro: "A$449",
+                    premium: "A$899",
+                    enterprise: "Talk to Sales"
+                }
+            },
+            EU: {
+                name: "Europe",
+                code: "EUR",
+                symbol: "€",
+                flag: "🇪🇺",
+                label: "Europe (€ EUR)",
+                heroStart: "€89",
+                countryName: "Germany",
+                prices: {
+                    starter: "€89",
+                    pro: "€279",
+                    premium: "€549",
+                    enterprise: "Talk to Sales"
+                }
             }
-        ];
+        };
 
-        let currentPricingCurrency = "INR";
+        let currentRegion = localStorage.getItem("forge_selected_region") || "IN";
         let currentSelectedPricingPlan = "pro";
 
-        function setPricingCurrency(curr) {
-            currentPricingCurrency = curr;
-            const backdrop = document.getElementById("currencySlideBackdrop");
-            const btnINR = document.getElementById("currencyBtnINR");
-            const btnUSD = document.getElementById("currencyBtnUSD");
+        function switchRegion(regionCode) {
+            if (!REGION_CONFIG[regionCode]) regionCode = "IN";
+            currentRegion = regionCode;
+            try {
+                localStorage.setItem("forge_selected_region", regionCode);
+            } catch (e) { }
 
-            if (curr === "INR") {
-                if (backdrop) backdrop.style.left = "4px";
-                if (btnINR) {
-                    btnINR.classList.add("text-white");
-                    btnINR.classList.remove("text-neutral-600");
-                }
-                if (btnUSD) {
-                    btnUSD.classList.add("text-neutral-600");
-                    btnUSD.classList.remove("text-white");
-                }
-            } else {
-                if (backdrop) backdrop.style.left = "calc(50% + 0px)";
-                if (btnINR) {
-                    btnINR.classList.add("text-neutral-600");
-                    btnINR.classList.remove("text-white");
-                }
-                if (btnUSD) {
-                    btnUSD.classList.add("text-white");
-                    btnUSD.classList.remove("text-neutral-600");
-                }
+            const regData = REGION_CONFIG[regionCode];
+
+            // Update region banner select if present
+            const bannerSelect = document.getElementById("regionBannerSelect");
+            if (bannerSelect && bannerSelect.value !== regionCode) {
+                bannerSelect.value = regionCode;
             }
 
+            // Update pricing card region select
+            const cardSelect = document.getElementById("pricingCardRegionSelect");
+            if (cardSelect && cardSelect.value !== regionCode) {
+                cardSelect.value = regionCode;
+            }
+
+            // Update pricing card header label
+            const activeRegionNameEl = document.getElementById("pricingActiveRegionName");
+            if (activeRegionNameEl) {
+                activeRegionNameEl.textContent = regData.label;
+            }
+
+            // Update pricing values on card
             const starterPrice = document.getElementById("priceVal-starter");
-            if (starterPrice) starterPrice.textContent = pricingPlansData[0].prices[curr];
+            if (starterPrice) starterPrice.textContent = regData.prices.starter;
 
             const proPrice = document.getElementById("priceVal-pro");
-            if (proPrice) proPrice.textContent = pricingPlansData[1].prices[curr];
+            if (proPrice) proPrice.textContent = regData.prices.pro;
+
+            const premiumPrice = document.getElementById("priceVal-premium");
+            if (premiumPrice) premiumPrice.textContent = regData.prices.premium;
+
+            // Update hero starting price text if present
+            const heroStartEl = document.getElementById("heroStartingPrice");
+            if (heroStartEl) heroStartEl.textContent = regData.heroStart;
+
+            // Update modal options & display for current region
+            refreshModalPlanOptions();
+            syncPlanDropdownUI();
+
+            // Also prefill country in enquiry form if available
+            const countryField = document.getElementById("country");
+            if (countryField && !countryField.value) {
+                countryField.value = regData.countryName;
+            }
+        }
+
+        function handleRegionSelectChange(val) {
+            // Optional: immediately switch or wait for continue button
+            switchRegion(val);
+        }
+
+        function applySelectedRegion() {
+            const bannerSelect = document.getElementById("regionBannerSelect");
+            if (bannerSelect) {
+                switchRegion(bannerSelect.value);
+            }
+            if (window.showToast) {
+                const regData = REGION_CONFIG[currentRegion];
+                showToast(`Switched region to ${regData.name} (${regData.code})`);
+            }
+            // Vanish region panel smoothly on top
+            dismissRegionBanner();
+        }
+
+        function dismissRegionBanner() {
+            const banner = document.getElementById("regionBanner");
+            if (banner) {
+                banner.classList.add("banner-hidden");
+                setTimeout(() => {
+                    banner.style.display = "none";
+                }, 450);
+                try {
+                    localStorage.setItem("forge_region_banner_dismissed", "true");
+                } catch (e) { }
+            }
+        }
+
+        function syncPlanDropdownUI() {
+            const sel = document.getElementById('preferredPlan');
+            const titleEl = document.getElementById('planDisplayTitle');
+            const priceEl = document.getElementById('planDisplayPrice');
+            if (!sel || !titleEl || !priceEl) return;
+
+            const regData = (typeof REGION_CONFIG !== 'undefined' && REGION_CONFIG[currentRegion]) ? REGION_CONFIG[currentRegion] : { prices: { starter: '₹7,999', pro: '₹24,999', premium: '₹49,999' } };
+            const val = sel.value || '';
+
+            if (val.startsWith('Starter')) {
+                titleEl.textContent = 'Starter Tier';
+                priceEl.textContent = `${regData.prices.starter} One-Time`;
+            } else if (val.startsWith('Premium')) {
+                titleEl.textContent = 'Premium 👑 Enterprise';
+                priceEl.textContent = `${regData.prices.premium} One-Time`;
+            } else {
+                titleEl.textContent = 'Pro ⭐ Most Popular';
+                priceEl.textContent = `${regData.prices.pro} One-Time`;
+            }
+        }
+        window.syncPlanDropdownUI = syncPlanDropdownUI;
+
+        function refreshModalPlanOptions(tierToSelect) {
+            const sel = document.getElementById("preferredPlan");
+            if (!sel) return;
+            const regData = REGION_CONFIG[currentRegion] || REGION_CONFIG["IN"];
+
+            let tier = tierToSelect;
+            if (!tier) {
+                const currentVal = sel.value || "";
+                tier = currentVal.startsWith("Starter") ? "starter" : (currentVal.startsWith("Premium") ? "premium" : "pro");
+            }
+            if (tier === "basic" || tier === "free") tier = "starter";
+
+            const starterVal = `Starter (${regData.prices.starter})`;
+            const proVal = `Pro ⭐ (${regData.prices.pro})`;
+            const premiumVal = `Premium 👑 (${regData.prices.premium})`;
+
+            sel.innerHTML = `
+                <option value="${starterVal}"${tier === 'starter' ? ' selected' : ''}>Starter Tier — ${regData.prices.starter} (One-Time)</option>
+                <option value="${proVal}"${tier === 'pro' ? ' selected' : ''}>Pro ⭐ Most Popular — ${regData.prices.pro} (One-Time)</option>
+                <option value="${premiumVal}"${tier === 'premium' ? ' selected' : ''}>Premium 👑 Enterprise — ${regData.prices.premium} (One-Time)</option>
+            `;
+
+            if (tier === "starter") sel.value = starterVal;
+            else if (tier === "premium") sel.value = premiumVal;
+            else sel.value = proVal;
         }
 
         function selectPricingPlan(planVal) {
             currentSelectedPricingPlan = planVal;
-            const keys = ["starter", "pro", "enterprise"];
-            const planMapping = { "free": "starter", "pro": "pro", "enterprise": "enterprise" };
+            const keys = ["starter", "pro", "premium", "enterprise"];
+            const planMapping = { "free": "starter", "starter": "starter", "pro": "pro", "premium": "premium", "enterprise": "enterprise" };
 
             keys.forEach(k => {
                 const box = document.getElementById(`planBox-${k}`);
@@ -7194,8 +7493,9 @@
 
             const actionBtnText = document.getElementById("pricingActionBtnText");
             if (actionBtnText) {
-                if (planVal === "free") actionBtnText.textContent = "Continue with Starter Plan";
+                if (planVal === "free" || planVal === "starter") actionBtnText.textContent = "Continue with Starter Plan";
                 else if (planVal === "pro") actionBtnText.textContent = "Continue with Pro Plan";
+                else if (planVal === "premium") actionBtnText.textContent = "Continue with Premium Plan";
                 else if (planVal === "enterprise") actionBtnText.textContent = "Talk to Enterprise Sales";
             }
 
@@ -7207,12 +7507,32 @@
         function handlePricingPlanAction() {
             if (currentSelectedPricingPlan === "enterprise") {
                 window.location.href = "mailto:farmanshafi2007@gmail.com?subject=Enterprise%20Plan%20Inquiry&body=Hi%20Farman,%20I%20would%20like%20to%20discuss%20an%20Enterprise%20custom%20build.";
-            } else if (currentSelectedPricingPlan === "free") {
-                openEnquiryModal("basic");
+            } else if (currentSelectedPricingPlan === "free" || currentSelectedPricingPlan === "starter") {
+                if (typeof window.openEnquiryModal === "function") {
+                    window.openEnquiryModal("starter");
+                }
+            } else if (currentSelectedPricingPlan === "premium") {
+                if (typeof window.openEnquiryModal === "function") {
+                    window.openEnquiryModal("premium");
+                }
             } else {
-                openEnquiryModal("pro");
+                if (typeof window.openEnquiryModal === "function") {
+                    window.openEnquiryModal("pro");
+                }
             }
         }
+
+        // Explicitly attach region functions to window for global inline accessibility
+        window.switchRegion = switchRegion;
+        window.handleRegionSelectChange = handleRegionSelectChange;
+        window.applySelectedRegion = applySelectedRegion;
+        window.dismissRegionBanner = dismissRegionBanner;
+        window.selectPricingPlan = selectPricingPlan;
+        window.handlePricingPlanAction = handlePricingPlanAction;
+        window.setPricingCurrency = function (curr) {
+            if (curr === 'USD') switchRegion('US');
+            else switchRegion('IN');
+        };
 
 
         const helpDatabase = [
@@ -7220,7 +7540,7 @@
                 catId: "1",
                 catName: "1. PRICE & PAYMENT",
                 items: [
-                    { q: "Is the price shown the final price?", a: "Yes. The agreed price when you order is exact: Basic is ₹3,499 (~$50 USD), Pro ⭐ Best Selling is ₹11,999 (~$200 USD), and Premium 👑 Value for Money is ₹25,000 (~$400 USD)." },
+                    { q: "Is the price shown the final price?", a: "Yes. The agreed price when you order is exact: Starter is ₹7,999 ($99 USD / £79 GBP), Pro ⭐ Most Popular is ₹24,999 ($299 USD / £249 GBP), and Premium 👑 Enterprise is ₹49,999 ($599 USD / £499 GBP). Complete code ownership with zero hidden fees." },
                     { q: "Do I pay everything at once?", a: "No. You pay 40% in advance and the remaining 60% after the project is completed." },
                     { q: "How can I pay?", a: "We accept PayPal, UPI, Google Pay (GPay), MobiKwik, FamPay, and QR payments." },
                     { q: "Is the domain included?", a: "Premium 👑 plan includes a free custom domain for the 1st year. For Basic and Pro plans, custom domains can be configured upon request." },
@@ -7379,7 +7699,8 @@
             // Initialize Skiper 52 Interactive Cards Showcase
             initSkiperCards();
             // Initialize Apple Pricing Selector
-            setPricingCurrency("INR");
+            const initialRegion = (typeof localStorage !== "undefined" && localStorage.getItem("forge_selected_region")) || "IN";
+            switchRegion(initialRegion);
             selectPricingPlan("pro");
             if (window.lucide && typeof lucide.createIcons === "function") lucide.createIcons();
 
@@ -7613,31 +7934,15 @@
                 document.getElementById('captchaErrorMsg')?.classList.add('hidden');
             });
 
-            const planDisplayMap = {
-                'Basic (₹3,499)': { title: 'Basic Tier', price: '₹3,499 One-Time' },
-                'Pro ⭐ (₹11,999)': { title: 'Pro ⭐ Best Selling', price: '₹11,999 One-Time' },
-                'Premium 👑 (₹25,000)': { title: 'Premium 👑 Enterprise', price: '₹25,000 One-Time' }
-            };
-
-            function syncPlanDropdownUI() {
-                const sel = document.getElementById('preferredPlan');
-                const titleEl = document.getElementById('planDisplayTitle');
-                const priceEl = document.getElementById('planDisplayPrice');
-                if (!sel || !titleEl || !priceEl) return;
-                const info = planDisplayMap[sel.value] || { title: sel.value, price: 'Deployment Package' };
-                titleEl.textContent = info.title;
-                priceEl.textContent = info.price;
-            }
+            // syncPlanDropdownUI is globally defined in outer scope
 
             document.getElementById('preferredPlan')?.addEventListener('change', syncPlanDropdownUI);
 
             window.openEnquiryModal = (preferredTier) => {
                 generateCaptcha();
-                const sel = document.getElementById('preferredPlan');
-                if (sel) {
-                    if (preferredTier === 'basic') sel.value = "Basic (₹3,499)";
-                    else if (preferredTier === 'premium') sel.value = "Premium 👑 (₹25,000)";
-                    else sel.value = "Pro ⭐ (₹11,999)";
+                const tier = preferredTier || currentSelectedPricingPlan || 'pro';
+                if (typeof refreshModalPlanOptions === 'function') {
+                    refreshModalPlanOptions(tier);
                 }
                 syncPlanDropdownUI();
                 openGenericModal(modalMap['#enquiry'].modal, modalMap['#enquiry'].content, '#enquiry');
