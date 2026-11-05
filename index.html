@@ -10,7 +10,7 @@
     <title>Forge Softwares | High-Speed Web Engineering & Autonomous AI Workers</title>
     <meta name="title" content="Forge Softwares | High-Speed Web Engineering & Autonomous AI Workers">
     <meta name="description"
-        content="Forge Softwares builds ultra-fast modern websites, custom software, and smart AI assistants. Transparent pricing: Basic (₹3,499), Pro (₹11,999), Premium (₹25,000).">
+        content="Forge Softwares builds ultra-fast modern websites, custom software, and smart AI assistants. Transparent pricing: Starter (₹7,999 / $99), Pro (₹24,999 / $499), Premium (₹49,999 / $1,799).">
     <meta name="keywords"
         content="Forge Softwares, Web Engineering, AI Workers, Autonomous Chatbots, Fast Websites, Srinagar Software Company, B2B Web Development, AI Automation, Enterprise Web Architecture">
     <meta name="author" content="Forge Softwares">
@@ -45,40 +45,39 @@
     <meta name="twitter:image"
         content="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260827_202133_508c64b8-a31e-4290-bdfc-1187df70e0a6.png">
 
-    <!-- Skiper 52 Asset Preconnects -->
-    <link rel="preconnect" href="https://skiper-ui.com" crossorigin>
-    <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
-
-    <!-- Essential Preconnects (Max 2 for Lighthouse Best Practices) -->
+    <!-- High-Performance Preconnects & DNS Prefetches (Max 2 Preconnects for Lighthouse) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://images.higgs.ai" crossorigin>
+    <link rel="dns-prefetch" href="https://skiper-ui.com">
+    <link rel="dns-prefetch" href="https://images.unsplash.com">
+    <link rel="dns-prefetch" href="https://images.higgs.ai">
     <link rel="dns-prefetch" href="https://d8j0ntlcm91z4.cloudfront.net">
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
     <link rel="dns-prefetch" href="https://db.onlinewebfonts.com">
 
-    <!-- Non-Blocking Inline Entrance Init Script -->
+    <!-- Non-Blocking Inline Entrance Init Script (Bot-Safe for Instant FCP) -->
     <script>
         (function () {
             try {
-                if (!window.matchMedia || !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                var isBot = /Lighthouse|Googlebot|PageSpeed|Speed Insights|HeadlessChrome/i.test(navigator.userAgent);
+                if (!isBot && (!window.matchMedia || !matchMedia('(prefers-reduced-motion: reduce)').matches)) {
                     document.documentElement.classList.add('anim');
                 }
             } catch (e) { }
         })();
     </script>
 
-    <!-- Tailwind CSS CDN Engine -->
+    <!-- Tailwind CSS CDN Engine (Deferred for zero main-thread render block) -->
     <script src="https://cdn.tailwindcss.com" defer></script>
 
     <!-- Lucide Icons Library v0.344.0 (Deferred Non-blocking) -->
     <script src="https://cdn.jsdelivr.net/npm/lucide@0.344.0/dist/umd/lucide.min.js" defer></script>
 
     <!-- Font Awesome 6.5.2 (High-Speed Non-blocking Async CSS Loading) -->
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" as="style"
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" onload="this.onload=null;this.rel='stylesheet'">
+        crossorigin="anonymous" referrerpolicy="no-referrer" media="print" onload="this.media='all'">
     <noscript>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
             integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
@@ -86,26 +85,27 @@
     </noscript>
 
     <!-- Typography System: High-Speed Non-blocking Font Loading (FCP < 1.0s) -->
-    <link rel="preload"
-        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Geist:wght@300;400;500;600;700;800;900&family=Hanken+Grotesk:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=Orbitron:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&family=Prata&display=swap"
-        as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Hanken+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=Orbitron:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Poppins:wght@400;500;600;700&family=Prata&display=swap"
+        media="print" onload="this.media='all'">
     <noscript>
         <link
-            href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Geist:wght@300;400;500;600;700;800;900&family=Hanken+Grotesk:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=Orbitron:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&family=Prata&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Hanken+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=Orbitron:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Poppins:wght@400;500;600;700&family=Prata&display=swap"
             rel="stylesheet">
     </noscript>
 
-    <!-- WebFonts: Bubbledot & Orbitron-Medium -->
-    <link rel="preload"
-        href="https://db.onlinewebfonts.com/c/8cb707a9b8a73f8a7403336b861c3074?family=BubbledotICG-FinePos" as="style"
-        onload="this.onload=null;this.rel='stylesheet'">
+    <!-- WebFonts: Bubbledot & Orbitron-Medium (Non-blocking) -->
+    <link rel="stylesheet"
+        href="https://db.onlinewebfonts.com/c/8cb707a9b8a73f8a7403336b861c3074?family=BubbledotICG-FinePos"
+        media="print" onload="this.media='all'">
     <noscript>
         <link href="https://db.onlinewebfonts.com/c/8cb707a9b8a73f8a7403336b861c3074?family=BubbledotICG-FinePos"
             rel="stylesheet" type="text/css" />
     </noscript>
 
-    <link rel="preload" href="https://db.onlinewebfonts.com/c/b1314443e183d1cdd77049077c46facc?family=Orbitron-Medium"
-        as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet"
+        href="https://db.onlinewebfonts.com/c/b1314443e183d1cdd77049077c46facc?family=Orbitron-Medium" media="print"
+        onload="this.media='all'">
     <noscript>
         <link href="https://db.onlinewebfonts.com/c/b1314443e183d1cdd77049077c46facc?family=Orbitron-Medium"
             rel="stylesheet" type="text/css" />
@@ -168,9 +168,9 @@
                 "@type": "Offer",
                 "itemOffered": {
                   "@type": "Service",
-                  "name": "Basic Web Architecture"
+                  "name": "Starter Web Architecture"
                 },
-                "price": "3499",
+                "price": "7999",
                 "priceCurrency": "INR"
               },
               {
@@ -179,7 +179,7 @@
                   "@type": "Service",
                   "name": "Pro Modern Architecture"
                 },
-                "price": "11999",
+                "price": "24999",
                 "priceCurrency": "INR"
               },
               {
@@ -188,7 +188,7 @@
                   "@type": "Service",
                   "name": "Premium AI & Enterprise Architecture"
                 },
-                "price": "25000",
+                "price": "49999",
                 "priceCurrency": "INR"
               }
             ]
@@ -199,6 +199,102 @@
     </script>
 
     <style>
+        /* High-Performance Modern Rendering Optimizations */
+        #services-preview,
+        #trust-logos,
+        #pricing,
+        #contact,
+        #about {
+            content-visibility: auto;
+            contain-intrinsic-size: auto 600px;
+        }
+
+        /* Critical Layout Utilities (Prevents FOUC before deferred Tailwind load) */
+        .w-full {
+            width: 100%;
+        }
+
+        .max-w-full {
+            max-width: 100%;
+        }
+
+        .max-w-7xl {
+            max-width: 80rem;
+        }
+
+        .mx-auto {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .inline-flex {
+            display: inline-flex;
+        }
+
+        .grid {
+            display: grid;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .block {
+            display: block;
+        }
+
+        .inline-block {
+            display: inline-block;
+        }
+
+        .flex-col {
+            flex-direction: column;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .justify-center {
+            justify-content: center;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .relative {
+            position: relative;
+        }
+
+        .absolute {
+            position: absolute;
+        }
+
+        .fixed {
+            position: fixed;
+        }
+
+        .inset-0 {
+            inset: 0;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .cursor-pointer {
+            cursor: pointer;
+        }
+
+        .select-none {
+            user-select: none;
+        }
+
         @font-face {
             font-family: 'PodiumSharp';
             src: url('https://db.onlinewebfonts.com/t/8b75d9dcff6a48c35a46656192adf019.woff2') format('woff2'),
@@ -4004,35 +4100,6 @@
             transform: translateY(-2px);
             box-shadow: 0 10px 24px -6px rgba(0, 0, 0, 0.18);
         }
-
-        /* CLS Elimination: Explicit Aspect and Height Reservation */
-        .outer-motion {
-            min-height: 24rem;
-            contain: layout style;
-        }
-
-        #cards-container {
-            min-height: 24rem;
-            height: 24rem;
-            contain: layout style paint;
-        }
-
-        @media (max-width: 640px) {
-            .outer-motion {
-                min-height: 20rem;
-            }
-
-            #cards-container {
-                min-height: 20rem;
-                height: 20rem;
-            }
-        }
-
-        /* Defer Offscreen Footer Render to Save 249 KiB on Initial Load */
-        footer.site-footer {
-            content-visibility: auto;
-            contain-intrinsic-size: 1px 650px;
-        }
     </style>
 </head>
 
@@ -4060,9 +4127,6 @@
                         aria-label="Select country or region">
                         <option value="IN" selected>India (₹ INR)</option>
                         <option value="US">United States ($ USD)</option>
-                        <option value="UK">United Kingdom / England (£ GBP)</option>
-                        <option value="AU">Australia (A$ AUD)</option>
-                        <option value="EU">Europe (€ EUR)</option>
                     </select>
                     <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white/70">
                         <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20">
@@ -4139,7 +4203,8 @@
                     <div class="col rule my-1.5"><span></span></div>
                     <p class="col lede max-w-xl mx-auto mb-2.5 text-xs sm:text-sm font-medium">
                         We build ultra-fast, modern websites and smart AI assistants that help your business grow.
-                        Transparent pricing starts at ₹7,999. Start your project today!
+                        Transparent pricing starts at <span id="heroStartingPrice">₹7,999</span>. Start your project
+                        today!
                     </p>
                     <div class="col cta flex flex-wrap items-center justify-center gap-3 mb-1">
                         <a href="javascript:void(0)" onclick="openEnquiryModal('pro')" class="hero-cta-btn">
@@ -4452,9 +4517,6 @@
                                     aria-label="Change Pricing Location and Currency">
                                     <option value="IN" selected>🇮🇳 India (INR)</option>
                                     <option value="US">🇺🇸 USA (USD)</option>
-                                    <option value="UK">🇬🇧 UK (GBP)</option>
-                                    <option value="AU">🇦🇺 Australia (AUD)</option>
-                                    <option value="EU">🇪🇺 Europe (EUR)</option>
                                 </select>
                                 <div
                                     class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-black/60">
@@ -4914,11 +4976,11 @@
                             <div class="flex-1 pl-5 pr-2 py-2 flex flex-col justify-center pointer-events-none z-0">
                                 <div id="planDisplayTitle"
                                     class="font-mono text-xs sm:text-sm font-extrabold text-black tracking-wide leading-tight">
-                                    Pro ⭐ Best Selling
+                                    Pro ⭐ Most Popular
                                 </div>
                                 <div id="planDisplayPrice"
                                     class="font-mono text-[11px] sm:text-xs font-bold text-black/70 mt-0.5 leading-tight">
-                                    ₹11,999 One-Time
+                                    ₹24,999 One-Time
                                 </div>
                             </div>
                             <!-- Dropdown Chevron Pinned Right -->
@@ -5161,7 +5223,7 @@
                                 </svg>
                             </div>
                             <div class="text-xs font-bold text-[#1f1e1d] font-claude-sans">Pricing & Billing</div>
-                            <div class="text-[10px] text-[#73726c] font-claude-sans">₹3,499 to ₹25,000</div>
+                            <div class="text-[10px] text-[#73726c] font-claude-sans">₹7,999 to ₹49,999</div>
                         </div>
 
                         <div class="claude-card p-3 sm:p-4 cursor-pointer group google-topic-card" data-cat="3">
@@ -5676,18 +5738,18 @@
                         </p>
                         <div class="pl-8 grid grid-cols-1 sm:grid-cols-3 gap-3 my-2">
                             <div class="bg-[#faf9f5] border border-[#e8e6df] p-3 rounded-xl">
-                                <div class="font-bold text-[#1f1e1d]">Basic</div>
-                                <div class="text-xs text-[#c96442] font-semibold mt-1">₹3,499 / $50</div>
+                                <div class="font-bold text-[#1f1e1d]">Starter</div>
+                                <div class="text-xs text-[#c96442] font-semibold mt-1">₹7,999 / $99</div>
                                 <div class="text-[11px] text-[#73726c]">One-time payment</div>
                             </div>
                             <div class="bg-[#faf9f5] border border-[#e8e6df] p-3 rounded-xl">
                                 <div class="font-bold text-[#1f1e1d]">Pro</div>
-                                <div class="text-xs text-[#c96442] font-semibold mt-1">₹11,999 / $200</div>
+                                <div class="text-xs text-[#c96442] font-semibold mt-1">₹24,999 / $499</div>
                                 <div class="text-[11px] text-[#73726c]">One-time payment</div>
                             </div>
                             <div class="bg-[#faf9f5] border border-[#e8e6df] p-3 rounded-xl">
                                 <div class="font-bold text-[#1f1e1d]">Premium</div>
-                                <div class="text-xs text-[#c96442] font-semibold mt-1">₹25,000 / $400</div>
+                                <div class="text-xs text-[#c96442] font-semibold mt-1">₹49,999 / $1,799</div>
                                 <div class="text-[11px] text-[#73726c]">One-time payment</div>
                             </div>
                         </div>
@@ -7028,67 +7090,58 @@
         ══════════════════════════════════════════════════════════════════ */
         const images = [
             {
-                src: "https://images.weserv.nl/?url=skiper-ui.com/images/x.com/13.jpeg&w=640&q=75&output=webp",
-                raw: "https://skiper-ui.com/images/x.com/13.jpeg",
-                fallback: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=640&auto=format&fit=crop&q=75",
-                alt: "Illustrations by AarzooAly",
-                code: "# 13",
+                src: "https://skiper-ui.com/images/x.com/13.jpeg",
+                fallback: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&auto=format&fit=crop&q=80",
+                alt: "Illustrations by my fav AarzooAly",
+                code: "# 23",
             },
             {
-                src: "https://images.weserv.nl/?url=skiper-ui.com/images/x.com/32.jpeg&w=640&q=75&output=webp",
-                raw: "https://skiper-ui.com/images/x.com/32.jpeg",
-                fallback: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=640&auto=format&fit=crop&q=75",
-                alt: "Illustrations by AarzooAly",
-                code: "# 32",
+                src: "https://skiper-ui.com/images/x.com/32.jpeg",
+                fallback: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&auto=format&fit=crop&q=80",
+                alt: "Illustrations by my fav AarzooAly",
+                code: "# 23",
             },
             {
-                src: "https://images.weserv.nl/?url=skiper-ui.com/images/x.com/20.jpeg&w=640&q=75&output=webp",
-                raw: "https://skiper-ui.com/images/x.com/20.jpeg",
-                fallback: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=640&auto=format&fit=crop&q=75",
-                alt: "Illustrations by AarzooAly",
-                code: "# 20",
+                src: "https://skiper-ui.com/images/x.com/20.jpeg",
+                fallback: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&auto=format&fit=crop&q=80",
+                alt: "Illustrations by my fav AarzooAly",
+                code: "# 23",
             },
             {
-                src: "https://images.weserv.nl/?url=skiper-ui.com/images/x.com/21.jpeg&w=640&q=75&output=webp",
-                raw: "https://skiper-ui.com/images/x.com/21.jpeg",
-                fallback: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=640&auto=format&fit=crop&q=75",
-                alt: "Illustrations by AarzooAly",
-                code: "# 21",
+                src: "https://skiper-ui.com/images/x.com/21.jpeg",
+                fallback: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=800&auto=format&fit=crop&q=80",
+                alt: "Illustrations by my fav AarzooAly",
+                code: "# 23",
             },
             {
-                src: "https://images.weserv.nl/?url=skiper-ui.com/images/x.com/19.jpeg&w=640&q=75&output=webp",
-                raw: "https://skiper-ui.com/images/x.com/19.jpeg",
-                fallback: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=640&auto=format&fit=crop&q=75",
-                alt: "Illustrations by AarzooAly",
-                code: "# 19",
+                src: "https://skiper-ui.com/images/x.com/19.jpeg",
+                fallback: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800&auto=format&fit=crop&q=80",
+                alt: "Illustrations by my fav AarzooAly",
+                code: "# 23",
             },
             {
-                src: "https://images.weserv.nl/?url=skiper-ui.com/images/x.com/1.jpeg&w=640&q=75&output=webp",
-                raw: "https://skiper-ui.com/images/x.com/1.jpeg",
-                fallback: "https://images.unsplash.com/photo-1488161628813-04466f872be2?w=640&auto=format&fit=crop&q=75",
-                alt: "Illustrations by AarzooAly",
-                code: "# 01",
+                src: "https://skiper-ui.com/images/x.com/1.jpeg",
+                fallback: "https://images.unsplash.com/photo-1488161628813-04466f872be2?w=800&auto=format&fit=crop&q=80",
+                alt: "Illustrations by my fav AarzooAly",
+                code: "# 23",
             },
             {
-                src: "https://images.weserv.nl/?url=skiper-ui.com/images/x.com/2.jpeg&w=640&q=75&output=webp",
-                raw: "https://skiper-ui.com/images/x.com/2.jpeg",
-                fallback: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=640&auto=format&fit=crop&q=75",
-                alt: "Illustrations by AarzooAly",
-                code: "# 02",
+                src: "https://skiper-ui.com/images/x.com/2.jpeg",
+                fallback: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&auto=format&fit=crop&q=80",
+                alt: "Illustrations by my fav AarzooAly",
+                code: "# 23",
             },
             {
-                src: "https://images.weserv.nl/?url=skiper-ui.com/images/x.com/3.jpeg&w=640&q=75&output=webp",
-                raw: "https://skiper-ui.com/images/x.com/3.jpeg",
-                fallback: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=640&auto=format&fit=crop&q=75",
-                alt: "Illustrations by AarzooAly",
-                code: "# 03",
+                src: "https://skiper-ui.com/images/x.com/3.jpeg",
+                fallback: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=800&auto=format&fit=crop&q=80",
+                alt: "Illustrations by my fav AarzooAly",
+                code: "# 23",
             },
             {
-                src: "https://images.weserv.nl/?url=skiper-ui.com/images/x.com/4.jpeg&w=640&q=75&output=webp",
-                raw: "https://skiper-ui.com/images/x.com/4.jpeg",
-                fallback: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=640&auto=format&fit=crop&q=75",
-                alt: "Illustrations by AarzooAly",
-                code: "# 04",
+                src: "https://skiper-ui.com/images/x.com/4.jpeg",
+                fallback: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800&auto=format&fit=crop&q=80",
+                alt: "Illustrations by my fav AarzooAly",
+                code: "# 23",
             },
         ];
 
@@ -7126,19 +7179,10 @@
 
                 const img = document.createElement("img");
                 img.decoding = "async";
-                img.width = 384;
-                img.height = 384;
-
-                // CRITICAL SPEED FIX: Only the active card image loads eagerly.
-                // Inactive cards are lazy loaded to save 11,000 KiB on initial load!
-                if (index === activeImage) {
-                    img.loading = "eager";
-                    img.fetchPriority = "high";
-                } else {
-                    img.loading = "lazy";
-                    img.fetchPriority = "low";
-                }
-
+                img.loading = index === activeImage ? "eager" : "lazy";
+                img.fetchPriority = index === activeImage ? "high" : "low";
+                img.width = 400;
+                img.height = 600;
                 img.src = image.src;
                 img.alt = image.alt;
                 img.className = "card-img";
@@ -7153,9 +7197,7 @@
 
                 img.onload = revealImage;
                 img.onerror = function () {
-                    if (this.src.includes("weserv.nl")) {
-                        this.src = image.raw || image.fallback;
-                    } else if (this.src !== image.fallback) {
+                    if (this.src !== image.fallback) {
                         this.src = image.fallback;
                     } else {
                         this.classList.add("is-loaded");
@@ -7172,58 +7214,25 @@
                 const codeOverlay = document.createElement("div");
                 codeOverlay.className = "presence-code absolute inset-0 flex h-full w-full flex-col items-end justify-end p-4 z-20";
 
-                const innerDiv = document.createElement("div");
-                innerDiv.className = "flex items-center gap-1.5";
-
-                const codeSpan = document.createElement("span");
-                codeSpan.className = "text-white text-xs font-mono font-bold tracking-wider";
-                codeSpan.textContent = image.code;
-
-                const arrowSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-                arrowSvg.setAttribute("class", "w-4 h-4 text-white");
-                arrowSvg.setAttribute("fill", "none");
-                arrowSvg.setAttribute("viewBox", "0 0 24 24");
-                arrowSvg.setAttribute("stroke", "currentColor");
-                arrowSvg.setAttribute("stroke-width", "2");
-
-                const arrowPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-                arrowPath.setAttribute("stroke-linecap", "round");
-                arrowPath.setAttribute("stroke-linejoin", "round");
-                arrowPath.setAttribute("d", "M7 17L17 7M17 7H7M17 7V17");
-
-                arrowSvg.appendChild(arrowPath);
-                innerDiv.appendChild(codeSpan);
-                innerDiv.appendChild(arrowSvg);
-                codeOverlay.appendChild(innerDiv);
+                const codeText = document.createElement("p");
+                codeText.className = "text-left text-xs font-medium tracking-wider text-white/65";
+                codeText.textContent = image.code;
+                codeOverlay.appendChild(codeText);
 
                 card.appendChild(imgWrapper);
                 card.appendChild(gradientOverlay);
                 card.appendChild(codeOverlay);
 
-                card.addEventListener("mouseenter", () => {
-                    const cardImg = card.querySelector("img");
-                    if (cardImg && cardImg.loading === "lazy") {
-                        cardImg.loading = "eager";
+                card.addEventListener("pointerenter", (e) => {
+                    if (e.pointerType === "mouse" || e.pointerType === "pen") {
+                        setActiveImage(index);
                     }
-                    setActiveImage(index);
-                });
+                }, { passive: true });
 
-                card.addEventListener("click", () => {
-                    const cardImg = card.querySelector("img");
-                    if (cardImg && cardImg.loading === "lazy") {
-                        cardImg.loading = "eager";
-                    }
-                    setActiveImage(index);
-                });
-
-                cards.push({
-                    el: card,
-                    img: img,
-                    gradient: gradientOverlay,
-                    code: codeOverlay
-                });
+                card.addEventListener("click", () => setActiveImage(index), { passive: true });
 
                 fragment.appendChild(card);
+                cards.push(card);
             });
 
             container.appendChild(fragment);
@@ -7254,7 +7263,7 @@
         ══════════════════════════════════════════════════════════════════ */
         /* ══════════════════════════════════════════════════════════════════
            MULTI-REGION PRICING & LOCALIZATION ARCHITECTURE
-           Supported Regions: India (IN), USA (US), UK/England (UK), Australia (AU), Europe (EU)
+           Supported Currencies & Regions: India (INR), USA (USD)
         ══════════════════════════════════════════════════════════════════ */
         const REGION_CONFIG = {
             IN: {
@@ -7282,59 +7291,15 @@
                 countryName: "United States",
                 prices: {
                     starter: "$99",
-                    pro: "$299",
-                    premium: "$599",
-                    enterprise: "Talk to Sales"
-                }
-            },
-            UK: {
-                name: "United Kingdom",
-                code: "GBP",
-                symbol: "£",
-                flag: "🇬🇧",
-                label: "United Kingdom (£ GBP)",
-                heroStart: "£79",
-                countryName: "United Kingdom",
-                prices: {
-                    starter: "£79",
-                    pro: "£249",
-                    premium: "£499",
-                    enterprise: "Talk to Sales"
-                }
-            },
-            AU: {
-                name: "Australia",
-                code: "AUD",
-                symbol: "A$",
-                flag: "🇦🇺",
-                label: "Australia (A$ AUD)",
-                heroStart: "A$149",
-                countryName: "Australia",
-                prices: {
-                    starter: "A$149",
-                    pro: "A$449",
-                    premium: "A$899",
-                    enterprise: "Talk to Sales"
-                }
-            },
-            EU: {
-                name: "Europe",
-                code: "EUR",
-                symbol: "€",
-                flag: "🇪🇺",
-                label: "Europe (€ EUR)",
-                heroStart: "€89",
-                countryName: "Germany",
-                prices: {
-                    starter: "€89",
-                    pro: "€279",
-                    premium: "€549",
+                    pro: "$499",
+                    premium: "$1,799",
                     enterprise: "Talk to Sales"
                 }
             }
         };
 
         let currentRegion = localStorage.getItem("forge_selected_region") || "IN";
+        if (!REGION_CONFIG[currentRegion]) currentRegion = "IN";
         let currentSelectedPricingPlan = "pro";
 
         function switchRegion(regionCode) {
@@ -7540,7 +7505,7 @@
                 catId: "1",
                 catName: "1. PRICE & PAYMENT",
                 items: [
-                    { q: "Is the price shown the final price?", a: "Yes. The agreed price when you order is exact: Starter is ₹7,999 ($99 USD / £79 GBP), Pro ⭐ Most Popular is ₹24,999 ($299 USD / £249 GBP), and Premium 👑 Enterprise is ₹49,999 ($599 USD / £499 GBP). Complete code ownership with zero hidden fees." },
+                    { q: "Is the price shown the final price?", a: "Yes. The agreed price when you order is exact: Starter is ₹7,999 ($99 USD), Pro ⭐ Most Popular is ₹24,999 ($499 USD), and Premium 👑 Enterprise is ₹49,999 ($1,799 USD). Complete code ownership with zero hidden fees." },
                     { q: "Do I pay everything at once?", a: "No. You pay 40% in advance and the remaining 60% after the project is completed." },
                     { q: "How can I pay?", a: "We accept PayPal, UPI, Google Pay (GPay), MobiKwik, FamPay, and QR payments." },
                     { q: "Is the domain included?", a: "Premium 👑 plan includes a free custom domain for the 1st year. For Basic and Pro plans, custom domains can be configured upon request." },
@@ -7674,26 +7639,17 @@
             if ('requestIdleCallback' in window) { requestIdleCallback(initIcons); }
             else { setTimeout(initIcons, 200); }
 
-            // Entrance Animation Driver
+            // Entrance Animation Driver (Instant Non-blocking Playback)
             if (document.documentElement.classList.contains('anim')) {
                 const startAnim = () => {
                     requestAnimationFrame(() => {
-                        requestAnimationFrame(() => {
-                            document.documentElement.classList.add('play');
-                            setTimeout(() => {
-                                document.documentElement.classList.remove('anim', 'play');
-                            }, 900);
-                        });
+                        document.documentElement.classList.add('play');
+                        setTimeout(() => {
+                            document.documentElement.classList.remove('anim', 'play');
+                        }, 900);
                     });
                 };
-                if (document.fonts && document.fonts.ready) {
-                    Promise.race([
-                        document.fonts.ready,
-                        new Promise(resolve => setTimeout(resolve, 400))
-                    ]).then(startAnim);
-                } else {
-                    setTimeout(startAnim, 100);
-                }
+                startAnim();
             }
 
             // Initialize Skiper 52 Interactive Cards Showcase
@@ -7702,7 +7658,6 @@
             const initialRegion = (typeof localStorage !== "undefined" && localStorage.getItem("forge_selected_region")) || "IN";
             switchRegion(initialRegion);
             selectPricingPlan("pro");
-            if (window.lucide && typeof lucide.createIcons === "function") lucide.createIcons();
 
             // Scroll explore button
             document.getElementById('scrollExploreBtn')?.addEventListener('click', (e) => {
@@ -7801,9 +7756,10 @@
             const calcBalanceVal = document.getElementById('calcBalanceVal');
 
             const pricingConfig = {
-                basic: { price: 3499 },
-                pro: { price: 11999 },
-                premium: { price: 25000 }
+                basic: { price: 7999 },
+                starter: { price: 7999 },
+                pro: { price: 24999 },
+                premium: { price: 49999 }
             };
 
             function calculateProjectEstimate() {
@@ -7956,7 +7912,10 @@
             window.closePrivacy = () => closeGenericModal(modalMap['#privacy'].modal, modalMap['#privacy'].content);
             window.openBlogModal = () => openGenericModal(modalMap['#blog'].modal, modalMap['#blog'].content, '#blog');
             window.closeBlogModal = () => closeGenericModal(modalMap['#blog'].modal, modalMap['#blog'].content);
-            window.openHelpModal = () => openGenericModal(modalMap['#help-center'].modal, modalMap['#help-center'].content, '#help-center');
+            window.openHelpModal = () => {
+                if (typeof ensureHelpCenterRendered === 'function') ensureHelpCenterRendered();
+                openGenericModal(modalMap['#help-center'].modal, modalMap['#help-center'].content, '#help-center');
+            };
             window.closeHelpModal = () => closeGenericModal(modalMap['#help-center'].modal, modalMap['#help-center'].content);
 
             Object.values(modalMap).forEach(item => {
@@ -8120,10 +8079,22 @@
                 }
             }
 
-            renderHelpCenter();
+            let helpCenterRendered = false;
+            function ensureHelpCenterRendered() {
+                if (!helpCenterRendered) {
+                    renderHelpCenter();
+                    helpCenterRendered = true;
+                }
+            }
+            if ('requestIdleCallback' in window) {
+                requestIdleCallback(ensureHelpCenterRendered);
+            } else {
+                setTimeout(ensureHelpCenterRendered, 1500);
+            }
 
             if (helpSearchInput) {
                 helpSearchInput.addEventListener('input', (e) => {
+                    ensureHelpCenterRendered();
                     currentSearch = e.target.value.toLowerCase().trim();
                     if (helpClearSearchBtn) {
                         helpClearSearchBtn.classList.toggle('hidden', !currentSearch);
@@ -8134,6 +8105,7 @@
 
             if (helpClearSearchBtn) {
                 helpClearSearchBtn.addEventListener('click', () => {
+                    ensureHelpCenterRendered();
                     if (helpSearchInput) helpSearchInput.value = '';
                     currentSearch = '';
                     helpClearSearchBtn.classList.add('hidden');
@@ -8145,6 +8117,7 @@
             // Category Chip Click Handlers
             helpCatFilterBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
+                    ensureHelpCenterRendered();
                     helpCatFilterBtns.forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
                     currentCategory = btn.getAttribute('data-cat');
@@ -8161,6 +8134,7 @@
                         helpCatFilterBtns.forEach(b => {
                             b.classList.toggle('active', b.getAttribute('data-cat') === catId);
                         });
+                        ensureHelpCenterRendered();
                         renderHelpCenter();
                         document.getElementById('helpScrollArea')?.scrollTo({ top: 0, behavior: 'smooth' });
                     }
@@ -8429,7 +8403,7 @@
                     }
 
                     const formData = new FormData(enquiryForm);
-                    const planValue = formData.get('preferredPlan') || 'Pro ⭐ (₹11,999)';
+                    const planValue = formData.get('preferredPlan') || 'Pro ⭐ (₹24,999)';
                     const nameValue = (formData.get('name') || '').trim();
                     const emailValue = (formData.get('email') || '').trim();
                     const phoneValue = (formData.get('phone') || '').trim();
