@@ -45,16 +45,20 @@
     <meta name="twitter:image"
         content="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260827_202133_508c64b8-a31e-4290-bdfc-1187df70e0a6.png">
 
-    <!-- High-Performance Preconnects & DNS Prefetches (Max 2 Preconnects for Lighthouse) -->
+    <!-- High-Performance Preconnects & Preloads for Instant Asset Discovery -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="dns-prefetch" href="https://skiper-ui.com">
-    <link rel="dns-prefetch" href="https://images.unsplash.com">
+    <link rel="preconnect" href="https://images.unsplash.com">
+    <link rel="preconnect" href="https://skiper-ui.com">
+    <link rel="preconnect" href="https://d8j0ntlcm91z4.cloudfront.net">
+    <link rel="preconnect" href="https://d2ol7oe51mr4n9.cloudfront.net">
+    <link rel="preconnect" href="https://db.onlinewebfonts.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="dns-prefetch" href="https://images.higgs.ai">
-    <link rel="dns-prefetch" href="https://d8j0ntlcm91z4.cloudfront.net">
-    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
-    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
-    <link rel="dns-prefetch" href="https://db.onlinewebfonts.com">
+
+    <!-- Instant Above-the-Fold Hero / LCP Image Preload -->
+    <link rel="preload" as="image" href="https://skiper-ui.com/images/x.com/32.jpeg?auto=format&fit=crop&w=600&q=75" fetchpriority="high">
 
     <!-- Non-Blocking Inline Entrance Init Script (Bot-Safe for Instant FCP) -->
     <script>
@@ -202,6 +206,8 @@
         /* High-Performance Modern Rendering Optimizations */
         #services-preview,
         #trust-logos,
+        #manifesto,
+        #roadmap,
         #pricing,
         #contact,
         #about {
@@ -759,6 +765,7 @@
             }
         }
 
+
         /* HERO UI & COPY COMPOSITION */
         .hero-ui {
             position: relative;
@@ -931,7 +938,7 @@
             cursor: pointer;
             background: transparent;
             border: 0;
-            transition: all 0.2s ease;
+            transition: color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
         }
 
         .links a:hover,
@@ -1647,7 +1654,7 @@
             }
 
             .stage,
-            .skiper-hero-stage {
+            .spider-stage-legacy {
                 min-height: auto !important;
                 height: auto !important;
                 background-color: #f5f4f3 !important;
@@ -1656,7 +1663,7 @@
 
             /* Pure bright ambient light on mobile: zero dark overlay */
             .stage::after,
-            .skiper-hero-stage::after {
+            .spider-stage-legacy::after {
                 display: none !important;
             }
 
@@ -1684,7 +1691,7 @@
             }
 
             .copy,
-            .skiper-hero-stage .copy {
+            .spider-stage-legacy .copy {
                 padding: 6px 14px 2px !important;
                 min-height: auto !important;
                 height: auto !important;
@@ -1913,7 +1920,7 @@
             text-transform: uppercase;
             padding: 12px 28px;
             font-size: 12px;
-            transition: all 0.3s var(--ease-spring);
+            transition: background-color 0.3s var(--ease-spring), color 0.3s var(--ease-spring), transform 0.3s var(--ease-spring), box-shadow 0.3s var(--ease-spring);
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -1946,7 +1953,7 @@
             text-transform: uppercase;
             padding: 12px 28px;
             font-size: 12px;
-            transition: all 0.3s var(--ease-spring);
+            transition: background-color 0.3s var(--ease-spring), color 0.3s var(--ease-spring), transform 0.3s var(--ease-spring), box-shadow 0.3s var(--ease-spring);
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -1988,7 +1995,7 @@
         .reveal {
             opacity: 0;
             transform: translate3d(0, 20px, 0);
-            transition: all 0.6s var(--ease-apple);
+            transition: opacity 0.6s var(--ease-apple), transform 0.6s var(--ease-apple);
             will-change: transform, opacity;
         }
 
@@ -2158,7 +2165,8 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.25s var(--ease-spring);
+            transition: transform 0.25s var(--ease-spring);
+            will-change: transform;
         }
 
         .footer-social-btn:hover {
@@ -2299,7 +2307,7 @@
         }
 
         .icon-box-glow {
-            transition: all 0.35s var(--ease-spring);
+            transition: transform 0.35s var(--ease-spring), box-shadow 0.35s var(--ease-spring);
             box-shadow: 0 0 20px rgba(103, 232, 249, 0.2);
         }
 
@@ -2323,15 +2331,16 @@
             background: linear-gradient(90deg, #180202 0%, #3a0808 30%, #180202 50%, #3a0808 80%, #180202 100%);
             background-size: 200% 100%;
             animation: tickerPulse 5s linear infinite;
+            will-change: opacity;
         }
 
         @keyframes tickerPulse {
-            0% {
-                background-position: 0% 0%;
+            0%, 100% {
+                opacity: 0.9;
             }
 
-            100% {
-                background-position: 200% 0%;
+            50% {
+                opacity: 1;
             }
         }
 
@@ -2343,12 +2352,15 @@
             top: 0;
             left: 0;
             height: 2.5px;
-            width: 0%;
+            width: 100%;
+            transform: scaleX(0);
+            transform-origin: left center;
             background: linear-gradient(90deg, #67e8f9 0%, #38bdf8 50%, #818cf8 100%);
             box-shadow: 0 0 10px rgba(103, 232, 249, 0.8), 0 0 4px rgba(56, 189, 248, 0.6);
             z-index: 99999;
             pointer-events: none;
-            transition: width 0.08s ease-out;
+            will-change: transform;
+            transition: transform 0.08s ease-out;
         }
 
         #backToTopBtn {
@@ -2592,7 +2604,7 @@
             border: 1px solid #dadce0;
             background: #f8f9fa;
             color: #3c4043;
-            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
             white-space: nowrap;
             cursor: pointer;
             display: inline-flex;
@@ -2619,7 +2631,7 @@
             border: 1px solid #dadce0;
             border-radius: 18px;
             padding: 16px 20px;
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
             cursor: pointer;
             box-shadow: 0 1px 3px rgba(32, 33, 36, 0.05);
         }
@@ -2634,7 +2646,7 @@
             background: #ffffff;
             border: 1px solid #e8eaed;
             border-radius: 20px;
-            transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: border-color 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1), transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
             overflow: hidden;
             box-shadow: 0 2px 10px rgba(32, 33, 36, 0.06);
         }
@@ -2649,7 +2661,7 @@
             background: #ffffff;
             border: 1px solid #dadce0;
             border-radius: 16px;
-            transition: all 0.25s ease;
+            transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
             box-shadow: 0 1px 3px rgba(32, 33, 36, 0.04);
         }
 
@@ -2686,7 +2698,7 @@
             background: #ffffff;
             border: 1.5px solid #e8e6df;
             box-shadow: 0 2px 10px rgba(31, 30, 29, 0.04);
-            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .claude-search-bar:focus-within {
@@ -2703,7 +2715,7 @@
             border: 1px solid #e2ded5;
             background: #f0eee6;
             color: #4d4c47;
-            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
             white-space: nowrap;
             cursor: pointer;
             display: inline-flex;
@@ -2730,7 +2742,7 @@
             background: #ffffff;
             border: 1px solid #e8e6df;
             border-radius: 18px;
-            transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: border-color 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1), transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
             box-shadow: 0 2px 8px rgba(31, 30, 29, 0.03);
         }
 
@@ -2813,7 +2825,8 @@
             z-index: 999999;
             opacity: 0;
             pointer-events: none;
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
             font-family: var(--font-claude-sans);
         }
 
@@ -2887,7 +2900,7 @@
         /* Plan selector elevated design */
         #enquiryForm .relative.rounded-2xl.border-2.border-black:has(select#preferredPlan) {
             background: linear-gradient(135deg, #ffffff 0%, #f0f4ff 100%) !important;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            transition: border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
         }
 
         #enquiryForm .relative.rounded-2xl.border-2.border-black:has(select#preferredPlan):hover {
@@ -2907,15 +2920,17 @@
             content: '';
             position: absolute;
             top: 0;
-            left: -100%;
+            left: 0;
             width: 100%;
             height: 100%;
             background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.15), transparent);
-            transition: left 0.5s ease;
+            transform: translateX(-100%);
+            transition: transform 0.5s ease;
+            will-change: transform;
         }
 
         #enquiryForm button[type="submit"]:hover::before {
-            left: 100%;
+            transform: translateX(100%);
         }
 
         #enquiryForm button[type="submit"]:hover {
@@ -4092,13 +4107,55 @@
         }
 
         .hero-showroom-btn {
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             transform: translateZ(0);
         }
 
         .hero-showroom-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 24px -6px rgba(0, 0, 0, 0.18);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           GLOBAL TYPOGRAPHY & TEXT ALIGNMENT REFINEMENT
+           ═══════════════════════════════════════════════════════════════ */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            text-wrap: balance;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        p {
+            text-wrap: pretty;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-center>* {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .text-center .inline-flex {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .manifesto-section h2,
+        .manifesto-section h3,
+        .manifesto-section p {
+            text-wrap: balance;
         }
     </style>
 </head>
@@ -4114,7 +4171,7 @@
 
     <!-- Apple-Style Location & Currency Region Banner -->
     <aside id="regionBanner" aria-label="Country and Region Selector"
-        class="w-full bg-[#161617] text-[#f5f5f7] border-b border-white/10 py-2.5 px-3 sm:px-6 relative z-[70] transition-all duration-300">
+        class="w-full bg-[#161617] text-[#f5f5f7] border-b border-white/10 py-2.5 px-3 sm:px-6 relative z-[70] transition duration-300">
         <div
             class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-2.5 text-center md:text-left">
             <p class="font-sans text-[11.5px] sm:text-[13px] text-[#d2d2d7] leading-tight select-none">
@@ -4137,7 +4194,7 @@
                 </div>
 
                 <button type="button" onclick="applySelectedRegion()"
-                    class="bg-white hover:bg-neutral-200 active:scale-95 text-black text-[11.5px] sm:text-[12px] font-bold px-3.5 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap shadow-sm">
+                    class="bg-white hover:bg-neutral-200 active:scale-95 text-black text-[11.5px] sm:text-[12px] font-bold px-3.5 py-1.5 rounded-lg transition cursor-pointer whitespace-nowrap shadow-sm">
                     Continue
                 </button>
 
@@ -4169,6 +4226,8 @@
                         <nav class="links" id="site-nav" aria-label="Primary Navigation">
                             <a href="#home" aria-current="page">Home</a>
                             <a href="#services-preview">Services</a>
+                            <a href="#manifesto">Manifesto</a>
+                            <a href="#roadmap">Process</a>
                             <a href="#pricing">Pricing</a>
                             <a href="#contact">Contact</a>
                             <div class="nav-divider" role="separator" aria-hidden="true"></div>
@@ -4213,7 +4272,7 @@
                         </a>
                         <a href="https://farmanshafi2007-hub.github.io/WEBSITE-SHOWROOM/" target="_blank"
                             rel="noopener noreferrer"
-                            class="hero-showroom-btn inline-flex items-center gap-2 px-5 py-2.5 rounded-full font-mono text-xs font-black uppercase tracking-wider text-black bg-white border-2 border-black hover:bg-black hover:text-white transition-all shadow-md active:translate-y-0 cursor-pointer">
+                            class="hero-showroom-btn inline-flex items-center gap-2 px-5 py-2.5 rounded-full font-mono text-xs font-black uppercase tracking-wider text-black bg-white border-2 border-black hover:bg-black hover:text-white transition shadow-md active:translate-y-0 cursor-pointer">
                             <i data-lucide="sparkles" class="w-3.5 h-3.5 text-cyan-600"></i>
                             <span>View Sample Designs</span>
                             <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 opacity-70"></i>
@@ -4226,12 +4285,92 @@
                     <div class="inner-motion w-full flex items-center justify-center">
                         <div id="cards-container"
                             class="flex w-full items-center justify-center gap-1 sm:gap-1.5 touch-pan-y overflow-x-auto py-1">
+                            <div data-index="0" class="card-motion">
+                                <div class="card-img-wrapper">
+                                    <img decoding="async" loading="lazy" fetchpriority="low" width="400" height="600" src="https://skiper-ui.com/images/x.com/13.jpeg?auto=format&fit=crop&w=600&q=75" alt="Illustrations by my fav AarzooAly" class="card-img" onerror="if(this.src!=='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format,compress&fit=crop&w=600&q=75&fm=webp'){this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format,compress&fit=crop&w=600&q=75&fm=webp';}else{this.classList.add('is-loaded');}" onload="this.classList.add('is-loaded');">
+                                </div>
+                                <div class="presence-gradient absolute inset-0 h-full w-full bg-gradient-to-t from-black/45 via-black/10 to-transparent z-10 pointer-events-none"></div>
+                                <div class="presence-code absolute inset-0 flex h-full w-full flex-col items-end justify-end p-4 z-20 pointer-events-none">
+                                    <p class="text-left text-xs font-medium tracking-wider text-white/65"># 23</p>
+                                </div>
+                            </div>
+                            <div data-index="1" class="card-motion is-active">
+                                <div class="card-img-wrapper">
+                                    <img decoding="async" loading="eager" fetchpriority="high" width="400" height="600" src="https://skiper-ui.com/images/x.com/32.jpeg?auto=format&fit=crop&w=600&q=75" alt="Illustrations by my fav AarzooAly" class="card-img is-loaded" onerror="if(this.src!=='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format,compress&fit=crop&w=600&q=75&fm=webp'){this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format,compress&fit=crop&w=600&q=75&fm=webp';}else{this.classList.add('is-loaded');}" onload="this.classList.add('is-loaded');">
+                                </div>
+                                <div class="presence-gradient absolute inset-0 h-full w-full bg-gradient-to-t from-black/45 via-black/10 to-transparent z-10 pointer-events-none"></div>
+                                <div class="presence-code absolute inset-0 flex h-full w-full flex-col items-end justify-end p-4 z-20 pointer-events-none">
+                                    <p class="text-left text-xs font-medium tracking-wider text-white/65"># 23</p>
+                                </div>
+                            </div>
+                            <div data-index="2" class="card-motion">
+                                <div class="card-img-wrapper">
+                                    <img decoding="async" loading="lazy" fetchpriority="low" width="400" height="600" src="https://skiper-ui.com/images/x.com/20.jpeg?auto=format&fit=crop&w=600&q=75" alt="Illustrations by my fav AarzooAly" class="card-img" onerror="if(this.src!=='https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format,compress&fit=crop&w=600&q=75&fm=webp'){this.src='https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format,compress&fit=crop&w=600&q=75&fm=webp';}else{this.classList.add('is-loaded');}" onload="this.classList.add('is-loaded');">
+                                </div>
+                                <div class="presence-gradient absolute inset-0 h-full w-full bg-gradient-to-t from-black/45 via-black/10 to-transparent z-10 pointer-events-none"></div>
+                                <div class="presence-code absolute inset-0 flex h-full w-full flex-col items-end justify-end p-4 z-20 pointer-events-none">
+                                    <p class="text-left text-xs font-medium tracking-wider text-white/65"># 23</p>
+                                </div>
+                            </div>
+                            <div data-index="3" class="card-motion">
+                                <div class="card-img-wrapper">
+                                    <img decoding="async" loading="lazy" fetchpriority="low" width="400" height="600" src="https://skiper-ui.com/images/x.com/21.jpeg?auto=format&fit=crop&w=600&q=75" alt="Illustrations by my fav AarzooAly" class="card-img" onerror="if(this.src!=='https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format,compress&fit=crop&w=600&q=75&fm=webp'){this.src='https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format,compress&fit=crop&w=600&q=75&fm=webp';}else{this.classList.add('is-loaded');}" onload="this.classList.add('is-loaded');">
+                                </div>
+                                <div class="presence-gradient absolute inset-0 h-full w-full bg-gradient-to-t from-black/45 via-black/10 to-transparent z-10 pointer-events-none"></div>
+                                <div class="presence-code absolute inset-0 flex h-full w-full flex-col items-end justify-end p-4 z-20 pointer-events-none">
+                                    <p class="text-left text-xs font-medium tracking-wider text-white/65"># 23</p>
+                                </div>
+                            </div>
+                            <div data-index="4" class="card-motion">
+                                <div class="card-img-wrapper">
+                                    <img decoding="async" loading="lazy" fetchpriority="low" width="400" height="600" src="https://skiper-ui.com/images/x.com/19.jpeg?auto=format&fit=crop&w=600&q=75" alt="Illustrations by my fav AarzooAly" class="card-img" onerror="if(this.src!=='https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format,compress&fit=crop&w=600&q=75&fm=webp'){this.src='https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format,compress&fit=crop&w=600&q=75&fm=webp';}else{this.classList.add('is-loaded');}" onload="this.classList.add('is-loaded');">
+                                </div>
+                                <div class="presence-gradient absolute inset-0 h-full w-full bg-gradient-to-t from-black/45 via-black/10 to-transparent z-10 pointer-events-none"></div>
+                                <div class="presence-code absolute inset-0 flex h-full w-full flex-col items-end justify-end p-4 z-20 pointer-events-none">
+                                    <p class="text-left text-xs font-medium tracking-wider text-white/65"># 23</p>
+                                </div>
+                            </div>
+                            <div data-index="5" class="card-motion">
+                                <div class="card-img-wrapper">
+                                    <img decoding="async" loading="lazy" fetchpriority="low" width="400" height="600" src="https://skiper-ui.com/images/x.com/1.jpeg?auto=format&fit=crop&w=600&q=75" alt="Illustrations by my fav AarzooAly" class="card-img" onerror="if(this.src!=='https://images.unsplash.com/photo-1488161628813-04466f872be2?auto=format,compress&fit=crop&w=600&q=75&fm=webp'){this.src='https://images.unsplash.com/photo-1488161628813-04466f872be2?auto=format,compress&fit=crop&w=600&q=75&fm=webp';}else{this.classList.add('is-loaded');}" onload="this.classList.add('is-loaded');">
+                                </div>
+                                <div class="presence-gradient absolute inset-0 h-full w-full bg-gradient-to-t from-black/45 via-black/10 to-transparent z-10 pointer-events-none"></div>
+                                <div class="presence-code absolute inset-0 flex h-full w-full flex-col items-end justify-end p-4 z-20 pointer-events-none">
+                                    <p class="text-left text-xs font-medium tracking-wider text-white/65"># 23</p>
+                                </div>
+                            </div>
+                            <div data-index="6" class="card-motion">
+                                <div class="card-img-wrapper">
+                                    <img decoding="async" loading="lazy" fetchpriority="low" width="400" height="600" src="https://skiper-ui.com/images/x.com/2.jpeg?auto=format&fit=crop&w=600&q=75" alt="Illustrations by my fav AarzooAly" class="card-img" onerror="if(this.src!=='https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format,compress&fit=crop&w=600&q=75&fm=webp'){this.src='https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format,compress&fit=crop&w=600&q=75&fm=webp';}else{this.classList.add('is-loaded');}" onload="this.classList.add('is-loaded');">
+                                </div>
+                                <div class="presence-gradient absolute inset-0 h-full w-full bg-gradient-to-t from-black/45 via-black/10 to-transparent z-10 pointer-events-none"></div>
+                                <div class="presence-code absolute inset-0 flex h-full w-full flex-col items-end justify-end p-4 z-20 pointer-events-none">
+                                    <p class="text-left text-xs font-medium tracking-wider text-white/65"># 23</p>
+                                </div>
+                            </div>
+                            <div data-index="7" class="card-motion">
+                                <div class="card-img-wrapper">
+                                    <img decoding="async" loading="lazy" fetchpriority="low" width="400" height="600" src="https://skiper-ui.com/images/x.com/3.jpeg?auto=format&fit=crop&w=600&q=75" alt="Illustrations by my fav AarzooAly" class="card-img" onerror="if(this.src!=='https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format,compress&fit=crop&w=600&q=75&fm=webp'){this.src='https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format,compress&fit=crop&w=600&q=75&fm=webp';}else{this.classList.add('is-loaded');}" onload="this.classList.add('is-loaded');">
+                                </div>
+                                <div class="presence-gradient absolute inset-0 h-full w-full bg-gradient-to-t from-black/45 via-black/10 to-transparent z-10 pointer-events-none"></div>
+                                <div class="presence-code absolute inset-0 flex h-full w-full flex-col items-end justify-end p-4 z-20 pointer-events-none">
+                                    <p class="text-left text-xs font-medium tracking-wider text-white/65"># 23</p>
+                                </div>
+                            </div>
+                            <div data-index="8" class="card-motion">
+                                <div class="card-img-wrapper">
+                                    <img decoding="async" loading="lazy" fetchpriority="low" width="400" height="600" src="https://skiper-ui.com/images/x.com/4.jpeg?auto=format&fit=crop&w=600&q=75" alt="Illustrations by my fav AarzooAly" class="card-img" onerror="if(this.src!=='https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format,compress&fit=crop&w=600&q=75&fm=webp'){this.src='https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format,compress&fit=crop&w=600&q=75&fm=webp';}else{this.classList.add('is-loaded');}" onload="this.classList.add('is-loaded');">
+                                </div>
+                                <div class="presence-gradient absolute inset-0 h-full w-full bg-gradient-to-t from-black/45 via-black/10 to-transparent z-10 pointer-events-none"></div>
+                                <div class="presence-code absolute inset-0 flex h-full w-full flex-col items-end justify-end p-4 z-20 pointer-events-none">
+                                    <p class="text-left text-xs font-medium tracking-wider text-white/65"># 23</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-
 
         <!-- SECTION 2: SERVICES SECTION -->
         <section id="services-preview"
@@ -4327,7 +4466,7 @@
                 <div
                     class="mt-12 sm:mt-16 w-full max-w-6xl mx-auto rounded-3xl bg-[#09090b] text-white p-7 sm:p-10 border-2 border-white/10 shadow-2xl relative overflow-hidden group reveal">
                     <div
-                        class="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-cyan-500/10 blur-3xl pointer-events-none group-hover:bg-cyan-500/20 transition-all duration-700">
+                        class="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-cyan-500/10 blur-3xl pointer-events-none group-hover:bg-cyan-500/20 transition duration-700">
                     </div>
                     <div
                         class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
@@ -4349,7 +4488,7 @@
                         <div class="flex items-center gap-3 shrink-0 flex-wrap sm:flex-nowrap justify-center">
                             <a href="https://farmanshafi2007-hub.github.io/WEBSITE-SHOWROOM/" target="_blank"
                                 rel="noopener noreferrer"
-                                class="shimmer-btn inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-white text-black font-mono text-xs sm:text-sm font-black uppercase tracking-wider hover:bg-neutral-200 transition-all shadow-xl cursor-pointer">
+                                class="shimmer-btn inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-white text-black font-mono text-xs sm:text-sm font-black uppercase tracking-wider hover:bg-neutral-200 transition shadow-xl cursor-pointer">
                                 <span>View Sample Designs</span>
                                 <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
                             </a>
@@ -4405,7 +4544,7 @@
                             <!-- 1. INEXTERIOR -->
                             <a href="https://farmanshafi2007-hub.github.io/INEXTERIOR/" target="_blank"
                                 rel="noopener noreferrer"
-                                class="whitespace-nowrap shrink-0 text-sm sm:text-base font-extrabold tracking-widest text-white uppercase flex items-center gap-2 font-mono px-4 py-2 rounded-xl bg-black border-2 border-black hover:scale-105 transition-all shadow-lg">
+                                class="whitespace-nowrap shrink-0 text-sm sm:text-base font-extrabold tracking-widest text-white uppercase flex items-center gap-2 font-mono px-4 py-2 rounded-xl bg-black border-2 border-black hover:scale-105 transition shadow-lg">
                                 <i data-lucide="home" class="w-4 h-4 text-white"></i> INEXTERIOR
                             </a>
                             <!-- 2. Khan Hen Poultry -->
@@ -4438,7 +4577,7 @@
                             <!-- 1. INEXTERIOR -->
                             <a href="https://farmanshafi2007-hub.github.io/INEXTERIOR/" target="_blank"
                                 rel="noopener noreferrer"
-                                class="whitespace-nowrap shrink-0 text-sm sm:text-base font-extrabold tracking-widest text-white uppercase flex items-center gap-2 font-mono px-4 py-2 rounded-xl bg-black border-2 border-black hover:scale-105 transition-all shadow-lg">
+                                class="whitespace-nowrap shrink-0 text-sm sm:text-base font-extrabold tracking-widest text-white uppercase flex items-center gap-2 font-mono px-4 py-2 rounded-xl bg-black border-2 border-black hover:scale-105 transition shadow-lg">
                                 <i data-lucide="home" class="w-4 h-4 text-white"></i> INEXTERIOR
                             </a>
                             <!-- 2. Khan Hen Poultry -->
@@ -4472,306 +4611,1011 @@
             </div>
         </section>
 
+        <!-- SECTION 4: OUR MANIFESTO (CLAUDE EDITORIAL DESIGN SYSTEM) -->
+        <section id="manifesto"
+            class="manifesto-section py-20 sm:py-28 px-4 sm:px-8 lg:px-16 w-full relative z-20 border-b-2 border-black"
+            style="background-color: var(--claude-bg); color: var(--claude-ink);">
+            <div class="w-full max-w-5xl mx-auto">
+                <!-- Section Header -->
+                <div class="text-center mb-14 sm:mb-20 reveal">
+                    <div class="inline-flex items-center gap-2 text-[10px] sm:text-xs font-mono font-bold tracking-[0.2em] uppercase px-4 py-1.5 rounded-full border mb-6"
+                        style="background: #ffffff; color: var(--claude-accent); border: 2px solid #000000; box-shadow: 2px 2px 0px #000000;">
+                        <i data-lucide="compass" class="w-3.5 h-3.5 shrink-0"></i> OUR MANIFESTO
+                    </div>
+                    <h2 class="text-3xl sm:text-5xl lg:text-6xl font-claude-serif font-normal tracking-tight text-neutral-900 mb-5 leading-tight"
+                        style="text-wrap: balance;">
+                        We don’t just build software. <span class="italic font-serif"
+                            style="color: var(--claude-accent);">We forge the future.</span>
+                    </h2>
+                    <p class="font-claude-serif text-lg sm:text-xl text-neutral-700 italic max-w-2xl mx-auto leading-relaxed"
+                        style="text-wrap: balance;">
+                        We don’t just build software. We forge the future. A declaration of our purpose, principles, and
+                        the standard we hold ourselves to.
+                    </p>
+                </div>
+
+                <!-- Two-Column Mission Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-16 sm:mb-24 reveal">
+                    <!-- Core Mission -->
+                    <div
+                        class="p-8 sm:p-10 rounded-2xl border-2 border-black bg-white shadow-[5px_5px_0px_#000000] transition duration-300 hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[7px_7px_0px_#000000]">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="w-2.5 h-2.5 rounded-full"
+                                style="background-color: var(--claude-accent);"></span>
+                            <span class="text-xs font-mono font-bold uppercase tracking-widest text-neutral-500">Our
+                                Core Mission</span>
+                        </div>
+                        <h3
+                            class="text-2xl sm:text-3xl font-claude-serif font-medium text-neutral-900 mb-4 leading-snug">
+                            To spread technology across the world.
+                        </h3>
+                        <p class="text-sm sm:text-base text-neutral-700 leading-relaxed font-sans"
+                            style="text-wrap: pretty;">
+                            Technology should not belong only to big companies in big cities. We exist to bring it to
+                            every town, every trade, every community, and every dreamer, so that anyone, anywhere, can
+                            use it to grow.
+                        </p>
+                    </div>
+
+                    <!-- Business Mission -->
+                    <div
+                        class="p-8 sm:p-10 rounded-2xl border-2 border-black bg-white shadow-[5px_5px_0px_#000000] transition duration-300 hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[7px_7px_0px_#000000]">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="w-2.5 h-2.5 rounded-full" style="background-color: #1129e2;"></span>
+                            <span class="text-xs font-mono font-bold uppercase tracking-widest text-neutral-500">Our
+                                Business Mission</span>
+                        </div>
+                        <h3
+                            class="text-2xl sm:text-3xl font-claude-serif font-medium text-neutral-900 mb-4 leading-snug">
+                            To help every business evolve with AI and double its revenue.
+                        </h3>
+                        <p class="text-sm sm:text-base text-neutral-700 leading-relaxed font-sans"
+                            style="text-wrap: pretty;">
+                            AI is the biggest shift in business in a generation. We make sure no business gets left
+                            behind. We bring AI into how you find customers, serve them, sell to them, and run your
+                            day-to-day work, so your growth is measurable, not just promised.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- What We Believe (8 Editorial Principles) -->
+                <div class="mb-16 sm:mb-24 reveal">
+                    <div class="text-center mb-10 sm:mb-14">
+                        <div class="text-xs font-mono font-bold uppercase tracking-[0.2em] text-neutral-500 mb-2">Our
+                            Foundation</div>
+                        <h3 class="text-2xl sm:text-4xl font-claude-serif font-medium text-neutral-900">What We Believe
+                        </h3>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                        <!-- 1 -->
+                        <div
+                            class="p-6 sm:p-8 rounded-xl border-2 border-black bg-white shadow-[4px_4px_0px_#000000] flex gap-4 sm:gap-5 items-start transition duration-300 hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000000]">
+                            <span
+                                class="font-claude-serif italic text-2xl sm:text-3xl font-bold shrink-0 leading-none pt-0.5"
+                                style="color: var(--claude-accent);">01</span>
+                            <div>
+                                <h4 class="text-base sm:text-lg font-bold text-neutral-900 mb-2 font-sans">Technology is
+                                    for everyone.</h4>
+                                <p class="text-xs sm:text-sm text-neutral-600 leading-relaxed font-sans"
+                                    style="text-wrap: pretty;">
+                                    A small shop, a local temple, a startup, and a global brand all deserve the same
+                                    access to powerful tools. We make that access simple and affordable.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- 2 -->
+                        <div
+                            class="p-6 sm:p-8 rounded-xl border-2 border-black bg-white shadow-[4px_4px_0px_#000000] flex gap-4 sm:gap-5 items-start transition duration-300 hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000000]">
+                            <span
+                                class="font-claude-serif italic text-2xl sm:text-3xl font-bold shrink-0 leading-none pt-0.5"
+                                style="color: var(--claude-accent);">02</span>
+                            <div>
+                                <h4 class="text-base sm:text-lg font-bold text-neutral-900 mb-2 font-sans">Every
+                                    business can evolve with AI.</h4>
+                                <p class="text-xs sm:text-sm text-neutral-600 leading-relaxed font-sans"
+                                    style="text-wrap: pretty;">
+                                    You don’t need a big team or a big budget. We bring AI into your business step by
+                                    step, from smart websites and chatbots to automation, so it works for you from day
+                                    one.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- 3 -->
+                        <div
+                            class="p-6 sm:p-8 rounded-xl border-2 border-black bg-white shadow-[4px_4px_0px_#000000] flex gap-4 sm:gap-5 items-start transition duration-300 hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000000]">
+                            <span
+                                class="font-claude-serif italic text-2xl sm:text-3xl font-bold shrink-0 leading-none pt-0.5"
+                                style="color: var(--claude-accent);">03</span>
+                            <div>
+                                <h4 class="text-base sm:text-lg font-bold text-neutral-900 mb-2 font-sans">We measure
+                                    success in your revenue.</h4>
+                                <p class="text-xs sm:text-sm text-neutral-600 leading-relaxed font-sans"
+                                    style="text-wrap: pretty;">
+                                    Our goal is to help you earn more, not just to deliver a website. We build with one
+                                    question in mind: how does this help you grow?
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- 4 -->
+                        <div
+                            class="p-6 sm:p-8 rounded-xl border-2 border-black bg-white shadow-[4px_4px_0px_#000000] flex gap-4 sm:gap-5 items-start transition duration-300 hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000000]">
+                            <span
+                                class="font-claude-serif italic text-2xl sm:text-3xl font-bold shrink-0 leading-none pt-0.5"
+                                style="color: var(--claude-accent);">04</span>
+                            <div>
+                                <h4 class="text-base sm:text-lg font-bold text-neutral-900 mb-2 font-sans">We build to
+                                    last.</h4>
+                                <p class="text-xs sm:text-sm text-neutral-600 leading-relaxed font-sans"
+                                    style="text-wrap: pretty;">
+                                    Fast, secure, and reliable, long after launch day.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- 5 -->
+                        <div
+                            class="p-6 sm:p-8 rounded-xl border-2 border-black bg-white shadow-[4px_4px_0px_#000000] flex gap-4 sm:gap-5 items-start transition duration-300 hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000000]">
+                            <span
+                                class="font-claude-serif italic text-2xl sm:text-3xl font-bold shrink-0 leading-none pt-0.5"
+                                style="color: var(--claude-accent);">05</span>
+                            <div>
+                                <h4 class="text-base sm:text-lg font-bold text-neutral-900 mb-2 font-sans">Clarity over
+                                    complexity.</h4>
+                                <p class="text-xs sm:text-sm text-neutral-600 leading-relaxed font-sans"
+                                    style="text-wrap: pretty;">
+                                    Plain language, honest timelines, and transparent pricing. You always know what we
+                                    are doing and why.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- 6 -->
+                        <div
+                            class="p-6 sm:p-8 rounded-xl border-2 border-black bg-white shadow-[4px_4px_0px_#000000] flex gap-4 sm:gap-5 items-start transition duration-300 hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000000]">
+                            <span
+                                class="font-claude-serif italic text-2xl sm:text-3xl font-bold shrink-0 leading-none pt-0.5"
+                                style="color: var(--claude-accent);">06</span>
+                            <div>
+                                <h4 class="text-base sm:text-lg font-bold text-neutral-900 mb-2 font-sans">Quality is
+                                    not optional.</h4>
+                                <p class="text-xs sm:text-sm text-neutral-600 leading-relaxed font-sans"
+                                    style="text-wrap: pretty;">
+                                    We test, refine, and polish. If it isn’t good enough for our own name, it doesn’t
+                                    ship.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- 7 -->
+                        <div
+                            class="p-6 sm:p-8 rounded-xl border-2 border-black bg-white shadow-[4px_4px_0px_#000000] flex gap-4 sm:gap-5 items-start transition duration-300 hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000000]">
+                            <span
+                                class="font-claude-serif italic text-2xl sm:text-3xl font-bold shrink-0 leading-none pt-0.5"
+                                style="color: var(--claude-accent);">07</span>
+                            <div>
+                                <h4 class="text-base sm:text-lg font-bold text-neutral-900 mb-2 font-sans">We keep our
+                                    promises.</h4>
+                                <p class="text-xs sm:text-sm text-neutral-600 leading-relaxed font-sans"
+                                    style="text-wrap: pretty;">
+                                    On time, in touch, and honest, especially when plans change.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- 8 -->
+                        <div
+                            class="p-6 sm:p-8 rounded-xl border-2 border-black bg-white shadow-[4px_4px_0px_#000000] flex gap-4 sm:gap-5 items-start transition duration-300 hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000000]">
+                            <span
+                                class="font-claude-serif italic text-2xl sm:text-3xl font-bold shrink-0 leading-none pt-0.5"
+                                style="color: var(--claude-accent);">08</span>
+                            <div>
+                                <h4 class="text-base sm:text-lg font-bold text-neutral-900 mb-2 font-sans">We grow
+                                    together.</h4>
+                                <p class="text-xs sm:text-sm text-neutral-600 leading-relaxed font-sans"
+                                    style="text-wrap: pretty;">
+                                    We stay with you after launch to support, improve, and scale what we built. Your
+                                    success is our success.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vision & Promise Banner -->
+                <div
+                    class="p-8 sm:p-12 rounded-2xl border-2 border-black bg-white shadow-[6px_6px_0px_#000000] reveal mb-10 text-center">
+                    <div class="max-w-3xl mx-auto space-y-6">
+                        <div>
+                            <span
+                                class="text-xs font-mono font-bold uppercase tracking-[0.2em] text-neutral-500 block mb-2">Our
+                                Vision</span>
+                            <p class="font-claude-serif text-lg sm:text-2xl text-neutral-900 leading-relaxed font-medium"
+                                style="text-wrap: balance;">
+                                A world where every business, whatever its size or location, is powered by technology
+                                and AI, and where growth is available to everyone, not just the few.
+                            </p>
+                        </div>
+                        <div class="w-16 h-px bg-neutral-300 mx-auto my-6"></div>
+                        <div>
+                            <span
+                                class="text-xs font-mono font-bold uppercase tracking-[0.2em] text-neutral-500 block mb-2">Our
+                                Promise</span>
+                            <p class="font-claude-serif text-lg sm:text-xl text-neutral-800 italic leading-relaxed"
+                                style="text-wrap: balance;">
+                                We will keep forging, keep learning, and keep building until technology reaches
+                                everyone.
+                            </p>
+                        </div>
+                        <div class="pt-6 border-t border-neutral-200">
+                            <p class="text-base sm:text-lg font-bold font-sans tracking-wide text-neutral-900 mb-1">
+                                Forge your idea. Build your future. Evolve with AI.
+                            </p>
+                            <p class="font-claude-serif italic text-sm sm:text-base text-neutral-600 font-medium">
+                                — The ForgeSoftwares Team
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4.5: WEBSITE PROJECT ROADMAP (7 TO 9 DAYS PROCESS) -->
+        <section id="roadmap"
+            class="roadmap-section py-20 sm:py-28 px-4 sm:px-8 lg:px-16 w-full relative z-20 border-b-2 border-black bg-white bg-grid-light">
+            <div class="w-full max-w-6xl mx-auto">
+                <!-- Section Header -->
+                <div class="text-center mb-14 sm:mb-20 reveal">
+                    <div
+                        class="inline-flex items-center gap-2 text-[10px] sm:text-xs font-mono font-bold tracking-[0.2em] uppercase px-4 py-1.5 rounded-full border-2 border-black bg-yellow-100 shadow-[2px_2px_0px_#000000] mb-4">
+                        <i data-lucide="git-commit" class="w-3.5 h-3.5 shrink-0"></i> PROJECT WORKFLOW
+                    </div>
+                    <h2 class="text-3xl sm:text-5xl lg:text-6xl font-bubbledot uppercase text-black font-extrabold tracking-tight mb-4"
+                        style="text-wrap: balance;">
+                        Website Project Roadmap
+                    </h2>
+                    <p class="text-xs sm:text-sm font-mono tracking-widest uppercase font-bold text-neutral-700 max-w-xl mx-auto"
+                        style="text-wrap: balance;">
+                        From first enquiry to a live project. The build takes 7 to 9 days.
+                    </p>
+                </div>
+
+                <!-- 7-Step Interactive Flow Container -->
+                <div class="reveal mb-16 sm:mb-20">
+                    <!-- Row 1: Steps 1 to 4 -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative">
+                        <!-- Step 1 -->
+                        <div
+                            class="flex flex-col justify-between p-6 sm:p-7 rounded-2xl border-2 border-black bg-[#dbeafe] shadow-[4px_4px_0px_#000000] transition hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000000]">
+                            <div>
+                                <span
+                                    class="text-[10px] sm:text-[11px] font-mono font-black uppercase tracking-widest text-blue-900 block mb-2">
+                                    STEP 1 · WITH CLIENT
+                                </span>
+                                <h3 class="text-xl sm:text-2xl font-bold text-black mb-3 font-sans">
+                                    Client enquiry
+                                </h3>
+                                <p class="text-xs sm:text-sm text-neutral-800 leading-relaxed font-sans mb-4"
+                                    style="text-wrap: pretty;">
+                                    Client contacts you by call, message or form. Note where the lead came from.
+                                </p>
+                            </div>
+                            <div class="pt-3 border-t border-black/20">
+                                <span
+                                    class="inline-flex items-center gap-1.5 text-[11px] font-mono font-bold text-blue-950 bg-white/70 px-2.5 py-1 rounded-md border border-black/30">
+                                    <i data-lucide="check" class="w-3 h-3 text-blue-700"></i> Output: lead recorded
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div
+                            class="flex flex-col justify-between p-6 sm:p-7 rounded-2xl border-2 border-black bg-[#dcfce7] shadow-[4px_4px_0px_#000000] transition hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000000]">
+                            <div>
+                                <span
+                                    class="text-[10px] sm:text-[11px] font-mono font-black uppercase tracking-widest text-green-900 block mb-2">
+                                    STEP 2 · WITH CLIENT
+                                </span>
+                                <h3 class="text-xl sm:text-2xl font-bold text-black mb-3 font-sans">
+                                    Requirements
+                                </h3>
+                                <p class="text-xs sm:text-sm text-neutral-800 leading-relaxed font-sans mb-4"
+                                    style="text-wrap: pretty;">
+                                    We ask their requirements and tell them the services we offer. We offer more than
+                                    just websites.
+                                </p>
+                            </div>
+                            <div class="pt-3 border-t border-black/20">
+                                <span
+                                    class="inline-flex items-center gap-1.5 text-[11px] font-mono font-bold text-green-950 bg-white/70 px-2.5 py-1 rounded-md border border-black/30">
+                                    <i data-lucide="check" class="w-3 h-3 text-green-700"></i> Output: requirements list
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div
+                            class="flex flex-col justify-between p-6 sm:p-7 rounded-2xl border-2 border-black bg-[#ffedd5] shadow-[4px_4px_0px_#000000] transition hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000000]">
+                            <div>
+                                <span
+                                    class="text-[10px] sm:text-[11px] font-mono font-black uppercase tracking-widest text-orange-900 block mb-2">
+                                    STEP 3 · WITH CLIENT
+                                </span>
+                                <h3 class="text-xl sm:text-2xl font-bold text-black mb-3 font-sans">
+                                    Collect details
+                                </h3>
+                                <p class="text-xs sm:text-sm text-neutral-800 leading-relaxed font-sans mb-4"
+                                    style="text-wrap: pretty;">
+                                    We collect their name, company and contact details, then work on their project with
+                                    them.
+                                </p>
+                            </div>
+                            <div class="pt-3 border-t border-black/20">
+                                <span
+                                    class="inline-flex items-center gap-1.5 text-[11px] font-mono font-bold text-orange-950 bg-white/70 px-2.5 py-1 rounded-md border border-black/30">
+                                    <i data-lucide="check" class="w-3 h-3 text-orange-700"></i> Output: project details
+                                    ready
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Step 4 -->
+                        <div
+                            class="flex flex-col justify-between p-6 sm:p-7 rounded-2xl border-2 border-black bg-[#fef9c3] shadow-[4px_4px_0px_#000000] transition hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000000]">
+                            <div>
+                                <span
+                                    class="text-[10px] sm:text-[11px] font-mono font-black uppercase tracking-widest text-yellow-900 block mb-2">
+                                    STEP 4 · OUR TEAM
+                                </span>
+                                <h3 class="text-xl sm:text-2xl font-bold text-black mb-3 font-sans">
+                                    Build project
+                                </h3>
+                                <p class="text-xs sm:text-sm text-neutral-800 leading-relaxed font-sans mb-4"
+                                    style="text-wrap: pretty;">
+                                    We design and build their project using their details and services. Preview shared
+                                    midway.
+                                </p>
+                            </div>
+                            <div class="pt-3 border-t border-black/20 flex items-center justify-between">
+                                <span class="text-xl sm:text-2xl font-black font-mono text-black">
+                                    7 to 9 days
+                                </span>
+                                <span
+                                    class="text-[10px] font-mono uppercase bg-black text-white px-2 py-0.5 rounded font-bold">
+                                    Sprint
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Flow transition divider -->
+                    <div class="hidden lg:flex items-center justify-end my-8 pr-12">
+                        <div
+                            class="flex items-center gap-3 bg-neutral-100 border-2 border-black px-4 py-1.5 rounded-full shadow-[2px_2px_0px_#000000]">
+                            <span class="text-xs font-mono font-bold text-black uppercase tracking-wider">Build
+                                finished</span>
+                            <i data-lucide="corner-down-left" class="w-4 h-4 text-black"></i>
+                        </div>
+                    </div>
+
+                    <!-- Row 2: Steps 5 to 7 -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6 lg:mt-0">
+                        <!-- Step 5 -->
+                        <div
+                            class="flex flex-col justify-between p-6 sm:p-7 rounded-2xl border-2 border-black bg-[#fce7f3] shadow-[4px_4px_0px_#000000] transition hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000000]">
+                            <div>
+                                <span
+                                    class="text-[10px] sm:text-[11px] font-mono font-black uppercase tracking-widest text-pink-900 block mb-2">
+                                    STEP 5 · OUR TEAM
+                                </span>
+                                <h3 class="text-xl sm:text-2xl font-bold text-black mb-3 font-sans">
+                                    Testing
+                                </h3>
+                                <p class="text-xs sm:text-sm text-neutral-800 leading-relaxed font-sans mb-4"
+                                    style="text-wrap: pretty;">
+                                    We test your project, website or whatever we build, on phone and desktop before you
+                                    see it.
+                                </p>
+                            </div>
+                            <div class="pt-3 border-t border-black/20">
+                                <span
+                                    class="inline-flex items-center gap-1.5 text-[11px] font-mono font-bold text-pink-950 bg-white/70 px-2.5 py-1 rounded-md border border-black/30">
+                                    <i data-lucide="check" class="w-3 h-3 text-pink-700"></i> Output: issues fixed
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Step 6 -->
+                        <div
+                            class="flex flex-col justify-between p-6 sm:p-7 rounded-2xl border-2 border-black bg-[#ede9fe] shadow-[4px_4px_0px_#000000] transition hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000000]">
+                            <div>
+                                <span
+                                    class="text-[10px] sm:text-[11px] font-mono font-black uppercase tracking-widest text-purple-900 block mb-2">
+                                    STEP 6 · WITH CLIENT
+                                </span>
+                                <h3 class="text-xl sm:text-2xl font-bold text-black mb-3 font-sans">
+                                    Show client
+                                </h3>
+                                <p class="text-xs sm:text-sm text-neutral-800 leading-relaxed font-sans mb-4"
+                                    style="text-wrap: pretty;">
+                                    We show you the final version and make the agreed changes until you approve it.
+                                </p>
+                            </div>
+                            <div class="pt-3 border-t border-black/20">
+                                <span
+                                    class="inline-flex items-center gap-1.5 text-[11px] font-mono font-bold text-purple-950 bg-white/70 px-2.5 py-1 rounded-md border border-black/30">
+                                    <i data-lucide="check" class="w-3 h-3 text-purple-700"></i> Output: client approval
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Step 7 -->
+                        <div
+                            class="flex flex-col justify-between p-6 sm:p-7 rounded-2xl border-2 border-black bg-[#ccfbf1] shadow-[4px_4px_0px_#000000] transition hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000000]">
+                            <div>
+                                <span
+                                    class="text-[10px] sm:text-[11px] font-mono font-black uppercase tracking-widest text-teal-900 block mb-2">
+                                    STEP 7 · BOTH
+                                </span>
+                                <h3 class="text-xl sm:text-2xl font-bold text-black mb-3 font-sans">
+                                    Go live
+                                </h3>
+                                <p class="text-xs sm:text-sm text-neutral-800 leading-relaxed font-sans mb-4"
+                                    style="text-wrap: pretty;">
+                                    After you approve, we make the project live and hand it over to you.
+                                </p>
+                            </div>
+                            <div class="pt-3 border-t border-black/20">
+                                <span
+                                    class="inline-flex items-center gap-1.5 text-[11px] font-mono font-bold text-teal-950 bg-white/70 px-2.5 py-1 rounded-md border border-black/30">
+                                    <i data-lucide="check" class="w-3 h-3 text-teal-700"></i> Output: project is live
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Checklists Section -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 reveal">
+                    <!-- Checklist 1: Step 3 Details to Collect -->
+                    <div class="p-7 sm:p-8 rounded-2xl border-2 border-black bg-[#f5f5f4] shadow-[5px_5px_0px_#000000]">
+                        <span
+                            class="text-[10px] sm:text-[11px] font-mono font-black uppercase tracking-widest text-neutral-600 block mb-2">
+                            CHECKLIST · STEP 3
+                        </span>
+                        <h4 class="text-xl sm:text-2xl font-bold text-black mb-5 font-sans">
+                            Details to collect from every client
+                        </h4>
+                        <div
+                            class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm text-neutral-800 font-medium">
+                            <div class="flex items-center gap-2.5">
+                                <span
+                                    class="w-4 h-4 rounded border-2 border-black bg-white flex items-center justify-center shrink-0">
+                                    <i data-lucide="check" class="w-3 h-3 text-black"></i>
+                                </span>
+                                <span>Name</span>
+                            </div>
+                            <div class="flex items-center gap-2.5">
+                                <span
+                                    class="w-4 h-4 rounded border-2 border-black bg-white flex items-center justify-center shrink-0">
+                                    <i data-lucide="check" class="w-3 h-3 text-black"></i>
+                                </span>
+                                <span>Logo and brand colours</span>
+                            </div>
+                            <div class="flex items-center gap-2.5">
+                                <span
+                                    class="w-4 h-4 rounded border-2 border-black bg-white flex items-center justify-center shrink-0">
+                                    <i data-lucide="check" class="w-3 h-3 text-black"></i>
+                                </span>
+                                <span>Company name</span>
+                            </div>
+                            <div class="flex items-center gap-2.5">
+                                <span
+                                    class="w-4 h-4 rounded border-2 border-black bg-white flex items-center justify-center shrink-0">
+                                    <i data-lucide="check" class="w-3 h-3 text-black"></i>
+                                </span>
+                                <span>List of services</span>
+                            </div>
+                            <div class="flex items-center gap-2.5">
+                                <span
+                                    class="w-4 h-4 rounded border-2 border-black bg-white flex items-center justify-center shrink-0">
+                                    <i data-lucide="check" class="w-3 h-3 text-black"></i>
+                                </span>
+                                <span>Phone and email</span>
+                            </div>
+                            <div class="flex items-center gap-2.5">
+                                <span
+                                    class="w-4 h-4 rounded border-2 border-black bg-white flex items-center justify-center shrink-0">
+                                    <i data-lucide="check" class="w-3 h-3 text-black"></i>
+                                </span>
+                                <span>Photos and text</span>
+                            </div>
+                            <div class="flex items-center gap-2.5">
+                                <span
+                                    class="w-4 h-4 rounded border-2 border-black bg-white flex items-center justify-center shrink-0">
+                                    <i data-lucide="check" class="w-3 h-3 text-black"></i>
+                                </span>
+                                <span>Address or location</span>
+                            </div>
+                            <div class="flex items-center gap-2.5">
+                                <span
+                                    class="w-4 h-4 rounded border-2 border-black bg-white flex items-center justify-center shrink-0">
+                                    <i data-lucide="check" class="w-3 h-3 text-black"></i>
+                                </span>
+                                <span>Domain and hosting details</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Checklist 2: Steps 5 to 7 Before Going Live -->
+                    <div class="p-7 sm:p-8 rounded-2xl border-2 border-black bg-[#ffe4e6] shadow-[5px_5px_0px_#000000]">
+                        <span
+                            class="text-[10px] sm:text-[11px] font-mono font-black uppercase tracking-widest text-rose-900 block mb-2">
+                            CHECKLIST · STEPS 5 TO 7
+                        </span>
+                        <h4 class="text-xl sm:text-2xl font-bold text-black mb-5 font-sans">
+                            Before going live
+                        </h4>
+                        <div
+                            class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm text-neutral-800 font-medium">
+                            <div class="flex items-center gap-2.5">
+                                <span
+                                    class="w-4 h-4 rounded border-2 border-black bg-white flex items-center justify-center shrink-0">
+                                    <i data-lucide="check" class="w-3 h-3 text-black"></i>
+                                </span>
+                                <span>Works on phone and desktop</span>
+                            </div>
+                            <div class="flex items-center gap-2.5">
+                                <span
+                                    class="w-4 h-4 rounded border-2 border-black bg-white flex items-center justify-center shrink-0">
+                                    <i data-lucide="check" class="w-3 h-3 text-black"></i>
+                                </span>
+                                <span>Spelling and numbers checked</span>
+                            </div>
+                            <div class="flex items-center gap-2.5">
+                                <span
+                                    class="w-4 h-4 rounded border-2 border-black bg-white flex items-center justify-center shrink-0">
+                                    <i data-lucide="check" class="w-3 h-3 text-black"></i>
+                                </span>
+                                <span>All links and buttons work</span>
+                            </div>
+                            <div class="flex items-center gap-2.5">
+                                <span
+                                    class="w-4 h-4 rounded border-2 border-black bg-white flex items-center justify-center shrink-0">
+                                    <i data-lucide="check" class="w-3 h-3 text-black"></i>
+                                </span>
+                                <span>Client has approved the site</span>
+                            </div>
+                            <div class="flex items-center gap-2.5">
+                                <span
+                                    class="w-4 h-4 rounded border-2 border-black bg-white flex items-center justify-center shrink-0">
+                                    <i data-lucide="check" class="w-3 h-3 text-black"></i>
+                                </span>
+                                <span>Contact form reaches the client</span>
+                            </div>
+                            <div class="flex items-center gap-2.5">
+                                <span
+                                    class="w-4 h-4 rounded border-2 border-black bg-white flex items-center justify-center shrink-0">
+                                    <i data-lucide="check" class="w-3 h-3 text-black"></i>
+                                </span>
+                                <span>Domain connected</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- SECTION 5: PRICING ARCHITECTURE & MATRIX -->
         <section id="pricing"
-            class="py-14 sm:py-20 px-4 sm:px-8 lg:px-12 bg-white text-black w-full border-b-2 border-black bg-grid-light overflow-visible">
-            class="py-20 sm:py-24 px-4 sm:px-8 lg:px-12 bg-white text-black w-full border-b-2 border-black bg-grid-light
-            overflow-visible">
+            class="py-16 sm:py-24 px-4 sm:px-8 lg:px-12 bg-white text-black w-full border-b-2 border-black relative z-20">
             <div class="w-full max-w-7xl mx-auto">
-                <div class="text-center mb-16 sm:mb-20 reveal px-2">
+                <div class="text-center mb-10 sm:mb-14 reveal px-2">
                     <div
                         class="inline-flex items-center gap-2 text-[10px] sm:text-xs font-bold text-white tracking-widest uppercase bg-black px-4 sm:px-5 py-2 rounded-full font-mono border-2 border-black mb-4 shadow-xl">
-                        <i data-lucide="zap" class="w-3.5 h-3.5 text-white shrink-0"></i> Scalable Engineering Plans
+                        <i data-lucide="zap" class="w-3.5 h-3.5 text-white shrink-0"></i> Scalable Economics
                     </div>
-                    <h2 class="text-2xl sm:text-5xl lg:text-7xl font-bubbledot uppercase text-black font-extrabold">
-                        Pricing Architecture</h2>
-                    <p
-                        class="text-black text-xs sm:text-sm font-mono tracking-widest uppercase mt-3 max-w-xl mx-auto font-bold px-2">
+                    <h2 class="text-2xl sm:text-5xl lg:text-7xl font-bubbledot uppercase text-black font-extrabold tracking-tight mb-4"
+                        style="text-wrap: balance;">
+                        Pricing Architecture
+                    </h2>
+                    <p class="text-neutral-700 text-xs sm:text-sm font-mono tracking-widest uppercase max-w-xl mx-auto font-bold"
+                        style="text-wrap: balance;">
                         Transparent Tiers • Complete Ownership • Zero Hidden Fees
                     </p>
-                </div>
 
-                <!-- Apple-Style Ultra-Minimal High-Craft Pricing Box (CRadioGroup17) -->
-                <div class="w-full flex flex-col items-center justify-center mb-14 sm:mb-16 reveal px-2">
-                    <div id="c-radio-group-17"
-                        style="font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif;"
-                        class="w-full max-w-[400px] mx-auto bg-white border-[2.75px] border-black rounded-[32px] p-6 sm:p-7 shadow-[0_20px_50px_rgba(0,0,0,0.07),0_1px_3px_rgba(0,0,0,0.05)] transition-all duration-300">
-
-                        <!-- Top Bar: Location & Currency Header -->
-                        <div class="flex items-center justify-between pb-5 mb-5 border-b-[2px] border-black/15">
-                            <div class="flex flex-col text-left">
-                                <span
-                                    class="text-[10px] sm:text-[11px] font-extrabold tracking-[0.12em] text-neutral-500 uppercase select-none">
-                                    Location &amp; Currency
-                                </span>
-                                <span id="pricingActiveRegionName"
-                                    class="text-xs sm:text-[13px] font-extrabold text-neutral-900 tracking-tight mt-0.5">
-                                    India (₹ INR)
-                                </span>
-                            </div>
-
-                            <!-- Sleek Inline Region Selector -->
-                            <div class="relative flex items-center">
-                                <select id="pricingCardRegionSelect" onchange="switchRegion(this.value)"
-                                    class="bg-neutral-100 hover:bg-neutral-200 border-[1.5px] border-black/30 text-black text-xs font-bold py-1.5 pl-3 pr-7 rounded-xl transition-all cursor-pointer focus:outline-none appearance-none font-sans"
-                                    aria-label="Change Pricing Location and Currency">
-                                    <option value="IN" selected>🇮🇳 India (INR)</option>
-                                    <option value="US">🇺🇸 USA (USD)</option>
-                                </select>
-                                <div
-                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-black/60">
-                                    <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20">
-                                        <path
-                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Plan Selection Boxes -->
-                        <div class="space-y-3.5" role="radiogroup" aria-label="Select website plan">
-
-                            <!-- Starter Plan -->
-                            <div id="planBox-starter" onclick="selectPricingPlan('starter')"
-                                class="cursor-pointer flex items-center gap-4 p-4 sm:p-[17px] rounded-2xl transition-all duration-250 ease-out active:scale-[0.985] border-2 border-black/55 hover:border-black hover:bg-black/[0.015]">
-                                <div
-                                    class="relative flex items-center justify-center aspect-square h-[18px] w-[18px] rounded-full border-[2.2px] border-black/80 transition-all duration-300 ease-out bg-white shrink-0">
-                                    <div id="radioDot-starter"
-                                        class="h-[9px] w-[9px] rounded-full bg-black transition-all duration-200 transform scale-0">
-                                    </div>
-                                </div>
-                                <div class="flex-1 space-y-0 leading-tight select-none">
-                                    <div
-                                        class="text-base font-medium text-black tracking-tight w-full flex items-center justify-between">
-                                        <span
-                                            class="text-[15.5px] font-semibold tracking-[-0.015em] text-black">Starter</span>
-                                        <div class="flex items-center gap-1">
-                                            <span id="priceVal-starter"
-                                                class="tabular-nums tracking-tight text-[16px] font-bold text-black transition-colors duration-200">₹7,999</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Pro Plan (Selected by default) with Most Popular badge -->
-                            <div id="planBox-pro" onclick="selectPricingPlan('pro')"
-                                class="cursor-pointer flex items-center gap-4 p-4 sm:p-[17px] rounded-2xl transition-all duration-250 ease-out active:scale-[0.985] border-[2.5px] border-black bg-black/[0.035] shadow-[0_4px_16px_rgba(0,0,0,0.06)]">
-                                <div
-                                    class="relative flex items-center justify-center aspect-square h-[18px] w-[18px] rounded-full border-[2.2px] border-black transition-all duration-300 ease-out bg-white shrink-0">
-                                    <div id="radioDot-pro"
-                                        class="h-[9px] w-[9px] rounded-full bg-black transition-all duration-200 transform scale-100">
-                                    </div>
-                                </div>
-                                <div class="flex-1 space-y-0 leading-tight select-none">
-                                    <div
-                                        class="text-base font-medium text-black tracking-tight w-full flex items-center justify-between">
-                                        <div class="flex items-center gap-2">
-                                            <span
-                                                class="text-[15.5px] font-semibold tracking-[-0.015em] text-black">Pro</span>
-                                            <span
-                                                class="text-[9.5px] font-bold uppercase tracking-wider bg-black text-white px-2 py-0.5 rounded-full select-none">Most
-                                                Popular</span>
-                                        </div>
-                                        <div class="flex items-center gap-1">
-                                            <span id="priceVal-pro"
-                                                class="tabular-nums tracking-tight text-[16px] font-bold text-black transition-colors duration-200">₹24,999</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Premium Plan -->
-                            <div id="planBox-premium" onclick="selectPricingPlan('premium')"
-                                class="cursor-pointer flex items-center gap-4 p-4 sm:p-[17px] rounded-2xl transition-all duration-250 ease-out active:scale-[0.985] border-2 border-black/55 hover:border-black hover:bg-black/[0.015]">
-                                <div
-                                    class="relative flex items-center justify-center aspect-square h-[18px] w-[18px] rounded-full border-[2.2px] border-black/80 transition-all duration-300 ease-out bg-white shrink-0">
-                                    <div id="radioDot-premium"
-                                        class="h-[9px] w-[9px] rounded-full bg-black transition-all duration-200 transform scale-0">
-                                    </div>
-                                </div>
-                                <div class="flex-1 space-y-0 leading-tight select-none">
-                                    <div
-                                        class="text-base font-medium text-black tracking-tight w-full flex items-center justify-between">
-                                        <span
-                                            class="text-[15.5px] font-semibold tracking-[-0.015em] text-black">Premium</span>
-                                        <div class="flex items-center gap-1">
-                                            <span id="priceVal-premium"
-                                                class="tabular-nums tracking-tight text-[16px] font-bold text-black transition-colors duration-200">₹49,999</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Enterprise Plan -->
-                            <div id="planBox-enterprise" onclick="selectPricingPlan('enterprise')"
-                                class="group cursor-pointer flex items-center gap-4 p-4 sm:p-[17px] rounded-2xl transition-all duration-250 ease-out active:scale-[0.985] border-2 border-black/55 hover:border-black hover:bg-black/[0.015]">
-                                <div
-                                    class="relative flex items-center justify-center aspect-square h-[18px] w-[18px] rounded-full border-[2.2px] border-black/80 transition-all duration-300 ease-out bg-white shrink-0">
-                                    <div id="radioDot-enterprise"
-                                        class="h-[9px] w-[9px] rounded-full bg-black transition-all duration-200 transform scale-0">
-                                    </div>
-                                </div>
-                                <div class="flex-1 space-y-0 leading-tight select-none">
-                                    <div
-                                        class="text-base font-medium text-black tracking-tight w-full flex items-center justify-between">
-                                        <span
-                                            class="text-[15.5px] font-semibold tracking-[-0.015em] text-black">Enterprise</span>
-                                        <div class="flex items-center gap-1">
-                                            <span
-                                                class="tabular-nums tracking-tight text-[13px] font-semibold text-neutral-800 transition-colors duration-200">Talk
-                                                to Sales</span>
-                                            <i data-lucide="arrow-up-right"
-                                                class="w-3.5 h-3.5 text-neutral-700 stroke-[2.2] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <!-- CTA Trigger Button below selector -->
-                        <div class="mt-5 pt-4 border-t border-black/10">
-                            <button type="button" id="pricingActionBtn" onclick="handlePricingPlanAction()"
-                                class="w-full py-3.5 px-5 rounded-2xl bg-black text-white text-xs sm:text-sm font-semibold tracking-tight hover:bg-neutral-800 active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md">
-                                <span id="pricingActionBtnText">Continue with Pro Plan</span>
-                                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    <!-- Currency Switcher Toggle Bar -->
+                    <div class="mt-8 flex items-center justify-center">
+                        <div
+                            class="inline-flex items-center gap-2 p-1.5 rounded-2xl border-2 border-black bg-neutral-100 shadow-[3px_3px_0px_#000000]">
+                            <button type="button" id="pricingRegionBtn-IN" onclick="switchRegion('IN')"
+                                class="px-5 py-2 rounded-xl text-xs font-mono font-black uppercase border-2 border-black bg-black text-white shadow-[2px_2px_0px_#000000] transition cursor-pointer">
+                                🇮🇳 India (₹ INR)
+                            </button>
+                            <button type="button" id="pricingRegionBtn-US" onclick="switchRegion('US')"
+                                class="px-5 py-2 rounded-xl text-xs font-mono font-bold uppercase border-2 border-black bg-white text-black hover:bg-neutral-200 transition cursor-pointer">
+                                🇺🇸 USA ($ USD)
                             </button>
                         </div>
-
                     </div>
                 </div>
 
+                <!-- 3 Modern Pricing Cards (Zero Single Radio Box) -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto mb-16">
+                    <!-- 1. Starter Plan Card -->
+                    <div
+                        class="flex flex-col justify-between p-7 sm:p-8 rounded-2xl border-2 border-black bg-white shadow-[6px_6px_0px_#000000] transition hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[8px_8px_0px_#000000]">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <span
+                                    class="text-xs font-mono font-bold uppercase tracking-wider bg-neutral-100 text-neutral-800 px-3 py-1 rounded-full border border-black/20">
+                                    Core Presence
+                                </span>
+                                <span class="text-xs font-mono font-bold text-neutral-600">7-9 Days</span>
+                            </div>
+                            <h3 class="text-2xl font-black text-black font-sans mb-1">Starter</h3>
+                            <p class="text-xs font-mono font-bold text-neutral-500 mb-4">Get online fast</p>
+                            <div class="flex items-baseline gap-1 mb-6 pb-6 border-b-2 border-black/10">
+                                <span id="gridPrice-starter"
+                                    class="text-4xl sm:text-5xl font-black font-mono tracking-tight text-black">₹7,999</span>
+                                <span class="text-xs font-mono uppercase font-bold text-neutral-500 ml-1">/
+                                    one-time</span>
+                            </div>
+                            <ul class="space-y-3 text-xs sm:text-sm text-neutral-800 font-medium mb-8">
+                                <li class="flex items-start gap-2.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-black shrink-0 mt-0.5"></i>
+                                    <span><strong>Design approach:</strong> Showroom design with your logo and
+                                        text</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-black shrink-0 mt-0.5"></i>
+                                    <span><strong>Pages:</strong> 1 to 3 Pages</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-black shrink-0 mt-0.5"></i>
+                                    <span><strong>Mobile friendly:</strong> 100% responsive for all devices</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-black shrink-0 mt-0.5"></i>
+                                    <span><strong>Animations:</strong> Simple animations</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-black shrink-0 mt-0.5"></i>
+                                    <span><strong>Lead capture:</strong> WhatsApp button & simple contact form</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-black shrink-0 mt-0.5"></i>
+                                    <span><strong>Social & SEO:</strong> Social links & Basic SEO setup</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-black shrink-0 mt-0.5"></i>
+                                    <span><strong>Hosting & SSL:</strong> Free hosting & SSL included</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-black shrink-0 mt-0.5"></i>
+                                    <span><strong>Code & Domain:</strong> 100% You own your domain</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-black shrink-0 mt-0.5"></i>
+                                    <span><strong>Support:</strong> 1 revision round • 7 days support after
+                                        launch</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <button type="button" onclick="openEnquiryModal('starter')"
+                            class="w-full py-3.5 px-6 rounded-xl border-2 border-black bg-white text-black font-mono text-xs font-black uppercase tracking-wider hover:bg-black hover:text-white transition shadow-[3px_3px_0px_#000000] active:translate-x-0 active:translate-y-0 cursor-pointer">
+                            Start With Starter &rarr;
+                        </button>
+                    </div>
+
+                    <!-- 2. Pro Plan Card (Featured - Most Popular) -->
+                    <div
+                        class="flex flex-col justify-between p-7 sm:p-8 rounded-2xl border-[3px] border-black bg-neutral-950 text-white shadow-[10px_10px_0px_#000000] relative transition hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[12px_12px_0px_#000000]">
+                        <!-- Most Popular Floating Badge -->
+                        <div
+                            class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-cyan-400 text-black text-[10px] sm:text-xs font-mono font-black uppercase px-4 py-1 rounded-full border-2 border-black tracking-widest shadow-[2px_2px_0px_#000000]">
+                            ⭐ MOST POPULAR
+                        </div>
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <span
+                                    class="text-xs font-mono font-bold uppercase tracking-wider bg-white/10 text-cyan-300 px-3 py-1 rounded-full border border-cyan-400/30">
+                                    Growth Engine
+                                </span>
+                                <span class="text-xs font-mono font-bold text-neutral-400">7-9 Days</span>
+                            </div>
+                            <h3 class="text-2xl font-black text-white font-sans mb-1">Pro</h3>
+                            <p class="text-xs font-mono font-bold text-cyan-300 mb-4">Grow with more leads</p>
+                            <div class="flex items-baseline gap-1 mb-6 pb-6 border-b-2 border-white/15">
+                                <span id="gridPrice-pro"
+                                    class="text-4xl sm:text-5xl font-black font-mono tracking-tight text-white">₹24,999</span>
+                                <span class="text-xs font-mono uppercase font-bold text-neutral-400 ml-1">/
+                                    one-time</span>
+                            </div>
+                            <ul class="space-y-3 text-xs sm:text-sm text-neutral-300 font-medium mb-8">
+                                <li class="flex items-start gap-2.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-cyan-400 shrink-0 mt-0.5"></i>
+                                    <span><strong>Design approach:</strong> Showroom design customized to your
+                                        brand</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-cyan-400 shrink-0 mt-0.5"></i>
+                                    <span><strong>Pages:</strong> Up to 8 Pages</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-cyan-400 shrink-0 mt-0.5"></i>
+                                    <span><strong>Mobile & Motion:</strong> 100% Mobile friendly • Smooth
+                                        animations</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-cyan-400 shrink-0 mt-0.5"></i>
+                                    <span><strong>Lead capture:</strong> WhatsApp button • Form with instant email
+                                        alerts</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-cyan-400 shrink-0 mt-0.5"></i>
+                                    <span><strong>Media & Reach:</strong> Google Maps • Photo gallery • Blog</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-cyan-400 shrink-0 mt-0.5"></i>
+                                    <span><strong>Google Search:</strong> Advanced on-page SEO • Google Analytics</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-cyan-400 shrink-0 mt-0.5"></i>
+                                    <span><strong>Domain & Hosting:</strong> Free hosting & SSL • Free domain 1st
+                                        year*</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-cyan-400 shrink-0 mt-0.5"></i>
+                                    <span><strong>Code & Domain:</strong> 100% You own your domain</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-cyan-400 shrink-0 mt-0.5"></i>
+                                    <span><strong>Support:</strong> Basic formatting help • 3 revisions • 15 days
+                                        support</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <button type="button" onclick="openEnquiryModal('pro')"
+                            class="w-full py-3.5 px-6 rounded-xl border-2 border-cyan-400 bg-cyan-400 text-black font-mono text-xs font-black uppercase tracking-wider hover:bg-white hover:text-black hover:border-white transition shadow-[4px_4px_0px_#67e8f9] active:translate-x-0 active:translate-y-0 cursor-pointer">
+                            Start With Pro Plan &rarr;
+                        </button>
+                    </div>
+
+                    <!-- 3. Premium Plan Card -->
+                    <div
+                        class="flex flex-col justify-between p-7 sm:p-8 rounded-2xl border-2 border-black bg-white shadow-[6px_6px_0px_#000000] transition hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[8px_8px_0px_#000000]">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <span
+                                    class="text-xs font-mono font-bold uppercase tracking-wider bg-neutral-100 text-neutral-800 px-3 py-1 rounded-full border border-black/20">
+                                    Full Custom Scale
+                                </span>
+                                <span class="text-xs font-mono font-bold text-neutral-600">Custom Sprint</span>
+                            </div>
+                            <h3 class="text-2xl font-black text-black font-sans mb-1">Premium</h3>
+                            <p class="text-xs font-mono font-bold text-neutral-500 mb-4">Stand out completely</p>
+                            <div class="flex items-baseline gap-1 mb-6 pb-6 border-b-2 border-black/10">
+                                <span id="gridPrice-premium"
+                                    class="text-4xl sm:text-5xl font-black font-mono tracking-tight text-black">₹49,999</span>
+                                <span class="text-xs font-mono uppercase font-bold text-neutral-500 ml-1">/
+                                    one-time</span>
+                            </div>
+                            <ul class="space-y-3 text-xs sm:text-sm text-neutral-800 font-medium mb-8">
+                                <li class="flex items-start gap-2.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-black shrink-0 mt-0.5"></i>
+                                    <span><strong>Design approach:</strong> 100% custom design made for you</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-black shrink-0 mt-0.5"></i>
+                                    <span><strong>Pages:</strong> Up to 15 Pages</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-black shrink-0 mt-0.5"></i>
+                                    <span><strong>Mobile & Motion:</strong> 100% Mobile friendly • Premium
+                                        effects</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-black shrink-0 mt-0.5"></i>
+                                    <span><strong>Lead capture:</strong> WhatsApp button • Custom lead form with
+                                        alerts</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-black shrink-0 mt-0.5"></i>
+                                    <span><strong>Interactive & Media:</strong> Advanced interactive gallery •
+                                        Blog</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-black shrink-0 mt-0.5"></i>
+                                    <span><strong>AI Chatbot:</strong> Built-in smart AI chatbot assistant</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-black shrink-0 mt-0.5"></i>
+                                    <span><strong>Search & Analytics:</strong> SEO with structured data • Conversion
+                                        tracking</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-black shrink-0 mt-0.5"></i>
+                                    <span><strong>Domain & Hosting:</strong> Free hosting & SSL • Free domain 1st
+                                        year*</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-black shrink-0 mt-0.5"></i>
+                                    <span><strong>Support:</strong> We upload it all • 5 revisions • 30 days priority
+                                        support</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <button type="button" onclick="openEnquiryModal('premium')"
+                            class="w-full py-3.5 px-6 rounded-xl border-2 border-black bg-white text-black font-mono text-xs font-black uppercase tracking-wider hover:bg-black hover:text-white transition shadow-[3px_3px_0px_#000000] active:translate-x-0 active:translate-y-0 cursor-pointer">
+                            Start With Premium &rarr;
+                        </button>
+                    </div>
+                </div>
+
+
+
+                <!-- Trust Guarantee Bar below cards -->
+                <div class="mt-14 text-center">
+                    <div
+                        class="inline-flex flex-wrap items-center justify-center gap-6 text-xs font-mono font-bold uppercase text-neutral-800 bg-neutral-100 border-2 border-black px-6 py-3.5 rounded-2xl shadow-[4px_4px_0px_#000000]">
+                        <span class="flex items-center gap-1.5"><i data-lucide="shield-check"
+                                class="w-4 h-4 text-black"></i> 100% Code Ownership</span>
+                        <span class="hidden sm:inline text-black/30">•</span>
+                        <span class="flex items-center gap-1.5"><i data-lucide="gauge" class="w-4 h-4 text-black"></i>
+                            95+ PageSpeed Guaranteed</span>
+                        <span class="hidden sm:inline text-black/30">•</span>
+                        <span class="flex items-center gap-1.5"><i data-lucide="clock" class="w-4 h-4 text-black"></i> 7
+                            to 9 Days Delivery</span>
+                        <span class="hidden sm:inline text-black/30">•</span>
+                        <span class="flex items-center gap-1.5"><i data-lucide="lock" class="w-4 h-4 text-black"></i>
+                            Zero Recurring Platform Fees</span>
+                    </div>
+                </div>
             </div>
         </section>
 
-
-        <!-- SECTION 7: TESTIMONIALS SECTION (CYBER RONIN // NEURAL EDGES THEME) -->
-
-        <!-- SECTION 8: CONTACT & HQ SECTION -->
         <section id="contact"
-            class="py-20 sm:py-24 px-4 sm:px-8 lg:px-16 bg-black text-white w-full border-b-2 border-white relative overflow-hidden bg-grid-dark">
-            <div class="w-full max-w-7xl mx-auto relative z-10">
+            class="py-16 sm:py-24 px-4 sm:px-8 lg:px-12 bg-white text-black w-full border-b-2 border-black relative z-20">
+            <div class="w-full max-w-5xl mx-auto">
                 <div class="text-center mb-12 sm:mb-16 reveal">
                     <div
-                        class="inline-flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-black bg-white px-4 py-1.5 rounded-full mb-4 border-2 border-white font-extrabold">
-                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Direct Communication
-                        Channels
+                        class="inline-flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest bg-emerald-100 text-emerald-900 border-2 border-black px-4 py-1.5 rounded-full mb-4 shadow-[2px_2px_0px_#000000]">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Direct Engineering Desk
                     </div>
-                    <h2
-                        class="text-2xl sm:text-5xl lg:text-6xl font-bubbledot uppercase text-white tracking-tight font-extrabold">
-                        Contact & Headquarters</h2>
-                    <p
-                        class="text-white text-xs sm:text-sm font-mono tracking-widest uppercase mt-3 max-w-xl mx-auto font-bold px-2">
-                        Connect directly with our software and web development team.
+                    <h2 class="text-2xl sm:text-5xl lg:text-6xl font-bubbledot uppercase text-black font-extrabold tracking-tight mb-3"
+                        style="text-wrap: balance;">
+                        Contact & Headquarters
+                    </h2>
+                    <p class="text-neutral-700 text-xs sm:text-sm font-mono tracking-widest uppercase max-w-xl mx-auto font-bold"
+                        style="text-wrap: balance;">
+                        Connect directly with our founding software & web development team.
                     </p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
-                    <!-- HQ Address Card -->
-                    <div class="card-dark-contrast p-6 sm:p-8 rounded-3xl reveal flex flex-col justify-between group">
-                        <div>
-                            <div
-                                class="bg-white text-black border-2 border-white w-12 h-12 rounded-2xl flex items-center justify-center mb-6 font-extrabold group-hover:scale-105 transition-transform">
-                                <i data-lucide="building-2" class="w-6 h-6"></i>
+                <!-- Handcrafted Agency Studio Box (Zero Clutter, Solid Black Borders, No Redundant Form) -->
+                <div class="p-7 sm:p-10 rounded-2xl border-2 border-black bg-white shadow-[8px_8px_0px_#000000] reveal">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start pb-8 border-b-2 border-black/10">
+                        <!-- Left: Studio Locations -->
+                        <div class="space-y-6">
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="w-10 h-10 rounded-xl border-2 border-black bg-black text-white flex items-center justify-center shrink-0">
+                                    <i data-lucide="building-2" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <span
+                                        class="text-[10px] font-mono uppercase tracking-widest font-black text-neutral-500 block">Registered
+                                        Studio</span>
+                                    <h3 class="text-lg font-black text-black">Studio Locations</h3>
+                                </div>
                             </div>
-                            <span
-                                class="text-[10px] font-mono uppercase tracking-widest text-white font-extrabold">Central
-                                Operations</span>
-                            <h3 class="text-lg sm:text-xl font-extrabold uppercase font-bubbledot text-white mt-1 mb-3">
-                                Headquarters (HQ)</h3>
-                            <p class="text-xs sm:text-sm text-white font-sans leading-relaxed font-medium">
-                                Pandith Pore Rainawari<br>
-                                Srinagar, Jammu & Kashmir • 190003
-                            </p>
-                        </div>
-                        <div class="pt-6 border-t-2 border-white/30 mt-6 text-xs font-mono text-white font-bold">
-                            Central Hub Registry
-                        </div>
-                    </div>
 
-                    <!-- Office Location Card -->
-                    <div class="card-dark-contrast p-6 sm:p-8 rounded-3xl reveal flex flex-col justify-between group"
-                        style="transition-delay: 100ms;">
-                        <div>
-                            <div
-                                class="bg-white text-black border-2 border-white w-12 h-12 rounded-2xl flex items-center justify-center mb-6 font-extrabold group-hover:scale-105 transition-transform">
-                                <i data-lucide="map-pin" class="w-6 h-6"></i>
-                            </div>
-                            <span
-                                class="text-[10px] font-mono uppercase tracking-widest text-white font-extrabold">Local
-                                Branch</span>
-                            <h3 class="text-lg sm:text-xl font-extrabold uppercase font-bubbledot text-white mt-1 mb-3">
-                                Srinagar Office</h3>
-                            <p class="text-xs sm:text-sm text-white font-sans leading-relaxed font-medium">
-                                Rainawari Jogilanker<br>
-                                Srinagar, Jammu & Kashmir
-                            </p>
-                        </div>
-                        <div class="pt-6 border-t-2 border-white/30 mt-6 text-xs font-mono text-white font-bold">
-                            Development & Support Office
-                        </div>
-                    </div>
+                            <div class="space-y-4 text-xs sm:text-sm">
+                                <div class="p-4 rounded-xl border-2 border-black/15 bg-neutral-50">
+                                    <div
+                                        class="text-[11px] font-mono uppercase font-black text-black flex items-center gap-1.5 mb-1">
+                                        <i data-lucide="map-pin" class="w-3.5 h-3.5 text-black"></i> Headquarters (HQ)
+                                    </div>
+                                    <p class="text-neutral-700 font-medium pl-5 leading-relaxed">
+                                        Pandith Pore, Rainawari<br>
+                                        Srinagar, Jammu & Kashmir • 190003
+                                    </p>
+                                </div>
 
-                    <!-- Direct Connect Card -->
-                    <div class="card-dark-contrast p-6 sm:p-8 rounded-3xl reveal flex flex-col justify-between group sm:col-span-2 lg:col-span-1"
-                        style="transition-delay: 200ms;">
-                        <div>
-                            <div
-                                class="bg-white text-black border-2 border-white w-12 h-12 rounded-2xl flex items-center justify-center mb-6 font-extrabold group-hover:scale-105 transition-transform shadow-md">
-                                <i data-lucide="phone-call" class="w-6 h-6"></i>
+                                <div class="p-4 rounded-xl border-2 border-black/15 bg-neutral-50">
+                                    <div
+                                        class="text-[11px] font-mono uppercase font-black text-black flex items-center gap-1.5 mb-1">
+                                        <i data-lucide="laptop" class="w-3.5 h-3.5 text-black"></i> Development Branch
+                                    </div>
+                                    <p class="text-neutral-700 font-medium pl-5 leading-relaxed">
+                                        Rainawari Jogilanker<br>
+                                        Srinagar, Jammu & Kashmir
+                                    </p>
+                                </div>
                             </div>
-                            <span class="text-[10px] font-mono uppercase tracking-widest text-white font-extrabold">24/7
-                                Direct Communication</span>
-                            <h3 class="text-lg sm:text-xl font-extrabold uppercase font-bubbledot text-white mt-1 mb-3">
-                                Direct Contacts</h3>
-                            <div class="space-y-3 font-mono text-xs sm:text-sm text-white font-bold">
-                                <a href="tel:+919697430658"
-                                    class="flex items-center gap-2 hover:text-white/80 transition-colors min-h-[36px]">
-                                    <i data-lucide="phone" class="w-4 h-4 text-white shrink-0"></i>
-                                    +91-9697430658
-                                </a>
-                                <a href="https://wa.me/919697430658?text=Hi%20Forge%20Softwares,%20I%20would%20like%20to%20start%20a%20project"
+                        </div>
+
+                        <!-- Right: Direct Communication Channels -->
+                        <div class="space-y-6">
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="w-10 h-10 rounded-xl border-2 border-black bg-black text-white flex items-center justify-center shrink-0">
+                                    <i data-lucide="phone-call" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <span
+                                        class="text-[10px] font-mono uppercase tracking-widest font-black text-neutral-500 block">Instant
+                                        Connect</span>
+                                    <h3 class="text-lg font-black text-black">Direct Contacts</h3>
+                                </div>
+                            </div>
+
+                            <div class="space-y-3 font-mono text-xs sm:text-sm font-bold">
+                                <a href="https://wa.me/919697430658?text=Hi%20Forge%20Softwares,%20I%20would%20like%20to%20discuss%20a%20website%20project"
                                     target="_blank" rel="noopener noreferrer"
-                                    class="flex items-center gap-2 hover:text-emerald-400 transition-colors min-h-[36px]">
-                                    <i data-lucide="message-circle" class="w-4 h-4 text-emerald-400 shrink-0"></i>
-                                    WhatsApp: +91-9697430658
+                                    class="flex items-center justify-between p-3.5 rounded-xl border-2 border-black bg-[#dcfce7] text-[#14532d] hover:bg-emerald-200 transition shadow-[2px_2px_0px_#000000]">
+                                    <span class="flex items-center gap-2">
+                                        <i data-lucide="message-circle" class="w-4 h-4 text-emerald-700"></i> WhatsApp
+                                        Chat
+                                    </span>
+                                    <span class="text-xs">+91-9697430658 &rarr;</span>
                                 </a>
+
+                                <a href="tel:+919697430658"
+                                    class="flex items-center justify-between p-3.5 rounded-xl border-2 border-black bg-neutral-50 text-black hover:bg-neutral-100 transition shadow-[2px_2px_0px_#000000]">
+                                    <span class="flex items-center gap-2">
+                                        <i data-lucide="phone" class="w-4 h-4 text-black"></i> Direct Call
+                                    </span>
+                                    <span class="text-xs">+91-9697430658</span>
+                                </a>
+
                                 <a href="mailto:farmanshafi2007@gmail.com"
-                                    class="flex items-center gap-2 hover:text-white/80 transition-colors break-all min-h-[36px]">
-                                    <i data-lucide="mail" class="w-4 h-4 text-white shrink-0"></i>
-                                    farmanshafi2007@gmail.com
+                                    class="flex items-center justify-between p-3.5 rounded-xl border-2 border-black bg-neutral-50 text-black hover:bg-neutral-100 transition shadow-[2px_2px_0px_#000000]">
+                                    <span class="flex items-center gap-2">
+                                        <i data-lucide="mail" class="w-4 h-4 text-black"></i> Email Studio
+                                    </span>
+                                    <span
+                                        class="text-xs font-sans font-medium text-neutral-700">farmanshafi2007@gmail.com</span>
                                 </a>
-                                <div class="text-[11px] font-mono text-white/70 pt-1">
-                                    <span class="text-white font-bold">Hours:</span> Mon – Sun, 9:00 AM – 9:00 PM IST
-                                </div>
-                                <div class="flex items-center gap-3 pt-2">
-                                    <a href="https://www.instagram.com/forgesoftwares?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw=="
-                                        target="_blank" rel="noopener noreferrer"
-                                        class="w-9 h-9 rounded-full social-btn-ig flex items-center justify-center transition-all duration-300 min-h-[36px] min-w-[36px]"
-                                        aria-label="Follow Forge Softwares on Instagram">
-                                        <i class="fa-brands fa-instagram text-sm"></i>
-                                    </a>
-                                    <a href="https://www.facebook.com/share/1DL2d9EcCZ/?mibextid=wwXIfr" target="_blank"
-                                        rel="noopener noreferrer"
-                                        class="w-9 h-9 rounded-full social-btn-fb flex items-center justify-center transition-all duration-300 min-h-[36px] min-w-[36px]"
-                                        aria-label="Follow Forge Softwares on Facebook">
-                                        <i class="fa-brands fa-facebook-f text-sm"></i>
-                                    </a>
-                                </div>
                             </div>
                         </div>
-                        <div class="pt-6 border-t-2 border-white/30 mt-6">
-                            <button type="button" onclick="openEnquiryModal('pro')"
-                                class="apple-btn-primary w-full !py-2.5 font-mono text-xs font-extrabold uppercase tracking-widest cursor-pointer">
-                                Start Project &rarr;
-                            </button>
+                    </div>
+
+                    <!-- Bottom Bar: Operating Hours & Direct Action Button -->
+                    <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div class="flex flex-wrap items-center gap-3 text-xs font-mono text-neutral-700">
+                            <span><strong>Hours:</strong> Mon – Sun · 9:00 AM – 9:00 PM IST</span>
+                            <span class="hidden sm:inline text-black/30">•</span>
+                            <div class="flex items-center gap-2">
+                                <a href="https://www.instagram.com/forgesoftwares?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                                    target="_blank" rel="noopener noreferrer"
+                                    class="w-7 h-7 rounded-lg border border-black flex items-center justify-center hover:bg-black hover:text-white transition"
+                                    aria-label="Instagram">
+                                    <i class="fa-brands fa-instagram text-xs"></i>
+                                </a>
+                                <a href="https://www.facebook.com/share/1DL2d9EcCZ/?mibextid=wwXIfr" target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="w-7 h-7 rounded-lg border border-black flex items-center justify-center hover:bg-black hover:text-white transition"
+                                    aria-label="Facebook">
+                                    <i class="fa-brands fa-facebook-f text-xs"></i>
+                                </a>
+                            </div>
                         </div>
+
+                        <button type="button" onclick="openEnquiryModal('pro')"
+                            class="w-full sm:w-auto py-3 px-8 rounded-xl border-2 border-black bg-black text-white font-mono text-xs font-black uppercase tracking-wider hover:bg-neutral-800 transition shadow-[3px_3px_0px_#000000] active:translate-x-0 active:translate-y-0 cursor-pointer flex items-center justify-center gap-2">
+                            <span>Start Your Project</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- SECTION 9: CTA PROTOCOL SECTION -->
         <section id="about"
             class="py-20 sm:py-24 px-4 sm:px-5 relative bg-white text-black w-full border-b-2 border-black bg-grid-light">
             <div
@@ -4863,6 +5707,8 @@
                     <ul class="link-list">
                         <li><a href="#home">Home</a></li>
                         <li><a href="#services-preview">Services</a></li>
+                        <li><a href="#manifesto">Our Manifesto</a></li>
+                        <li><a href="#roadmap">Project Roadmap</a></li>
                         <li><a href="#pricing">Pricing</a></li>
                         <li><a href="#about">About</a></li>
                         <li><a href="#contact">Contact</a></li>
@@ -4939,7 +5785,7 @@
             id="enquiryContent">
 
             <button type="button" onclick="closeEnquiryModal()"
-                class="absolute top-3 right-3 bg-black text-white hover:bg-gray-800 w-9 h-9 flex items-center justify-center rounded-full z-[100] active:scale-95 transition-all cursor-pointer focus:outline-none min-h-[36px] min-w-[36px]"
+                class="absolute top-3 right-3 bg-black text-white hover:bg-gray-800 w-9 h-9 flex items-center justify-center rounded-full z-[100] active:scale-95 transition cursor-pointer focus:outline-none min-h-[36px] min-w-[36px]"
                 aria-label="Close modal">
                 <i data-lucide="x" class="w-4 h-4 text-white"></i>
             </button>
@@ -4971,7 +5817,7 @@
                             class="text-[10px] sm:text-xs font-extrabold text-black uppercase tracking-widest ml-1 mb-1.5 block font-mono">Select
                             Engineering Package</label>
                         <div
-                            class="relative rounded-2xl bg-white border-2 border-black min-h-[58px] p-0 flex items-center justify-between shadow-sm group hover:border-black transition-all">
+                            class="relative rounded-2xl bg-white border-2 border-black min-h-[58px] p-0 flex items-center justify-between shadow-sm group hover:border-black transition">
                             <!-- Visual Clean Text Display -->
                             <div class="flex-1 pl-5 pr-2 py-2 flex flex-col justify-center pointer-events-none z-0">
                                 <div id="planDisplayTitle"
@@ -5095,7 +5941,7 @@
                     </p>
 
                     <button type="submit"
-                        class="w-full apple-btn-dark py-3.5 min-h-[48px] font-extrabold text-[11px] sm:text-xs uppercase tracking-widest mt-3 disabled:opacity-50 font-mono shadow-xl transition-all cursor-pointer focus:outline-none">
+                        class="w-full apple-btn-dark py-3.5 min-h-[48px] font-extrabold text-[11px] sm:text-xs uppercase tracking-widest mt-3 disabled:opacity-50 font-mono shadow-xl transition cursor-pointer focus:outline-none">
                         Submit Project Request
                     </button>
                 </form>
@@ -7085,61 +7931,61 @@
         }
 
         /* ══════════════════════════════════════════════════════════════════
-        /* ══════════════════════════════════════════════════════════════════
-           SKIPER 52 - HOVER EXPAND CARDS ENGINE
-        ══════════════════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════════════════
+   SKIPER 52 - HOVER EXPAND CARDS ENGINE
+══════════════════════════════════════════════════════════════════ */
         const images = [
             {
-                src: "https://skiper-ui.com/images/x.com/13.jpeg",
-                fallback: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&auto=format&fit=crop&q=80",
+                src: "https://skiper-ui.com/images/x.com/13.jpeg?auto=format&fit=crop&w=600&q=75",
+                fallback: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format,compress&fit=crop&w=600&q=75&fm=webp",
                 alt: "Illustrations by my fav AarzooAly",
                 code: "# 23",
             },
             {
-                src: "https://skiper-ui.com/images/x.com/32.jpeg",
-                fallback: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&auto=format&fit=crop&q=80",
+                src: "https://skiper-ui.com/images/x.com/32.jpeg?auto=format&fit=crop&w=600&q=75",
+                fallback: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format,compress&fit=crop&w=600&q=75&fm=webp",
                 alt: "Illustrations by my fav AarzooAly",
                 code: "# 23",
             },
             {
-                src: "https://skiper-ui.com/images/x.com/20.jpeg",
-                fallback: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&auto=format&fit=crop&q=80",
+                src: "https://skiper-ui.com/images/x.com/20.jpeg?auto=format&fit=crop&w=600&q=75",
+                fallback: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format,compress&fit=crop&w=600&q=75&fm=webp",
                 alt: "Illustrations by my fav AarzooAly",
                 code: "# 23",
             },
             {
-                src: "https://skiper-ui.com/images/x.com/21.jpeg",
-                fallback: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=800&auto=format&fit=crop&q=80",
+                src: "https://skiper-ui.com/images/x.com/21.jpeg?auto=format&fit=crop&w=600&q=75",
+                fallback: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format,compress&fit=crop&w=600&q=75&fm=webp",
                 alt: "Illustrations by my fav AarzooAly",
                 code: "# 23",
             },
             {
-                src: "https://skiper-ui.com/images/x.com/19.jpeg",
-                fallback: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800&auto=format&fit=crop&q=80",
+                src: "https://skiper-ui.com/images/x.com/19.jpeg?auto=format&fit=crop&w=600&q=75",
+                fallback: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format,compress&fit=crop&w=600&q=75&fm=webp",
                 alt: "Illustrations by my fav AarzooAly",
                 code: "# 23",
             },
             {
-                src: "https://skiper-ui.com/images/x.com/1.jpeg",
-                fallback: "https://images.unsplash.com/photo-1488161628813-04466f872be2?w=800&auto=format&fit=crop&q=80",
+                src: "https://skiper-ui.com/images/x.com/1.jpeg?auto=format&fit=crop&w=600&q=75",
+                fallback: "https://images.unsplash.com/photo-1488161628813-04466f872be2?auto=format,compress&fit=crop&w=600&q=75&fm=webp",
                 alt: "Illustrations by my fav AarzooAly",
                 code: "# 23",
             },
             {
-                src: "https://skiper-ui.com/images/x.com/2.jpeg",
-                fallback: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&auto=format&fit=crop&q=80",
+                src: "https://skiper-ui.com/images/x.com/2.jpeg?auto=format&fit=crop&w=600&q=75",
+                fallback: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format,compress&fit=crop&w=600&q=75&fm=webp",
                 alt: "Illustrations by my fav AarzooAly",
                 code: "# 23",
             },
             {
-                src: "https://skiper-ui.com/images/x.com/3.jpeg",
-                fallback: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=800&auto=format&fit=crop&q=80",
+                src: "https://skiper-ui.com/images/x.com/3.jpeg?auto=format&fit=crop&w=600&q=75",
+                fallback: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format,compress&fit=crop&w=600&q=75&fm=webp",
                 alt: "Illustrations by my fav AarzooAly",
                 code: "# 23",
             },
             {
-                src: "https://skiper-ui.com/images/x.com/4.jpeg",
-                fallback: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800&auto=format&fit=crop&q=80",
+                src: "https://skiper-ui.com/images/x.com/4.jpeg?auto=format&fit=crop&w=600&q=75",
+                fallback: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format,compress&fit=crop&w=600&q=75&fm=webp",
                 alt: "Illustrations by my fav AarzooAly",
                 code: "# 23",
             },
@@ -7166,62 +8012,93 @@
             const container = document.getElementById("cards-container");
             if (!container) return;
 
-            const fragment = document.createDocumentFragment();
+            let cardEls = container.querySelectorAll(".card-motion");
+            if (cardEls.length === 0) {
+                const fragment = document.createDocumentFragment();
+                images.forEach((image, index) => {
+                    const card = document.createElement("div");
+                    card.dataset.index = index;
+                    card.className = "card-motion" + (index === activeImage ? " is-active" : "");
 
-            images.forEach((image, index) => {
-                const card = document.createElement("div");
-                card.dataset.index = index;
-                card.className = "card-motion" + (index === activeImage ? " is-active" : "");
+                    const imgWrapper = document.createElement("div");
+                    imgWrapper.className = "card-img-wrapper";
 
-                // Fixed-width centered image wrapper for zero-crop layout recalculation
-                const imgWrapper = document.createElement("div");
-                imgWrapper.className = "card-img-wrapper";
+                    const img = document.createElement("img");
+                    img.decoding = "async";
+                    img.loading = index === activeImage ? "eager" : "lazy";
+                    img.fetchPriority = index === activeImage ? "high" : "low";
+                    img.width = 400;
+                    img.height = 600;
+                    img.src = image.src;
+                    img.alt = image.alt;
+                    img.className = "card-img";
 
-                const img = document.createElement("img");
-                img.decoding = "async";
-                img.loading = index === activeImage ? "eager" : "lazy";
-                img.fetchPriority = index === activeImage ? "high" : "low";
-                img.width = 400;
-                img.height = 600;
-                img.src = image.src;
-                img.alt = image.alt;
-                img.className = "card-img";
+                    const revealImage = () => {
+                        if (img.decode) {
+                            img.decode().then(() => img.classList.add("is-loaded")).catch(() => img.classList.add("is-loaded"));
+                        } else {
+                            img.classList.add("is-loaded");
+                        }
+                    };
 
-                const revealImage = () => {
-                    if (img.decode) {
-                        img.decode().then(() => img.classList.add("is-loaded")).catch(() => img.classList.add("is-loaded"));
-                    } else {
+                    img.onload = revealImage;
+                    img.onerror = function () {
+                        if (this.src !== image.fallback) {
+                            this.src = image.fallback;
+                        } else {
+                            this.classList.add("is-loaded");
+                        }
+                    };
+
+                    imgWrapper.appendChild(img);
+
+                    const gradientOverlay = document.createElement("div");
+                    gradientOverlay.className = "presence-gradient absolute inset-0 h-full w-full bg-gradient-to-t from-black/45 via-black/10 to-transparent z-10 pointer-events-none";
+
+                    const codeOverlay = document.createElement("div");
+                    codeOverlay.className = "presence-code absolute inset-0 flex h-full w-full flex-col items-end justify-end p-4 z-20 pointer-events-none";
+
+                    const codeText = document.createElement("p");
+                    codeText.className = "text-left text-xs font-medium tracking-wider text-white/65";
+                    codeText.textContent = image.code;
+                    codeOverlay.appendChild(codeText);
+
+                    card.appendChild(imgWrapper);
+                    card.appendChild(gradientOverlay);
+                    card.appendChild(codeOverlay);
+
+                    card.addEventListener("pointerenter", (e) => {
+                        if (e.pointerType === "mouse" || e.pointerType === "pen") {
+                            setActiveImage(index);
+                        }
+                    }, { passive: true });
+
+                    card.addEventListener("click", () => setActiveImage(index), { passive: true });
+
+                    fragment.appendChild(card);
+                });
+                container.appendChild(fragment);
+                cardEls = container.querySelectorAll(".card-motion");
+            }
+
+            cards.length = 0;
+            cardEls.forEach((card, index) => {
+                cards[index] = card;
+                const img = card.querySelector('img');
+                if (img) {
+                    if (img.complete && img.naturalWidth > 0) {
                         img.classList.add("is-loaded");
-                    }
-                };
-
-                img.onload = revealImage;
-                img.onerror = function () {
-                    if (this.src !== image.fallback) {
-                        this.src = image.fallback;
                     } else {
-                        this.classList.add("is-loaded");
+                        img.addEventListener("load", () => img.classList.add("is-loaded"), { once: true });
+                        img.addEventListener("error", function () {
+                            if (images[index] && this.src !== images[index].fallback) {
+                                this.src = images[index].fallback;
+                            } else {
+                                this.classList.add("is-loaded");
+                            }
+                        }, { once: true });
                     }
-                };
-
-                imgWrapper.appendChild(img);
-
-                // Gradient overlay
-                const gradientOverlay = document.createElement("div");
-                gradientOverlay.className = "presence-gradient absolute inset-0 h-full w-full bg-gradient-to-t from-black/45 via-black/10 to-transparent z-10";
-
-                // Code text overlay
-                const codeOverlay = document.createElement("div");
-                codeOverlay.className = "presence-code absolute inset-0 flex h-full w-full flex-col items-end justify-end p-4 z-20";
-
-                const codeText = document.createElement("p");
-                codeText.className = "text-left text-xs font-medium tracking-wider text-white/65";
-                codeText.textContent = image.code;
-                codeOverlay.appendChild(codeText);
-
-                card.appendChild(imgWrapper);
-                card.appendChild(gradientOverlay);
-                card.appendChild(codeOverlay);
+                }
 
                 card.addEventListener("pointerenter", (e) => {
                     if (e.pointerType === "mouse" || e.pointerType === "pen") {
@@ -7230,22 +8107,24 @@
                 }, { passive: true });
 
                 card.addEventListener("click", () => setActiveImage(index), { passive: true });
-
-                fragment.appendChild(card);
-                cards.push(card);
             });
 
-            container.appendChild(fragment);
-
-            // Smoothly scrub across cards with touch slide on mobile/tablet
+            // Smoothly scrub across cards with touch slide (throttled via rAF to eliminate forced reflows)
+            let touchScrubTicking = false;
             container.addEventListener("touchmove", (e) => {
                 const touch = e.touches[0];
-                if (!touch) return;
-                const target = document.elementFromPoint(touch.clientX, touch.clientY);
-                const cardEl = target && target.closest(".card-motion");
-                if (cardEl && cardEl.dataset.index !== undefined) {
-                    setActiveImage(Number(cardEl.dataset.index));
-                }
+                if (!touch || touchScrubTicking) return;
+                touchScrubTicking = true;
+                const clientX = touch.clientX;
+                const clientY = touch.clientY;
+                requestAnimationFrame(() => {
+                    const target = document.elementFromPoint(clientX, clientY);
+                    const cardEl = target && target.closest(".card-motion");
+                    if (cardEl && cardEl.dataset.index !== undefined) {
+                        setActiveImage(Number(cardEl.dataset.index));
+                    }
+                    touchScrubTicking = false;
+                });
             }, { passive: true });
 
             // Keyboard arrow navigation
@@ -7258,9 +8137,6 @@
             });
         }
 
-        /* ══════════════════════════════════════════════════════════════════
-           CRadioGroup17 - APPLE PRICING SELECTOR ENGINE
-        ══════════════════════════════════════════════════════════════════ */
         /* ══════════════════════════════════════════════════════════════════
            MULTI-REGION PRICING & LOCALIZATION ARCHITECTURE
            Supported Currencies & Regions: India (INR), USA (USD)
@@ -7302,107 +8178,23 @@
         if (!REGION_CONFIG[currentRegion]) currentRegion = "IN";
         let currentSelectedPricingPlan = "pro";
 
-        function switchRegion(regionCode) {
-            if (!REGION_CONFIG[regionCode]) regionCode = "IN";
-            currentRegion = regionCode;
-            try {
-                localStorage.setItem("forge_selected_region", regionCode);
-            } catch (e) { }
-
-            const regData = REGION_CONFIG[regionCode];
-
-            // Update region banner select if present
-            const bannerSelect = document.getElementById("regionBannerSelect");
-            if (bannerSelect && bannerSelect.value !== regionCode) {
-                bannerSelect.value = regionCode;
-            }
-
-            // Update pricing card region select
-            const cardSelect = document.getElementById("pricingCardRegionSelect");
-            if (cardSelect && cardSelect.value !== regionCode) {
-                cardSelect.value = regionCode;
-            }
-
-            // Update pricing card header label
-            const activeRegionNameEl = document.getElementById("pricingActiveRegionName");
-            if (activeRegionNameEl) {
-                activeRegionNameEl.textContent = regData.label;
-            }
-
-            // Update pricing values on card
-            const starterPrice = document.getElementById("priceVal-starter");
-            if (starterPrice) starterPrice.textContent = regData.prices.starter;
-
-            const proPrice = document.getElementById("priceVal-pro");
-            if (proPrice) proPrice.textContent = regData.prices.pro;
-
-            const premiumPrice = document.getElementById("priceVal-premium");
-            if (premiumPrice) premiumPrice.textContent = regData.prices.premium;
-
-            // Update hero starting price text if present
-            const heroStartEl = document.getElementById("heroStartingPrice");
-            if (heroStartEl) heroStartEl.textContent = regData.heroStart;
-
-            // Update modal options & display for current region
-            refreshModalPlanOptions();
-            syncPlanDropdownUI();
-
-            // Also prefill country in enquiry form if available
-            const countryField = document.getElementById("country");
-            if (countryField && !countryField.value) {
-                countryField.value = regData.countryName;
-            }
-        }
-
-        function handleRegionSelectChange(val) {
-            // Optional: immediately switch or wait for continue button
-            switchRegion(val);
-        }
-
-        function applySelectedRegion() {
-            const bannerSelect = document.getElementById("regionBannerSelect");
-            if (bannerSelect) {
-                switchRegion(bannerSelect.value);
-            }
-            if (window.showToast) {
-                const regData = REGION_CONFIG[currentRegion];
-                showToast(`Switched region to ${regData.name} (${regData.code})`);
-            }
-            // Vanish region panel smoothly on top
-            dismissRegionBanner();
-        }
-
-        function dismissRegionBanner() {
-            const banner = document.getElementById("regionBanner");
-            if (banner) {
-                banner.classList.add("banner-hidden");
-                setTimeout(() => {
-                    banner.style.display = "none";
-                }, 450);
-                try {
-                    localStorage.setItem("forge_region_banner_dismissed", "true");
-                } catch (e) { }
-            }
-        }
 
         function syncPlanDropdownUI() {
-            const sel = document.getElementById('preferredPlan');
-            const titleEl = document.getElementById('planDisplayTitle');
-            const priceEl = document.getElementById('planDisplayPrice');
+            const sel = document.getElementById("preferredPlan");
+            const titleEl = document.getElementById("dropdownPlanTitle");
+            const priceEl = document.getElementById("dropdownPlanPrice");
             if (!sel || !titleEl || !priceEl) return;
-
-            const regData = (typeof REGION_CONFIG !== 'undefined' && REGION_CONFIG[currentRegion]) ? REGION_CONFIG[currentRegion] : { prices: { starter: '₹7,999', pro: '₹24,999', premium: '₹49,999' } };
             const val = sel.value || '';
-
+            const regData = REGION_CONFIG[currentRegion] || REGION_CONFIG["IN"];
             if (val.startsWith('Starter')) {
                 titleEl.textContent = 'Starter Tier';
-                priceEl.textContent = `${regData.prices.starter} One-Time`;
+                priceEl.textContent = regData.prices.starter + ' One-Time';
             } else if (val.startsWith('Premium')) {
                 titleEl.textContent = 'Premium 👑 Enterprise';
-                priceEl.textContent = `${regData.prices.premium} One-Time`;
+                priceEl.textContent = regData.prices.premium + ' One-Time';
             } else {
                 titleEl.textContent = 'Pro ⭐ Most Popular';
-                priceEl.textContent = `${regData.prices.pro} One-Time`;
+                priceEl.textContent = regData.prices.pro + ' One-Time';
             }
         }
         window.syncPlanDropdownUI = syncPlanDropdownUI;
@@ -7419,80 +8211,109 @@
             }
             if (tier === "basic" || tier === "free") tier = "starter";
 
-            const starterVal = `Starter (${regData.prices.starter})`;
-            const proVal = `Pro ⭐ (${regData.prices.pro})`;
-            const premiumVal = `Premium 👑 (${regData.prices.premium})`;
+            const starterVal = "Starter (" + regData.prices.starter + ")";
+            const proVal = "Pro ⭐ (" + regData.prices.pro + ")";
+            const premiumVal = "Premium 👑 (" + regData.prices.premium + ")";
 
-            sel.innerHTML = `
-                <option value="${starterVal}"${tier === 'starter' ? ' selected' : ''}>Starter Tier — ${regData.prices.starter} (One-Time)</option>
-                <option value="${proVal}"${tier === 'pro' ? ' selected' : ''}>Pro ⭐ Most Popular — ${regData.prices.pro} (One-Time)</option>
-                <option value="${premiumVal}"${tier === 'premium' ? ' selected' : ''}>Premium 👑 Enterprise — ${regData.prices.premium} (One-Time)</option>
-            `;
+            sel.innerHTML = '<option value="' + starterVal + '"' + (tier === 'starter' ? ' selected' : '') + '>Starter Tier — ' + regData.prices.starter + ' (One-Time)</option>' +
+                '<option value="' + proVal + '"' + (tier === 'pro' ? ' selected' : '') + '>Pro ⭐ Most Popular — ' + regData.prices.pro + ' (One-Time)</option>' +
+                '<option value="' + premiumVal + '"' + (tier === 'premium' ? ' selected' : '') + '>Premium 👑 Enterprise — ' + regData.prices.premium + ' (One-Time)</option>';
 
             if (tier === "starter") sel.value = starterVal;
             else if (tier === "premium") sel.value = premiumVal;
             else sel.value = proVal;
         }
+        window.refreshModalPlanOptions = refreshModalPlanOptions;
+
+        function switchRegion(regionCode) {
+            if (!REGION_CONFIG[regionCode]) regionCode = "IN";
+            currentRegion = regionCode;
+            try {
+                localStorage.setItem("forge_selected_region", regionCode);
+            } catch (e) { }
+
+            const regData = REGION_CONFIG[regionCode];
+
+            // Update region banner select if present
+            const bannerSelect = document.getElementById("regionBannerSelect");
+            if (bannerSelect && bannerSelect.value !== regionCode) {
+                bannerSelect.value = regionCode;
+            }
+
+            // Update 3-tier card prices
+            const gridStarter = document.getElementById("gridPrice-starter");
+            if (gridStarter) gridStarter.textContent = regData.prices.starter;
+
+            const gridPro = document.getElementById("gridPrice-pro");
+            if (gridPro) gridPro.textContent = regData.prices.pro;
+
+            const gridPremium = document.getElementById("gridPrice-premium");
+            if (gridPremium) gridPremium.textContent = regData.prices.premium;
+
+            // Update hero starting price text if present
+            const heroStartEl = document.getElementById("heroStartingPrice");
+            if (heroStartEl) heroStartEl.textContent = regData.heroStart;
+
+            // Update currency toggle button states in pricing section
+            const btnIn = document.getElementById("pricingRegionBtn-IN");
+            const btnUs = document.getElementById("pricingRegionBtn-US");
+            if (btnIn && btnUs) {
+                if (regionCode === "IN") {
+                    btnIn.className = "px-5 py-2 rounded-xl text-xs font-mono font-black uppercase border-2 border-black bg-black text-white shadow-[2px_2px_0px_#000000] transition cursor-pointer";
+                    btnUs.className = "px-5 py-2 rounded-xl text-xs font-mono font-bold uppercase border-2 border-black bg-white text-black hover:bg-neutral-200 transition cursor-pointer";
+                } else {
+                    btnUs.className = "px-5 py-2 rounded-xl text-xs font-mono font-black uppercase border-2 border-black bg-black text-white shadow-[2px_2px_0px_#000000] transition cursor-pointer";
+                    btnIn.className = "px-5 py-2 rounded-xl text-xs font-mono font-bold uppercase border-2 border-black bg-white text-black hover:bg-neutral-200 transition cursor-pointer";
+                }
+            }
+
+            // Update modal options & display for current region
+            refreshModalPlanOptions();
+            syncPlanDropdownUI();
+
+            // Prefill country in enquiry form if available
+            const countryField = document.getElementById("country");
+            if (countryField && !countryField.value) {
+                countryField.value = regData.countryName;
+            }
+        }
+        window.switchRegion = switchRegion;
+
+        function handleRegionSelectChange(val) {
+            if (val) switchRegion(val);
+        }
+        window.handleRegionSelectChange = handleRegionSelectChange;
+
+        function applySelectedRegion() {
+            const sel = document.getElementById("regionBannerSelect");
+            if (sel && sel.value) {
+                switchRegion(sel.value);
+            }
+            dismissRegionBanner();
+        }
+        window.applySelectedRegion = applySelectedRegion;
+
+        function dismissRegionBanner() {
+            const banner = document.getElementById("regionBanner");
+            if (banner) {
+                banner.style.display = "none";
+                try {
+                    localStorage.setItem("forge_region_banner_dismissed", "true");
+                } catch (e) { }
+            }
+        }
+        window.dismissRegionBanner = dismissRegionBanner;
 
         function selectPricingPlan(planVal) {
-            currentSelectedPricingPlan = planVal;
-            const keys = ["starter", "pro", "premium", "enterprise"];
-            const planMapping = { "free": "starter", "starter": "starter", "pro": "pro", "premium": "premium", "enterprise": "enterprise" };
-
-            keys.forEach(k => {
-                const box = document.getElementById(`planBox-${k}`);
-                const dot = document.getElementById(`radioDot-${k}`);
-                const isSelected = planMapping[planVal] === k;
-
-                if (box) {
-                    if (isSelected) {
-                        box.className = "cursor-pointer flex items-center gap-4 p-4 sm:p-[17px] rounded-2xl transition-all duration-250 ease-out active:scale-[0.985] border-[2.5px] border-black bg-black/[0.035] shadow-[0_4px_16px_rgba(0,0,0,0.06)]";
-                    } else {
-                        box.className = "cursor-pointer flex items-center gap-4 p-4 sm:p-[17px] rounded-2xl transition-all duration-250 ease-out active:scale-[0.985] border-2 border-black/55 hover:border-black hover:bg-black/[0.015]";
-                    }
-                }
-                if (dot) {
-                    dot.style.transform = isSelected ? "scale(1)" : "scale(0)";
-                }
-            });
-
-            const actionBtnText = document.getElementById("pricingActionBtnText");
-            if (actionBtnText) {
-                if (planVal === "free" || planVal === "starter") actionBtnText.textContent = "Continue with Starter Plan";
-                else if (planVal === "pro") actionBtnText.textContent = "Continue with Pro Plan";
-                else if (planVal === "premium") actionBtnText.textContent = "Continue with Premium Plan";
-                else if (planVal === "enterprise") actionBtnText.textContent = "Talk to Enterprise Sales";
-            }
-
-            if (planVal === "enterprise") {
-                window.location.href = "mailto:farmanshafi2007@gmail.com?subject=Enterprise%20Plan%20Inquiry&body=Hi%20Farman,%20I%20would%20like%20to%20discuss%20an%20Enterprise%20custom%20build.";
-            }
+            currentSelectedPricingPlan = planVal || "pro";
         }
+        window.selectPricingPlan = selectPricingPlan;
 
         function handlePricingPlanAction() {
-            if (currentSelectedPricingPlan === "enterprise") {
-                window.location.href = "mailto:farmanshafi2007@gmail.com?subject=Enterprise%20Plan%20Inquiry&body=Hi%20Farman,%20I%20would%20like%20to%20discuss%20an%20Enterprise%20custom%20build.";
-            } else if (currentSelectedPricingPlan === "free" || currentSelectedPricingPlan === "starter") {
-                if (typeof window.openEnquiryModal === "function") {
-                    window.openEnquiryModal("starter");
-                }
-            } else if (currentSelectedPricingPlan === "premium") {
-                if (typeof window.openEnquiryModal === "function") {
-                    window.openEnquiryModal("premium");
-                }
-            } else {
-                if (typeof window.openEnquiryModal === "function") {
-                    window.openEnquiryModal("pro");
-                }
+            if (typeof window.openEnquiryModal === "function") {
+                window.openEnquiryModal(currentSelectedPricingPlan || "pro");
             }
         }
-
-        // Explicitly attach region functions to window for global inline accessibility
-        window.switchRegion = switchRegion;
-        window.handleRegionSelectChange = handleRegionSelectChange;
-        window.applySelectedRegion = applySelectedRegion;
-        window.dismissRegionBanner = dismissRegionBanner;
-        window.selectPricingPlan = selectPricingPlan;
         window.handlePricingPlanAction = handlePricingPlanAction;
         window.setPricingCurrency = function (curr) {
             if (curr === 'USD') switchRegion('US');
@@ -7635,9 +8456,8 @@
             if (yearEl) yearEl.textContent = new Date().getFullYear();
 
             const initIcons = () => { if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons(); };
-            initIcons();
             if ('requestIdleCallback' in window) { requestIdleCallback(initIcons); }
-            else { setTimeout(initIcons, 200); }
+            else { setTimeout(initIcons, 100); }
 
             // Entrance Animation Driver (Instant Non-blocking Playback)
             if (document.documentElement.classList.contains('anim')) {
@@ -7731,21 +8551,8 @@
                 }, { passive: true });
             }
 
-            // Glass Header on Scroll
+            // Glass Header on Scroll (Consolidated into unified passive rAF scroll loop below)
             const navbarEl = document.querySelector('.navbar');
-            if (navbarEl) {
-                const scrollThreshold = 40;
-                let lastScrollState = false;
-                const onScroll = () => {
-                    const scrolled = window.scrollY > scrollThreshold;
-                    if (scrolled !== lastScrollState) {
-                        navbarEl.classList.toggle('navbar-scrolled', scrolled);
-                        lastScrollState = scrolled;
-                    }
-                };
-                window.addEventListener('scroll', onScroll, { passive: true });
-                onScroll(); // Check initial state
-            }
 
             const roiTierSelect = document.getElementById('roiTierSelect');
             const roiSpeedRange = document.getElementById('roiSpeedRange');
@@ -7982,7 +8789,7 @@
 
                     filteredItems.forEach((item, itemIdx) => {
                         const itemCard = document.createElement('div');
-                        itemCard.className = 'claude-faq-item p-4 sm:p-5 border border-[#e8e6df] bg-white rounded-2xl transition-all shadow-[0_1px_4px_rgba(20,20,19,0.03)]';
+                        itemCard.className = 'claude-faq-item p-4 sm:p-5 border border-[#e8e6df] bg-white rounded-2xl transition shadow-[0_1px_4px_rgba(20,20,19,0.03)]';
                         const contentId = `help-ans-${cat.catId}-${itemIdx}`;
                         const formattedAnswer = escapeHTML(item.a).replace(/\n/g, '<br>');
 
@@ -8505,35 +9312,49 @@
             counters.forEach(c => counterObserver.observe(c));
 
 
-            // Real-Time Scroll Progress Indicator & Back-To-Top Button
+            // Real-Time GPU-Composited Scroll Progress & Back-To-Top Button (Zero Forced Reflows)
             const scrollProgressBar = document.getElementById('scrollProgressBar');
             const backToTopBtn = document.getElementById('backToTopBtn');
             let scrollTicking = false;
+            let lastNavbarScrolled = false;
+            let cachedDocHeight = 0;
 
-            function updateScrollProgress() {
-                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-                const scrollPercent = docHeight > 0 ? Math.min(100, Math.max(0, (scrollTop / docHeight) * 100)) : 0;
+            function refreshDocDimensions() {
+                cachedDocHeight = (document.documentElement.scrollHeight || document.body.scrollHeight) - (window.innerHeight || document.documentElement.clientHeight);
+            }
+            refreshDocDimensions();
+            window.addEventListener('resize', refreshDocDimensions, { passive: true });
+
+            function updateAllScrollState() {
+                // Batch DOM Reads
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
+                const docHeight = cachedDocHeight > 0 ? cachedDocHeight : 1;
+                const scrollPercent = Math.min(100, Math.max(0, (scrollTop / docHeight) * 100));
+                const isScrolled40 = scrollTop > 40;
+                const isScrolled380 = scrollTop > 380;
+
+                // Batch DOM Writes
+                if (navbarEl && isScrolled40 !== lastNavbarScrolled) {
+                    navbarEl.classList.toggle('navbar-scrolled', isScrolled40);
+                    lastNavbarScrolled = isScrolled40;
+                }
 
                 if (scrollProgressBar) {
-                    scrollProgressBar.style.width = `${scrollPercent}%`;
+                    scrollProgressBar.style.transform = `scaleX(${scrollPercent / 100})`;
                     scrollProgressBar.setAttribute('aria-valuenow', Math.round(scrollPercent));
                 }
 
                 if (backToTopBtn) {
-                    if (scrollTop > 380) {
-                        backToTopBtn.classList.add('is-visible');
-                    } else {
-                        backToTopBtn.classList.remove('is-visible');
-                    }
+                    backToTopBtn.classList.toggle('is-visible', isScrolled380);
                 }
+
                 scrollTicking = false;
             }
 
             function handleScrollProgress() {
                 if (!scrollTicking) {
                     scrollTicking = true;
-                    requestAnimationFrame(updateScrollProgress);
+                    requestAnimationFrame(updateAllScrollState);
                 }
             }
 
@@ -8625,6 +9446,9 @@
             <polyline points="18 15 12 9 6 15"></polyline>
         </svg>
     </button>
+
+
+
 </body>
 
 </html>
